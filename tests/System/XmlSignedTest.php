@@ -14,7 +14,7 @@ use PhpCfdi\XmlCancelacion\Tests\TestCase;
 use RobRichards\XMLSecLibs\XMLSecEnc;
 use RobRichards\XMLSecLibs\XMLSecurityDSig;
 
-class XmlSignedTests extends TestCase
+class XmlSignedTest extends TestCase
 {
     /** @var DOMSigner */
     private $creator;
