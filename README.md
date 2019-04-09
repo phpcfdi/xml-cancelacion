@@ -22,7 +22,7 @@ de esta manera no es necesario compartir el certificado ni la llave privada con 
 
 - Siempre que tu PAC ofrezca un método de cancelación basado en el XML deberías usarlo.
 - Si tu PAC no lo ofrece entonces deberías solicitárselo.
-- Nunca compartas tu llaves privada de firmado de CFDI con nadie, ni con tu PAC.
+- Nunca compartas tu llave privada de firmado de CFDI con nadie, ni con tu PAC.
 
 
 ## Instalación
@@ -43,7 +43,7 @@ use PhpCfdi\XmlCancelacion\CapsuleSigner;
 use PhpCfdi\XmlCancelacion\Credentials;
 
 // certificado, llave privada y clave de llave
-$credentials = new Credentials('certificado.cer.pem', 'provatekey.key.pem', '12345678a');
+$credentials = new Credentials('certificado.cer.pem', 'privatekey.key.pem', '12345678a');
 
 // datos de cancelación
 $data = new Capsule('LAN7008173R5', ['12345678-1234-1234-1234-123456789012']);
