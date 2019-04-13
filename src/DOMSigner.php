@@ -125,17 +125,18 @@ class DOMSigner
 
     protected function createKeyInfo(string $certificateFile): DOMElement
     {
-        $document = $this->document;
         $certificate = new Certificado($certificateFile);
 
+        $document = $this->document;
         $keyInfo = $document->createElement('KeyInfo');
         $x509Data = $document->createElement('X509Data');
         $x509IssuerSerial = $document->createElement('X509IssuerSerial');
-        $x509IssuerName = $document->createElement('X509IssuerName', $certificate->getCertificateName());
-        $x509SerialNumber = $document->createElement('X509SerialNumber', $certificate->getSerialObject()->asAscii());
-
-        $x509IssuerSerial->appendChild($x509IssuerName);
-        $x509IssuerSerial->appendChild($x509SerialNumber);
+        $x509IssuerSerial->appendChild(
+            $document->createElement('X509IssuerName', $certificate->getCertificateName())
+        );
+        $x509IssuerSerial->appendChild(
+            $document->createElement('X509SerialNumber', $certificate->getSerialObject()->asAscii())
+        );
         $x509Data->appendChild($x509IssuerSerial);
 
         $certificateContents = implode('', preg_grep('/^((?!-).)*$/', explode(PHP_EOL, $certificate->getPemContents())));

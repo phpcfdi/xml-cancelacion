@@ -129,4 +129,10 @@ class XmlSignedTest extends TestCase
 
         $this->assertSame($this->signature, $signature);
     }
+
+    public function testWithPredefinedContent(): void
+    {
+        // file_put_contents($this->filePath('expected-signature.xml'), $this->signature);
+        $this->assertXmlStringEqualsXmlFile($this->filePath('expected-signature.xml'), $this->signature);
+    }
 }
