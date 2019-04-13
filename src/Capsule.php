@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace PhpCfdi\XmlCancelacion;
 
+use Countable;
 use DateTimeImmutable;
 
-class Capsule
+class Capsule implements Countable
 {
     /** @var string */
     private $rfc;

@@ -141,10 +141,14 @@ class DOMSigner
 
     protected function createKeyValue(string $certificateFile): DOMElement
     {
-        $document = $this->document;
         $certificate = new Certificado($certificateFile);
-        $keyValue = $document->createElement('KeyValue');
+        return $this->createKeyValueFromCertificado($certificate);
+    }
 
+    protected function createKeyValueFromCertificado(Certificado $certificate): DOMElement
+    {
+        $document = $this->document;
+        $keyValue = $document->createElement('KeyValue');
         $pubKey = openssl_get_publickey($certificate->getPemContents());
         if (! is_resource($pubKey)) {
             throw new RuntimeException('Cannot read public key from certificate');
