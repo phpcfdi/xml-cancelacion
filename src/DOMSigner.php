@@ -8,6 +8,7 @@ use CfdiUtils\Certificado\Certificado;
 use CfdiUtils\PemPrivateKey\PemPrivateKey;
 use DOMDocument;
 use DOMElement;
+use LogicException;
 use RuntimeException;
 
 class DOMSigner
@@ -30,6 +31,14 @@ class DOMSigner
     public function __construct(DOMDocument $document)
     {
         $this->document = $document;
+    }
+
+    private function rootElement(DOMDocument $document): DOMElement
+    {
+        if (null === $document->documentElement) {
+            throw new LogicException('DOM Document does not have a root element');
+        }
+        return $document->documentElement;
     }
 
     public function getDigestSource(): string
@@ -63,7 +72,7 @@ class DOMSigner
 
         /** @var DOMElement $signature */
         $signature = $document->createElementNS('http://www.w3.org/2000/09/xmldsig#', 'Signature');
-        $document->documentElement->appendChild($signature);
+        $this->rootElement($document)->appendChild($signature);
 
         // append and realocate signedInfo to the node in document
         // SIGNEDINFO
@@ -109,7 +118,7 @@ class DOMSigner
         $docInfo->preserveWhiteSpace = false;
         $docInfo->formatOutput = false;
         $docInfo->loadXML($template);
-        $docinfoNode = $docInfo->documentElement;
+        $docinfoNode = $this->rootElement($docInfo);
 
         return $docinfoNode;
     }
