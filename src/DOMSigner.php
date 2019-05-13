@@ -63,12 +63,12 @@ class DOMSigner
 
     public function sign(Credentials $signObjects): void
     {
+        $document = $this->document;
+
         // Setup digestSource & digestValue
         // C14N: no exclusive, no comments (if exclusive will drop not used namespaces)
-        $this->digestSource = $this->document->C14N(false, false);
+        $this->digestSource = $document->C14N(false, false);
         $this->digestValue = base64_encode(sha1($this->digestSource, true));
-
-        $document = $this->document;
 
         /** @var DOMElement $signature */
         $signature = $document->createElementNS('http://www.w3.org/2000/09/xmldsig#', 'Signature');
