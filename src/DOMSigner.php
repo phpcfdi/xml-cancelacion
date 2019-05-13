@@ -36,7 +36,7 @@ class DOMSigner
     private function rootElement(DOMDocument $document): DOMElement
     {
         if (null === $document->documentElement) {
-            throw new LogicException('DOM Document does not have a root element');
+            throw new LogicException('Document does not have a root element');
         }
         return $document->documentElement;
     }

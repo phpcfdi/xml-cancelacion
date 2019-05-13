@@ -7,6 +7,8 @@ namespace PhpCfdi\XmlCancelacion\Tests\Unit;
 use CfdiUtils\Certificado\Certificado;
 use DOMDocument;
 use DOMElement;
+use LogicException;
+use PhpCfdi\XmlCancelacion\Credentials;
 use PhpCfdi\XmlCancelacion\DOMSigner;
 use PhpCfdi\XmlCancelacion\Tests\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -30,5 +32,16 @@ class DOMSignerTest extends TestCase
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Cannot read public key from certificate');
         $signer->exposeCreateKeyValueFromCertificado($certificate);
+    }
+
+    public function testThrowExceptionWhenPassingAnEmptyDomDocument(): void
+    {
+        /** @var Credentials&MockObject $credentials */
+        $credentials = $this->createMock(Credentials::class);
+        $signer = new DOMSigner(new DOMDocument());
+
+        $this->expectException(LogicException::class);
+        $this->expectExceptionMessage('Document does not have a root element');
+        $signer->sign($credentials);
     }
 }
