@@ -159,18 +159,25 @@ class DOMSigner
     {
         $document = $this->document;
         $keyValue = $document->createElement('KeyValue');
-        $pubKey = openssl_get_publickey($certificate->getPemContents());
-        if (! is_resource($pubKey)) {
-            throw new RuntimeException('Cannot read public key from certificate');
-        }
-        $pubKeyData = openssl_pkey_get_details($pubKey);
+        $pubKeyData = $this->obtainPublicKeyValues($certificate->getPemContents());
         if (OPENSSL_KEYTYPE_RSA === $pubKeyData['type']) {
             $rsaKeyValue = $keyValue->appendChild($document->createElement('RSAKeyValue'));
             $rsaKeyValue->appendChild($document->createElement('Modulus', base64_encode($pubKeyData['rsa']['n'])));
             $rsaKeyValue->appendChild($document->createElement('Exponent', base64_encode($pubKeyData['rsa']['e'])));
         }
-        openssl_free_key($pubKey);
 
         return $keyValue;
+    }
+
+    protected function obtainPublicKeyValues(string $publicKeyContents): array
+    {
+        $pubKey = openssl_get_publickey($publicKeyContents);
+        if (! is_resource($pubKey)) {
+            throw new RuntimeException('Cannot read public key from certificate');
+        }
+        $pubKeyData = openssl_pkey_get_details($pubKey) ?: [];
+        openssl_free_key($pubKey);
+
+        return $pubKeyData;
     }
 }
