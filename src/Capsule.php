@@ -15,7 +15,7 @@ class Capsule implements Countable
     /** @var DateTimeImmutable */
     private $date;
 
-    /** @var array */
+    /** @var array This is a B-Tree array, values are stored in keys */
     private $uuids;
 
     public function __construct(string $rfc, array $uuids = [], DateTimeImmutable $date = null)
@@ -23,7 +23,7 @@ class Capsule implements Countable
         $this->rfc = $rfc;
         $this->date = $date ?? new DateTimeImmutable('now');
         foreach ($uuids as $uuid) {
-            $this->append($uuid);
+            $this->uuids[strtoupper($uuid)] = true;
         }
     }
 
@@ -40,11 +40,6 @@ class Capsule implements Countable
     public function uuids(): array
     {
         return array_keys($this->uuids);
-    }
-
-    public function append(string $uuid): void
-    {
-        $this->uuids[strtoupper($uuid)] = true;
     }
 
     public function count(): int

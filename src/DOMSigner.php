@@ -36,7 +36,7 @@ class DOMSigner
     private function rootElement(DOMDocument $document): DOMElement
     {
         if (null === $document->documentElement) {
-            throw new LogicException('DOM Document does not have a root element');
+            throw new LogicException('Document does not have a root element');
         }
         return $document->documentElement;
     }
@@ -63,12 +63,12 @@ class DOMSigner
 
     public function sign(Credentials $signObjects): void
     {
+        $document = $this->document;
+
         // Setup digestSource & digestValue
         // C14N: no exclusive, no comments (if exclusive will drop not used namespaces)
-        $this->digestSource = $this->document->C14N(false, false);
+        $this->digestSource = $document->C14N(false, false);
         $this->digestValue = base64_encode(sha1($this->digestSource, true));
-
-        $document = $this->document;
 
         /** @var DOMElement $signature */
         $signature = $document->createElementNS('http://www.w3.org/2000/09/xmldsig#', 'Signature');
@@ -125,17 +125,18 @@ class DOMSigner
 
     protected function createKeyInfo(string $certificateFile): DOMElement
     {
-        $document = $this->document;
         $certificate = new Certificado($certificateFile);
 
+        $document = $this->document;
         $keyInfo = $document->createElement('KeyInfo');
         $x509Data = $document->createElement('X509Data');
         $x509IssuerSerial = $document->createElement('X509IssuerSerial');
-        $x509IssuerName = $document->createElement('X509IssuerName', $certificate->getCertificateName());
-        $x509SerialNumber = $document->createElement('X509SerialNumber', $certificate->getSerialObject()->asAscii());
-
-        $x509IssuerSerial->appendChild($x509IssuerName);
-        $x509IssuerSerial->appendChild($x509SerialNumber);
+        $x509IssuerSerial->appendChild(
+            $document->createElement('X509IssuerName', $certificate->getCertificateName())
+        );
+        $x509IssuerSerial->appendChild(
+            $document->createElement('X509SerialNumber', $certificate->getSerialObject()->asAscii())
+        );
         $x509Data->appendChild($x509IssuerSerial);
 
         $certificateContents = implode('', preg_grep('/^((?!-).)*$/', explode(PHP_EOL, $certificate->getPemContents())));
