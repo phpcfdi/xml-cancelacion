@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## Version 0.2.1 2019-05-13
+
+- Release with new tag since v0.2.0 did not include this changes
+
 ## Version 0.2.0 2019-05-13
 
 - Code quality improvements thanks to phpstan and infection (mutation testing framework)
