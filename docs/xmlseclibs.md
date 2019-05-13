@@ -39,21 +39,27 @@ class XMLSecurityDSigSigner
 
     public function createKeyValue(DOMDocument $document, string $certificateFile): DOMElement
     {
-        $pubKey = openssl_get_publickey(file_get_contents($certificateFile));
-        if (! is_resource($pubKey)) {
-            throw new RuntimeException('Cannot read public key from certificate');
-        }
-
+        $pubKeyData = $this->obtainPublicKeyData(file_get_contents($certificateFile));
         $keyValue = $document->createElement('KeyValue');
-        $pubKeyData = openssl_pkey_get_details($pubKey);
         if (OPENSSL_KEYTYPE_RSA === $pubKeyData['type']) {
             $rsaKeyValue = $keyValue->appendChild($document->createElement('RSAKeyValue'));
             $rsaKeyValue->appendChild($document->createElement('Modulus', base64_encode($pubKeyData['rsa']['n'])));
             $rsaKeyValue->appendChild($document->createElement('Exponent', base64_encode($pubKeyData['rsa']['e'])));
         }
-        openssl_free_key($pubKey);
 
         return $keyValue;
+    }
+    
+    protected function obtainPublicKeyData(string $publicKeyContent): array
+    {
+        $pubKey = openssl_get_publickey($publicKeyContent);
+        if (! is_resource($pubKey)) {
+            throw new RuntimeException('Cannot read public key from certificate');
+        }
+        $pubKeyData = openssl_pkey_get_details($pubKey) ?: [];
+        openssl_free_key($pubKey);
+        
+        return $pubKeyData;
     }
 }
 ```

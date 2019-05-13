@@ -17,10 +17,16 @@ use RobRichards\XMLSecLibs\XMLSecurityDSig;
 class XmlSignedTest extends TestCase
 {
     /** @var DOMSigner */
-    private $creator;
+    private $domSigner;
 
     /** @var string */
-    private $xmlSigned;
+    private $signature;
+
+    /** @var Capsule */
+    private $capsule;
+
+    /** @var Credentials */
+    private $signObjects;
 
     public function setUp(): void
     {
@@ -43,8 +49,10 @@ class XmlSignedTest extends TestCase
         $signer = new DOMSigner($document);
         $signer->sign($signObjects);
 
-        $this->creator = $signer;
-        $this->xmlSigned = $document->saveXML();
+        $this->capsule = $capsule;
+        $this->signObjects = $signObjects;
+        $this->domSigner = $signer;
+        $this->signature = $document->saveXML();
     }
 
     public function testCreatedValues(): void
@@ -81,16 +89,16 @@ class XmlSignedTest extends TestCase
             . '3H05v6fDXvONgikCrC2sdzA0kM6qvrOpGfbgBd4au7eFFRjCA4oX9zcQUG9E4m+uVovj0ebp4EqDn9SC+Az3fi5AHom6adju8wx4u'
             . 'Jvi8isVg8ZP9KcuqEfXhIkyFutJrD61l00+XyZe4n5T1Aya+Ta0Q6NrA==';
 
-        $this->assertSame($expectedDigestSource, $this->creator->getDigestSource());
-        $this->assertSame($expectedDigestValue, $this->creator->getDigestValue());
-        $this->assertSame($expectedSignedInfo, $this->creator->getSignedInfoSource());
-        $this->assertSame($expectedSignedValue, $this->creator->getSignedInfoValue());
+        $this->assertSame($expectedDigestSource, $this->domSigner->getDigestSource());
+        $this->assertSame($expectedDigestValue, $this->domSigner->getDigestValue());
+        $this->assertSame($expectedSignedInfo, $this->domSigner->getSignedInfoSource());
+        $this->assertSame($expectedSignedValue, $this->domSigner->getSignedInfoValue());
     }
 
     public function testSignatureIsValidUsingXmlSecLib(): void
     {
         $document = new DOMDocument();
-        $document->loadXML($this->xmlSigned);
+        $document->loadXML($this->signature);
 
         $dSig = new XMLSecurityDSig();
         $signature = $dSig->locateSignature($document);
@@ -112,5 +120,19 @@ class XmlSignedTest extends TestCase
         $this->assertNotNull(XMLSecEnc::staticLocateKeyInfo($objKey, $signature), 'Cannot extract RSAKeyValue');
 
         $this->assertSame(1, $dSig->verify($objKey), 'Xml Signature verify fail');
+    }
+
+    public function testCapsuleSigner(): void
+    {
+        $signer = new CapsuleSigner();
+        $signature = $signer->sign($this->capsule, $this->signObjects);
+
+        $this->assertSame($this->signature, $signature);
+    }
+
+    public function testWithPredefinedContent(): void
+    {
+        // file_put_contents($this->filePath('expected-signature.xml'), $this->signature);
+        $this->assertXmlStringEqualsXmlFile($this->filePath('expected-signature.xml'), $this->signature);
     }
 }
