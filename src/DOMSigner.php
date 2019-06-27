@@ -157,9 +157,14 @@ class DOMSigner
 
     protected function createKeyValueFromCertificado(Certificado $certificate): DOMElement
     {
+        return $this->createKeyValueFromPemContents($certificate->getPemContents());
+    }
+
+    protected function createKeyValueFromPemContents(string $pemContents): DOMElement
+    {
         $document = $this->document;
         $keyValue = $document->createElement('KeyValue');
-        $pubKeyData = $this->obtainPublicKeyValues($certificate->getPemContents());
+        $pubKeyData = $this->obtainPublicKeyValues($pemContents);
         if (OPENSSL_KEYTYPE_RSA === $pubKeyData['type']) {
             $rsaKeyValue = $keyValue->appendChild($document->createElement('RSAKeyValue'));
             $rsaKeyValue->appendChild($document->createElement('Modulus', base64_encode($pubKeyData['rsa']['n'])));
