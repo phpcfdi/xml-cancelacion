@@ -126,26 +126,33 @@ class DOMSigner
     protected function createKeyInfo(string $certificateFile): DOMElement
     {
         $certificate = new Certificado($certificateFile);
+        $issuerName = $certificate->getCertificateName();
+        $serialNumber = $certificate->getSerialObject()->asAscii();
+        $pemContents = $certificate->getPemContents();
+        return $this->createKeyInfoWithData($issuerName, $serialNumber, $pemContents);
+    }
 
+    protected function createKeyInfoWithData(string $issuerName, string $serialNumber, string $pemContents): DOMElement
+    {
         $document = $this->document;
         $keyInfo = $document->createElement('KeyInfo');
         $x509Data = $document->createElement('X509Data');
         $x509IssuerSerial = $document->createElement('X509IssuerSerial');
         $x509IssuerSerial->appendChild(
-            $document->createElement('X509IssuerName', $certificate->getCertificateName())
+            $document->createElement('X509IssuerName', $issuerName)
         );
         $x509IssuerSerial->appendChild(
-            $document->createElement('X509SerialNumber', $certificate->getSerialObject()->asAscii())
+            $document->createElement('X509SerialNumber', $serialNumber)
         );
         $x509Data->appendChild($x509IssuerSerial);
 
-        $certificateContents = implode('', preg_grep('/^((?!-).)*$/', explode(PHP_EOL, $certificate->getPemContents())));
+        $certificateContents = implode('', preg_grep('/^((?!-).)*$/', explode(PHP_EOL, $pemContents)));
         $x509Certificate = $document->createElement('X509Certificate', $certificateContents);
         $x509Data->appendChild($x509Certificate);
 
         $keyInfo->appendChild($x509Data);
 
-        $keyInfo->appendChild($this->createKeyValue($certificateFile));
+        $keyInfo->appendChild($this->createKeyValueFromPemContents($pemContents));
         return $keyInfo;
     }
 
