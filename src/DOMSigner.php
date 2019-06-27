@@ -157,29 +157,6 @@ class DOMSigner
         return $keyInfo;
     }
 
-    /**
-     * @param string $certificateFile
-     * @return DOMElement
-     * @deprecated 0.2.2:0.3.0 Use createKeyValueFromPemContents instead
-     * @codeCoverageIgnore
-     */
-    protected function createKeyValue(string $certificateFile): DOMElement
-    {
-        $certificate = new Certificado($certificateFile);
-        return $this->createKeyValueFromCertificado($certificate);
-    }
-
-    /**
-     * @param Certificado $certificate
-     * @return DOMElement
-     * @deprecated 0.2.2:0.3.0 Use createKeyValueFromPemContents instead
-     * @codeCoverageIgnore
-     */
-    protected function createKeyValueFromCertificado(Certificado $certificate): DOMElement
-    {
-        return $this->createKeyValueFromPemContents($certificate->getPemContents());
-    }
-
     protected function createKeyValueFromPemContents(string $pemContents): DOMElement
     {
         $document = $this->document;
