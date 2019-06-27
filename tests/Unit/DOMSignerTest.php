@@ -42,12 +42,11 @@ class DOMSignerTest extends TestCase
 
     public function testCreateKeyInfoWithIssuerNameWithAmpersand(): void
     {
-        $issuerName = 'John & Co';
         $document = new DOMDocument();
         $signer = new class($document) extends DOMSigner {
-            public function exposeCreateKeyInfoWithData(string $issuerName): DOMElement
+            public function exposeCreateKeyInfoWithData(string $issuerName, string $serialNumber, string $pemContents): DOMElement
             {
-                return $this->createKeyInfoWithData($issuerName, '', '');
+                return $this->createKeyInfoWithData($issuerName, $serialNumber, $pemContents);
             }
 
             protected function obtainPublicKeyValues(string $publicKeyContents): array
@@ -59,13 +58,26 @@ class DOMSignerTest extends TestCase
             }
         };
 
+        $issuerName = 'John & Co';
+        $serialNumber = '&0001';
+        $pemContents = '&';
         /** @var DOMElement $keyInfo */
-        $keyInfo = $signer->exposeCreateKeyInfoWithData($issuerName);
+        $keyInfo = $signer->exposeCreateKeyInfoWithData($issuerName, $serialNumber, $pemContents);
 
         $this->assertXmlStringEqualsXmlString(
-            '<X509IssuerName>John &amp; Co</X509IssuerName>',
+            sprintf('<X509IssuerName>%s</X509IssuerName>', htmlspecialchars($issuerName, ENT_XML1)),
             $document->saveXML($keyInfo->getElementsByTagName('X509IssuerName')[0]),
-            'Ampersand was not correctly parsed'
+            'Ampersand was not correctly parsed on X509IssuerName'
+        );
+        $this->assertXmlStringEqualsXmlString(
+            sprintf('<X509SerialNumber>%s</X509SerialNumber>', htmlspecialchars($serialNumber, ENT_XML1)),
+            $document->saveXML($keyInfo->getElementsByTagName('X509SerialNumber')[0]),
+            'Ampersand was not correctly parsed on X509SerialNumber'
+        );
+        $this->assertXmlStringEqualsXmlString(
+            sprintf('<X509Certificate>%s</X509Certificate>', htmlspecialchars($pemContents, ENT_XML1)),
+            $document->saveXML($keyInfo->getElementsByTagName('X509Certificate')[0]),
+            'Ampersand was not correctly parsed on X509Certificate'
         );
     }
 }
