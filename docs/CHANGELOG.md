@@ -11,7 +11,7 @@
 - Change signature of `DOMSigner::createKeyInfo(Certificado)` to
   `DOMSigner::createKeyInfoElement(string $issuerName, string $serialNumber, string $pemContents)`, we can test it now.
 - Extract `DOMSigner::createKeyValueFromCertificado` to `DOMSigner::createKeyValueElement` to allow testing.
-- Remove protected method `DOMSigner::createKeyValueFromCertificado` in favor of `DOMSigner::createKeyValueFromPemContents`.
+- Remove protected method `DOMSigner::createKeyValueFromCertificado` in favor of `DOMSigner::createKeyValueElement`.
 
 
 ## Version 0.2.1 2019-05-13
