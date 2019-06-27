@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace PhpCfdi\XmlCancelacion;
 
+use CfdiUtils\Utils\Xml;
 use DOMDocument;
 
 class CapsuleSigner
@@ -63,7 +64,7 @@ class CapsuleSigner
 
         // creación del UUID
         foreach ($capsule->uuids() as $uuid) {
-            $folios->appendChild($document->createElementNS($satns, 'UUID', $uuid));
+            $folios->appendChild(Xml::createElementNS($document, $satns, 'UUID', $uuid));
         }
 
         return $document;
