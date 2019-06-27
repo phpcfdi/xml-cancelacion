@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace PhpCfdi\XmlCancelacion\Tests\Unit;
 
-use CfdiUtils\Certificado\Certificado;
 use DOMDocument;
 use DOMElement;
 use LogicException;
@@ -18,20 +17,16 @@ class DOMSignerTest extends TestCase
 {
     public function testThrowExceptionWhenCannotGetPublicKeyFromCertificate(): void
     {
-        /** @var Certificado&MockObject $certificate */
-        $certificate = $this->createMock(Certificado::class);
-        $certificate->method('getPemContents')->willReturn('BAD KEY');
-
         $signer = new class(new DOMDocument()) extends DOMSigner {
-            public function exposeCreateKeyValueFromCertificado(Certificado $certificate): DOMElement
+            public function exposeObtainPublicKeyValues(string $publicKey): array
             {
-                return $this->createKeyValueFromCertificado($certificate);
+                return $this->obtainPublicKeyValues($publicKey);
             }
         };
 
         $this->expectException(RuntimeException::class);
         $this->expectExceptionMessage('Cannot read public key from certificate');
-        $signer->exposeCreateKeyValueFromCertificado($certificate);
+        $signer->exposeObtainPublicKeyValues('BAD PUBLIC KEY');
     }
 
     public function testThrowExceptionWhenPassingAnEmptyDomDocument(): void
