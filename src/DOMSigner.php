@@ -6,6 +6,7 @@ namespace PhpCfdi\XmlCancelacion;
 
 use CfdiUtils\Certificado\Certificado;
 use CfdiUtils\PemPrivateKey\PemPrivateKey;
+use CfdiUtils\Utils\Xml;
 use DOMDocument;
 use DOMElement;
 use LogicException;
@@ -95,8 +96,12 @@ class DOMSigner
         );
 
         // KEYINFO
+        $certificate = new Certificado($signObjects->certificate());
+        $issuerName = $certificate->getCertificateName();
+        $serialNumber = $certificate->getSerialObject()->asAscii();
+        $pemContents = $certificate->getPemContents();
         $signature->appendChild(
-            $document->importNode($this->createKeyInfo($signObjects->certificate()), true)
+            $document->importNode($this->createKeyInfoElement($issuerName, $serialNumber, $pemContents), true)
         );
     }
 
@@ -123,43 +128,35 @@ class DOMSigner
         return $docinfoNode;
     }
 
-    protected function createKeyInfo(string $certificateFile): DOMElement
+    protected function createKeyInfoElement(string $issuerName, string $serialNumber, string $pemContents): DOMElement
     {
-        $certificate = new Certificado($certificateFile);
-
         $document = $this->document;
         $keyInfo = $document->createElement('KeyInfo');
         $x509Data = $document->createElement('X509Data');
         $x509IssuerSerial = $document->createElement('X509IssuerSerial');
         $x509IssuerSerial->appendChild(
-            $document->createElement('X509IssuerName', $certificate->getCertificateName())
+            Xml::createElement($document, 'X509IssuerName', $issuerName)
         );
         $x509IssuerSerial->appendChild(
-            $document->createElement('X509SerialNumber', $certificate->getSerialObject()->asAscii())
+            Xml::createElement($document, 'X509SerialNumber', $serialNumber)
         );
         $x509Data->appendChild($x509IssuerSerial);
 
-        $certificateContents = implode('', preg_grep('/^((?!-).)*$/', explode(PHP_EOL, $certificate->getPemContents())));
-        $x509Certificate = $document->createElement('X509Certificate', $certificateContents);
+        $certificateContents = implode('', preg_grep('/^((?!-).)*$/', explode(PHP_EOL, $pemContents)));
+        $x509Certificate = Xml::createElement($document, 'X509Certificate', $certificateContents);
         $x509Data->appendChild($x509Certificate);
 
         $keyInfo->appendChild($x509Data);
+        $keyInfo->appendChild($this->createKeyValueElement($pemContents));
 
-        $keyInfo->appendChild($this->createKeyValue($certificateFile));
         return $keyInfo;
     }
 
-    protected function createKeyValue(string $certificateFile): DOMElement
-    {
-        $certificate = new Certificado($certificateFile);
-        return $this->createKeyValueFromCertificado($certificate);
-    }
-
-    protected function createKeyValueFromCertificado(Certificado $certificate): DOMElement
+    protected function createKeyValueElement(string $pemContents): DOMElement
     {
         $document = $this->document;
         $keyValue = $document->createElement('KeyValue');
-        $pubKeyData = $this->obtainPublicKeyValues($certificate->getPemContents());
+        $pubKeyData = $this->obtainPublicKeyValues($pemContents);
         if (OPENSSL_KEYTYPE_RSA === $pubKeyData['type']) {
             $rsaKeyValue = $keyValue->appendChild($document->createElement('RSAKeyValue'));
             $rsaKeyValue->appendChild($document->createElement('Modulus', base64_encode($pubKeyData['rsa']['n'])));
