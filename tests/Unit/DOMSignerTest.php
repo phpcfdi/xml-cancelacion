@@ -44,9 +44,9 @@ class DOMSignerTest extends TestCase
     {
         $document = new DOMDocument();
         $signer = new class($document) extends DOMSigner {
-            public function exposeCreateKeyInfoWithData(string $issuerName, string $serialNumber, string $pemContents): DOMElement
+            public function exposeCreateKeyInfoElement(string $issuerName, string $serialNumber, string $pemContents): DOMElement
             {
-                return $this->createKeyInfoWithData($issuerName, $serialNumber, $pemContents);
+                return $this->createKeyInfoElement($issuerName, $serialNumber, $pemContents);
             }
 
             protected function obtainPublicKeyValues(string $publicKeyContents): array
@@ -62,7 +62,7 @@ class DOMSignerTest extends TestCase
         $serialNumber = '&0001';
         $pemContents = '&';
         /** @var DOMElement $keyInfo */
-        $keyInfo = $signer->exposeCreateKeyInfoWithData($issuerName, $serialNumber, $pemContents);
+        $keyInfo = $signer->exposeCreateKeyInfoElement($issuerName, $serialNumber, $pemContents);
 
         $this->assertXmlStringEqualsXmlString(
             sprintf('<X509IssuerName>%s</X509IssuerName>', htmlspecialchars($issuerName, ENT_XML1)),

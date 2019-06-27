@@ -96,8 +96,12 @@ class DOMSigner
         );
 
         // KEYINFO
+        $certificate = new Certificado($signObjects->certificate());
+        $issuerName = $certificate->getCertificateName();
+        $serialNumber = $certificate->getSerialObject()->asAscii();
+        $pemContents = $certificate->getPemContents();
         $signature->appendChild(
-            $document->importNode($this->createKeyInfo($signObjects->certificate()), true)
+            $document->importNode($this->createKeyInfoElement($issuerName, $serialNumber, $pemContents), true)
         );
     }
 
@@ -124,16 +128,7 @@ class DOMSigner
         return $docinfoNode;
     }
 
-    protected function createKeyInfo(string $certificateFile): DOMElement
-    {
-        $certificate = new Certificado($certificateFile);
-        $issuerName = $certificate->getCertificateName();
-        $serialNumber = $certificate->getSerialObject()->asAscii();
-        $pemContents = $certificate->getPemContents();
-        return $this->createKeyInfoWithData($issuerName, $serialNumber, $pemContents);
-    }
-
-    protected function createKeyInfoWithData(string $issuerName, string $serialNumber, string $pemContents): DOMElement
+    protected function createKeyInfoElement(string $issuerName, string $serialNumber, string $pemContents): DOMElement
     {
         $document = $this->document;
         $keyInfo = $document->createElement('KeyInfo');
@@ -152,12 +147,12 @@ class DOMSigner
         $x509Data->appendChild($x509Certificate);
 
         $keyInfo->appendChild($x509Data);
+        $keyInfo->appendChild($this->createKeyValueElement($pemContents));
 
-        $keyInfo->appendChild($this->createKeyValueFromPemContents($pemContents));
         return $keyInfo;
     }
 
-    protected function createKeyValueFromPemContents(string $pemContents): DOMElement
+    protected function createKeyValueElement(string $pemContents): DOMElement
     {
         $document = $this->document;
         $keyValue = $document->createElement('KeyValue');
