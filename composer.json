@@ -22,7 +22,7 @@
         "php": ">=7.2",
         "ext-dom": "*",
         "ext-openssl": "*",
-        "eclipxe/cfdiutils": "^2.10"
+        "eclipxe/cfdiutils": "^2.10.4"
     },
     "require-dev": {
         "robrichards/xmlseclibs": "^3.0",
