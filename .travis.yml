@@ -14,8 +14,8 @@ cache:
     - $HOME/.composer
 
 before_script:
-  - travis_retry composer install --no-interaction --prefer-dist
   - phpenv config-rm xdebug.ini
+  - travis_retry composer install --no-interaction --prefer-dist
   - mkdir -p build
 
 script:
