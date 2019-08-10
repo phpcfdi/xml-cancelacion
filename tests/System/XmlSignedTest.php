@@ -34,7 +34,7 @@ class XmlSignedTest extends TestCase
 
         $cerContent = $this->filePath('LAN7008173R5.cer.pem');
         $keyContent = $this->filePath('LAN7008173R5.key.pem');
-        $passPhrase = trim($this->fileContentPath('LAN7008173R5.password'));
+        $passPhrase = trim($this->fileContents('LAN7008173R5.password'));
         $signObjects = new Credentials($cerContent, $keyContent, $passPhrase);
 
         $capsule = new Capsule(
