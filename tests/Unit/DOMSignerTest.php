@@ -44,9 +44,9 @@ class DOMSignerTest extends TestCase
     {
         $document = new DOMDocument();
         $signer = new class($document) extends DOMSigner {
-            public function exposeCreateKeyInfoElement(string $issuerName, string $serialNumber, string $pemContents): DOMElement
+            public function exposeCreateKeyInfoElement(string $name, string $serial, string $contents): DOMElement
             {
-                return $this->createKeyInfoElement($issuerName, $serialNumber, $pemContents);
+                return $this->createKeyInfoElement($name, $serial, $contents);
             }
 
             protected function obtainPublicKeyValues(string $publicKeyContents): array

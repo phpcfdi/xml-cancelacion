@@ -54,8 +54,8 @@
         ],
         "dev:test": [
             "vendor/bin/phplint",
+            "@dev:check-style",
             "vendor/bin/phpunit --testdox --verbose --stop-on-failure",
-            "find . -type f -name .phpunit.result.cache -delete",
             "vendor/bin/phpstan analyse --verbose --no-progress --level max src/ tests/"
         ],
         "dev:coverage": [

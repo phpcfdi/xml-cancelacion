@@ -9,9 +9,17 @@ use DOMDocument;
 
 class CapsuleSigner
 {
-    /** @var array[] */
+    /** @var array<string, string> */
     private $extraNamespaces;
 
+    /**
+     * CapsuleSigner constructor.
+     *
+     * If $extraNamespaces is null then it will use default extra namespaces,
+     * but if it is defined it will only use what is defined on parameter
+     *
+     * @param array<string, string>|null $extraNamespaces
+     */
     public function __construct(array $extraNamespaces = null)
     {
         if (null === $extraNamespaces) {

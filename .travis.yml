@@ -14,14 +14,14 @@ cache:
     - $HOME/.composer
 
 before_script:
-  - travis_retry composer install --no-interaction --prefer-dist
   - phpenv config-rm xdebug.ini
+  - travis_retry composer install --no-interaction --prefer-dist
   - mkdir -p build
 
 script:
   - vendor/bin/phplint
-  - vendor/bin/php-cs-fixer fix --verbose
-  - vendor/bin/phpcbf --colors -sp src/ tests/
+  - vendor/bin/php-cs-fixer fix --verbose --dry-run
+  - vendor/bin/phpcs --colors -sp src/ tests/
   - vendor/bin/phpunit --testdox --verbose
   - vendor/bin/phpstan.phar analyse --no-progress --verbose --level max src/ tests/
 
