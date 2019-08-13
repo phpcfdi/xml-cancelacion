@@ -11,24 +11,9 @@ use PhpCfdi\XmlCancelacion\Credentials;
 use PhpCfdi\XmlCancelacion\DOMSigner;
 use PhpCfdi\XmlCancelacion\Tests\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
-use RuntimeException;
 
 class DOMSignerTest extends TestCase
 {
-    public function testThrowExceptionWhenCannotGetPublicKeyFromCertificate(): void
-    {
-        $signer = new class(new DOMDocument()) extends DOMSigner {
-            public function exposeObtainPublicKeyValues(string $publicKey): array
-            {
-                return $this->obtainPublicKeyValues($publicKey);
-            }
-        };
-
-        $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Cannot read public key from certificate');
-        $signer->exposeObtainPublicKeyValues('BAD PUBLIC KEY');
-    }
-
     public function testThrowExceptionWhenPassingAnEmptyDomDocument(): void
     {
         /** @var Credentials&MockObject $credentials */
@@ -44,25 +29,21 @@ class DOMSignerTest extends TestCase
     {
         $document = new DOMDocument();
         $signer = new class($document) extends DOMSigner {
-            public function exposeCreateKeyInfoElement(string $name, string $serial, string $contents): DOMElement
+            public function expose(string $name, string $serial, string $contents, array $pubKeyData): DOMElement
             {
-                return $this->createKeyInfoElement($name, $serial, $contents);
-            }
-
-            protected function obtainPublicKeyValues(string $publicKeyContents): array
-            {
-                return [
-                    'type' => OPENSSL_KEYTYPE_RSA,
-                    'rsa' => ['n' => '1', 'e' => '2'],
-                ];
+                return $this->createKeyInfoElement($name, $serial, $contents, $pubKeyData);
             }
         };
 
         $issuerName = 'John & Co';
         $serialNumber = '&0001';
         $pemContents = '&';
+        $pubKeyData = [
+            'type' => OPENSSL_KEYTYPE_RSA,
+            'rsa' => ['n' => '1', 'e' => '2'],
+        ];
         /** @var DOMElement $keyInfo */
-        $keyInfo = $signer->exposeCreateKeyInfoElement($issuerName, $serialNumber, $pemContents);
+        $keyInfo = $signer->expose($issuerName, $serialNumber, $pemContents, $pubKeyData);
 
         $this->assertXmlStringEqualsXmlString(
             sprintf('<X509IssuerName>%s</X509IssuerName>', htmlspecialchars($issuerName, ENT_XML1)),
