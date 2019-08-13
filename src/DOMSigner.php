@@ -6,7 +6,6 @@ namespace PhpCfdi\XmlCancelacion;
 
 use CfdiUtils\Certificado\Certificado;
 use CfdiUtils\PemPrivateKey\PemPrivateKey;
-use CfdiUtils\Utils\Xml;
 use DOMDocument;
 use DOMElement;
 use LogicException;
@@ -135,16 +134,17 @@ class DOMSigner
         $x509Data = $document->createElement('X509Data');
         $x509IssuerSerial = $document->createElement('X509IssuerSerial');
         $x509IssuerSerial->appendChild(
-            Xml::createElement($document, 'X509IssuerName', $issuerName)
+            $document->createElement('X509IssuerName', htmlspecialchars($issuerName, ENT_XML1))
         );
         $x509IssuerSerial->appendChild(
-            Xml::createElement($document, 'X509SerialNumber', $serialNumber)
+            $document->createElement('X509SerialNumber', htmlspecialchars($serialNumber, ENT_XML1))
         );
         $x509Data->appendChild($x509IssuerSerial);
 
         $certificateContents = implode('', preg_grep('/^((?!-).)*$/', explode(PHP_EOL, $pemContents)));
-        $x509Certificate = Xml::createElement($document, 'X509Certificate', $certificateContents);
-        $x509Data->appendChild($x509Certificate);
+        $x509Data->appendChild(
+            $document->createElement('X509Certificate', htmlspecialchars($certificateContents, ENT_XML1))
+        );
 
         $keyInfo->appendChild($x509Data);
         $keyInfo->appendChild($this->createKeyValueElement($pemContents));
