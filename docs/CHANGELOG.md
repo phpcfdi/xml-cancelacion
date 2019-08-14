@@ -1,6 +1,17 @@
 # CHANGELOG
 
 
+## Version 0.4.1 2019-08-13
+
+- Fix X509IssuerName to use certificate issuer as [RFC 4514](https://www.ietf.org/rfc/rfc4514.txt)
+  according to [XML Signature Syntax and Processing Version 1.1](https://www.w3.org/TR/xmldsig-core1/)
+  [4.5.4 The X509Data Element](https://www.w3.org/TR/xmldsig-core1/#sec-X509Data) where it states that:
+  *The deprecated X509IssuerSerial element, which contains an X.509 issuer distinguished name/serial number pair.*
+  *The distinguished name SHOULD be represented as a string that complies with section 3 of RFC4514, to be generated*
+  *according to the [Distinguished Name Encoding Rules](https://www.w3.org/TR/xmldsig-core1/#dname-encrules) section*.
+  Notice that in the encoding rules mention additional rules that __MAY__ be implemented. We are not. 
+
+
 ## Version 0.4.0 2019-08-13
 
 - Drop dependence from `eclipxe/cfdiutils` to `phpcfdi/credentials`
