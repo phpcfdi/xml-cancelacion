@@ -4,13 +4,9 @@ declare(strict_types=1);
 
 namespace PhpCfdi\XmlCancelacion;
 
-use CfdiUtils\Certificado\Certificado;
-use CfdiUtils\PemPrivateKey\PemPrivateKey;
-use CfdiUtils\Utils\Xml;
 use DOMDocument;
 use DOMElement;
 use LogicException;
-use RuntimeException;
 
 class DOMSigner
 {
@@ -85,10 +81,7 @@ class DOMSigner
         // otherwise the signedinfo will not contain namespaces
         // C14N: no exclusive, no comments (if exclusive will drop not used namespaces)
         $this->signedInfoSource = $signedInfo->C14N(false, false);
-        $privateKey = new PemPrivateKey('file://' . $signObjects->privateKey());
-        $privateKey->open($signObjects->passPhrase());
-        $this->signedInfoValue = base64_encode($privateKey->sign($this->signedInfoSource, OPENSSL_ALGO_SHA1));
-        $privateKey->close();
+        $this->signedInfoValue = base64_encode($signObjects->sign($this->signedInfoSource, OPENSSL_ALGO_SHA1));
 
         // SIGNATUREVALUE
         $signature->appendChild(
@@ -96,13 +89,13 @@ class DOMSigner
         );
 
         // KEYINFO
-        $certificate = new Certificado($signObjects->certificate());
-        $issuerName = $certificate->getCertificateName();
-        $serialNumber = $certificate->getSerialObject()->asAscii();
-        $pemContents = $certificate->getPemContents();
-        $signature->appendChild(
-            $document->importNode($this->createKeyInfoElement($issuerName, $serialNumber, $pemContents), true)
+        $keyInfoElement = $this->createKeyInfoElement(
+            $signObjects->certificateIssuerName(),
+            $signObjects->serialNumber(),
+            $signObjects->certificateAsPEM(),
+            $signObjects->publicKeyData()
         );
+        $signature->appendChild($document->importNode($keyInfoElement, true));
     }
 
     protected function createSignedInfoElement(): DOMElement
@@ -128,35 +121,39 @@ class DOMSigner
         return $docinfoNode;
     }
 
-    protected function createKeyInfoElement(string $issuerName, string $serialNumber, string $pemContents): DOMElement
-    {
+    protected function createKeyInfoElement(
+        string $issuerName,
+        string $serialNumber,
+        string $pemContents,
+        array $pubKeyData
+    ): DOMElement {
         $document = $this->document;
         $keyInfo = $document->createElement('KeyInfo');
         $x509Data = $document->createElement('X509Data');
         $x509IssuerSerial = $document->createElement('X509IssuerSerial');
         $x509IssuerSerial->appendChild(
-            Xml::createElement($document, 'X509IssuerName', $issuerName)
+            $document->createElement('X509IssuerName', htmlspecialchars($issuerName, ENT_XML1))
         );
         $x509IssuerSerial->appendChild(
-            Xml::createElement($document, 'X509SerialNumber', $serialNumber)
+            $document->createElement('X509SerialNumber', htmlspecialchars($serialNumber, ENT_XML1))
         );
         $x509Data->appendChild($x509IssuerSerial);
 
         $certificateContents = implode('', preg_grep('/^((?!-).)*$/', explode(PHP_EOL, $pemContents)));
-        $x509Certificate = Xml::createElement($document, 'X509Certificate', $certificateContents);
-        $x509Data->appendChild($x509Certificate);
+        $x509Data->appendChild(
+            $document->createElement('X509Certificate', htmlspecialchars($certificateContents, ENT_XML1))
+        );
 
         $keyInfo->appendChild($x509Data);
-        $keyInfo->appendChild($this->createKeyValueElement($pemContents));
+        $keyInfo->appendChild($this->createKeyValueElement($pubKeyData));
 
         return $keyInfo;
     }
 
-    protected function createKeyValueElement(string $pemContents): DOMElement
+    protected function createKeyValueElement(array $pubKeyData): DOMElement
     {
         $document = $this->document;
         $keyValue = $document->createElement('KeyValue');
-        $pubKeyData = $this->obtainPublicKeyValues($pemContents);
         if (OPENSSL_KEYTYPE_RSA === $pubKeyData['type']) {
             $rsaKeyValue = $keyValue->appendChild($document->createElement('RSAKeyValue'));
             $rsaKeyValue->appendChild($document->createElement('Modulus', base64_encode($pubKeyData['rsa']['n'])));
@@ -164,17 +161,5 @@ class DOMSigner
         }
 
         return $keyValue;
-    }
-
-    protected function obtainPublicKeyValues(string $publicKeyContents): array
-    {
-        $pubKey = openssl_get_publickey($publicKeyContents);
-        if (! is_resource($pubKey)) {
-            throw new RuntimeException('Cannot read public key from certificate');
-        }
-        $pubKeyData = openssl_pkey_get_details($pubKey) ?: [];
-        openssl_free_key($pubKey);
-
-        return $pubKeyData;
     }
 }

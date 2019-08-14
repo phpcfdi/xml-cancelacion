@@ -1,5 +1,15 @@
 # CHANGELOG
 
+
+## Version 0.4.0 2019-08-13
+
+- Drop dependence from `eclipxe/cfdiutils` to `phpcfdi/credentials`
+- `PhpCfdi\XmlCancelacion\Credentials` changed from DTO to encapsulate certificate & private key logic:
+    - uses internally `PhpCfdi\Credentials\Credential`
+    - offers methods to extract any data or execute any action from certificate or private key
+- Minor improvements in documentation
+
+
 ## Version 0.3.0 2019-06-27
 
 - Fix issue when calling `DOMDocument::createElement`/`DOMDocument::createElementNS` and content has an empersand `&`:
