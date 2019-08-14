@@ -51,7 +51,7 @@ class Credentials
 
     public function certificateIssuerName(): string
     {
-        return $this->getCsd()->certificate()->name();
+        return $this->getCsd()->certificate()->issuerAsRfc4514();
     }
 
     public function serialNumber(): string
