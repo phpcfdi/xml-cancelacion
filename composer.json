@@ -22,7 +22,7 @@
         "php": ">=7.2",
         "ext-dom": "*",
         "ext-openssl": "*",
-        "phpcfdi/credentials": "dev-master"
+        "phpcfdi/credentials": "^1.0"
     },
     "require-dev": {
         "robrichards/xmlseclibs": "^3.0",
