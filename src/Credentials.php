@@ -89,4 +89,9 @@ class Credentials
         }
         return $this->csd;
     }
+
+    public function rfc(): string
+    {
+        return $this->getCsd()->rfc();
+    }
 }
