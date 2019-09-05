@@ -36,6 +36,21 @@ composer require phpcfdi/xml-cancelacion
 
 ## Ejemplo básico de uso
 
+### Con el objeto de ayuda
+
+```php
+<?php
+
+use PhpCfdi\XmlCancelacion\XmlCancelacionHelper;
+
+$solicitudCancelacion = (new XmlCancelacionHelper())
+    ->setNewCredentials('certificado.cer', 'llaveprivada.key', 'contraseña')
+    ->make('11111111-2222-3333-4444-000000000001');
+
+```
+
+### Con un uso detallado
+
 ```php
 <?php
 use PhpCfdi\XmlCancelacion\Capsule;
@@ -96,7 +111,25 @@ La salida esperada es algo como lo siguiente (sin los espacios en blanco que agr
 ```
 
 
-## Objetos principales
+## Objeto de ayuda
+
+**`XmlCancelacionHelper`** te permite usar la librería rápidamente.
+
+Requiere de un objeto `Credentials` que puede ser insertado en la construcción,
+puede ser insertado con el método `setCredentials` o por `setNewCredentials`.
+La diferencia entre estos dos métodos es que el primero recibe un objeto, y el segundo
+recibe los parámetros de certificado, llave privada y contraseña.
+
+Para crear la solicitud firmada se puede hacer con los métodos `make` para un sólo UUID
+o `makeUuids` para varios UUID. Como primer parámetro reciben qué UUID será cancelado y
+como segundo parámetro (opcional) un `DateTimeImmutable` o `null`, en ese caso tomará
+la fecha y hora del sistema.
+
+Con esta herramienta de ayuda no se especifica el RFC, cuando se fabrica la solicitud firmada
+se obtiene el RFC directamente de las propiedades del certificado.
+
+
+## Objetos de trabajo
 
 **`Capsule`** es un contenedor de información que contiene RFC, Fecha y UUID.
 
@@ -119,8 +152,9 @@ Las otras dos desventajas están en la forma en que escribe los valores de `X509
 Que aunque creo que no son muy relevantes para generar una firma correcta, sí podrían ser importantes,
 y motivo de rechazo -o pretexto- en el servicio de cancelación del SAT.
 
-Al momento existe una dependencia fuerte a `eclipxe/cfdiutils`, sin embargo, esta dependencia va a desaparecer porque
-se va a crear un nuevo paquete bajo la organización `PhpCfdi` para certificados, llaves privadas y llaves públicas.
+A partir de 2019-08-13 con la versión `0.4.0` se eliminó la dependencia a `eclipxe/cfdiutils` y se cambió a la
+librería [`phpcfdi/credentials`](https://github.com/phpcfdi/xml-cancelacion), con esta nueva dependencia se trabaja
+mucho mejor con los certificados y llaves privadas.
 
 
 ## Compatilibilidad
@@ -158,7 +192,7 @@ and licensed for use under the MIT License (MIT). Please see [LICENSE][] for mor
 
 [badge-source]: http://img.shields.io/badge/source-phpcfdi/xml--cancelacion-blue?style=flat-square
 [badge-release]: https://img.shields.io/github/release/phpcfdi/xml-cancelacion?style=flat-square
-[badge-license]: https://img.shields.io/badge/license-MIT-brightgreen?style=flat-square
+[badge-license]: https://img.shields.io/github/license/phpcfdi/xml-cancelacion?style=flat-square
 [badge-build]: https://img.shields.io/travis/phpcfdi/xml-cancelacion/master?style=flat-square
 [badge-quality]: https://img.shields.io/scrutinizer/g/phpcfdi/xml-cancelacion/master?style=flat-square
 [badge-coverage]: https://img.shields.io/scrutinizer/coverage/g/phpcfdi/xml-cancelacion/master?style=flat-square
