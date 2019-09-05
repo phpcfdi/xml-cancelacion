@@ -1,5 +1,11 @@
 # CHANGELOG
 
+## Version 0.4.2 2019-09-05
+
+- Include a helper object `XmlCancelacionHelper` that simplify working with this library,
+  see [README](https://github.com/phpcfdi/xml-cancelacion/blob/master/README.md) for usage.
+- Other minimal changes on documentation.
+
 
 ## Version 0.4.1 2019-08-13
 
