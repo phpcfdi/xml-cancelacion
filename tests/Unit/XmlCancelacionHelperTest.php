@@ -12,10 +12,8 @@ use PhpCfdi\XmlCancelacion\Tests\TestCase;
 use PhpCfdi\XmlCancelacion\XmlCancelacionHelper;
 use PHPUnit\Framework\MockObject\MockObject;
 
-/**
- * @covers \PhpCfdi\XmlCancelacion\XmlCancelacionHelper
- */
-class XmlCancelacionBuilderTest extends TestCase
+/** @covers \PhpCfdi\XmlCancelacion\XmlCancelacionHelper */
+class XmlCancelacionHelperTest extends TestCase
 {
     /** @return Credentials&MockObject */
     private function createFakeCredentials(): Credentials
