@@ -191,7 +191,7 @@ and licensed for use under the MIT License (MIT). Please see [LICENSE][] for mor
 
 [badge-source]: http://img.shields.io/badge/source-phpcfdi/xml--cancelacion-blue?style=flat-square
 [badge-release]: https://img.shields.io/github/release/phpcfdi/xml-cancelacion?style=flat-square
-[badge-license]: https://img.shields.io/badge/license-MIT-brightgreen?style=flat-square
+[badge-license]: https://img.shields.io/github/license/phpcfdi/xml-cancelacion?style=flat-square
 [badge-build]: https://img.shields.io/travis/phpcfdi/xml-cancelacion/master?style=flat-square
 [badge-quality]: https://img.shields.io/scrutinizer/g/phpcfdi/xml-cancelacion/master?style=flat-square
 [badge-coverage]: https://img.shields.io/scrutinizer/coverage/g/phpcfdi/xml-cancelacion/master?style=flat-square
