@@ -113,7 +113,7 @@ La salida esperada es algo como lo siguiente (sin los espacios en blanco que agr
 
 ## Objeto de ayuda
 
-**`XmlCancelacionHelper``** te permite usar la librería rápidamente.
+**`XmlCancelacionHelper`** te permite usar la librería rápidamente.
 
 Requiere de un objeto `Credentials` que puede ser insertado en la construcción,
 puede ser insertado con el método `setCredentials` o por `setNewCredentials`.
@@ -125,8 +125,8 @@ o `makeUuids` para varios UUID. Como primer parámetro reciben qué UUID será c
 como segundo parámetro (opcional) un `DateTimeImmutable` o `null`, en ese caso tomará
 la fecha y hora del sistema.
 
-Con este objeto no se especifica el RFC, cuando se fabrica la solicitud firmada se obtiene
-el RFC directamente de las propiedades del certificado.
+Con esta herramienta de ayuda no se especifica el RFC, cuando se fabrica la solicitud firmada
+se obtiene el RFC directamente de las propiedades del certificado.
 
 
 ## Objetos de trabajo
