@@ -12,6 +12,31 @@ use RuntimeException;
 
 class CredentialsTest extends TestCase
 {
+    public function testValidCredentialsProperties(): void
+    {
+        $cerFile = $this->filePath('LAN7008173R5.cer.pem');
+        $keyFile = $this->filePath('LAN7008173R5.key.pem');
+        $passPhrase = trim($this->fileContents('LAN7008173R5.password'));
+        $signature = 'Dw9fnvXKvDCy+oFqGNWG2ho1wcLaY4I9ddh5e+WqB5rfHbZEMyspuqQzYux2OL0U+g7arlx/w5imdQxjBlvrKgulX7'
+            . 'K7HcHel60knsneDebEJNA0tyeTnJJn2e6DPd5GtxrLEHsjKtTGxl4p8QynX0x5uJoog09ZgIQ3adSq3cciH3FOfupiq9NbtMQ'
+            . 'k9Da8ezI+pc5L0uu+mC9+RAR+r3agRkigGhGIeatS2QrA/B4FjZW2kzivz7J3zWEMm+JJMdYKzBoc7Us3aOS+kzuaz4T8+/yf'
+            . 'IZy2qa9QEnxpOvk0Prh43LaObh9MKbu3uOnWaO3yMSuKE6DHZqmWtcO57A==';
+
+        $credentials = new Credentials($cerFile, $keyFile, $passPhrase);
+
+        $this->assertSame($cerFile, $credentials->certificate());
+        $this->assertSame($keyFile, $credentials->privateKey());
+        $this->assertSame($passPhrase, $credentials->passPhrase());
+
+        $this->assertSame('LAN7008173R5', $credentials->rfc());
+        $this->assertSame('20001000000300022815', $credentials->serialNumber());
+        $this->assertStringStartsWith(
+            'CN=A.C. 2 de pruebas(4096),O=Servicio de Administración Tributaria',
+            $credentials->certificateIssuerName()
+        );
+        $this->assertSame($signature, base64_encode($credentials->sign('foo')));
+    }
+
     public function testCreateCsdWithInvalidPassword(): void
     {
         $cerContent = $this->filePath('LAN7008173R5.cer.pem');
