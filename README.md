@@ -36,6 +36,21 @@ composer require phpcfdi/xml-cancelacion
 
 ## Ejemplo básico de uso
 
+### Con el objeto de ayuda
+
+```php
+<?php
+
+use PhpCfdi\XmlCancelacion\XmlCancelacionHelper;
+
+$solicitudCancelacion = (new XmlCancelacionHelper())
+    ->setNewCredentials('certificado.cer', 'llaveprivada.key', 'contraseña')
+    ->make('11111111-2222-3333-4444-000000000001');
+
+```
+
+### Con un uso detallado
+
 ```php
 <?php
 use PhpCfdi\XmlCancelacion\Capsule;
@@ -96,7 +111,25 @@ La salida esperada es algo como lo siguiente (sin los espacios en blanco que agr
 ```
 
 
-## Objetos principales
+## Objeto de ayuda
+
+**`XmlCancelacionHelper``** te permite usar la librería rápidamente.
+
+Requiere de un objeto `Credentials` que puede ser insertado en la construcción,
+puede ser insertado con el método `setCredentials` o por `setNewCredentials`.
+La diferencia entre estos dos métodos es que el primero recibe un objeto, y el segundo
+recibe los parámetros de certificado, llave privada y contraseña.
+
+Para crear la solicitud firmada se puede hacer con los métodos `make` para un sólo UUID
+o `makeUuids` para varios UUID. Como primer parámetro reciben qué UUID será cancelado y
+como segundo parámetro (opcional) un `DateTimeImmutable` o `null`, en ese caso tomará
+la fecha y hora del sistema.
+
+Con este objeto no se especifica el RFC, cuando se fabrica la solicitud firmada se obtiene
+el RFC directamente de las propiedades del certificado.
+
+
+## Objetos de trabajo
 
 **`Capsule`** es un contenedor de información que contiene RFC, Fecha y UUID.
 
