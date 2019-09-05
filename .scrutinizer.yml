@@ -5,10 +5,7 @@ filter:
 
 build:
   nodes:
-    php73:
-      environment:
-        php:
-          version: "7.3"
+    build:
       tests:
         override:
           - php-scrutinizer-run --enable-security-analysis
