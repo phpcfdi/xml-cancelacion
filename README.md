@@ -152,8 +152,9 @@ Las otras dos desventajas están en la forma en que escribe los valores de `X509
 Que aunque creo que no son muy relevantes para generar una firma correcta, sí podrían ser importantes,
 y motivo de rechazo -o pretexto- en el servicio de cancelación del SAT.
 
-Al momento existe una dependencia fuerte a `eclipxe/cfdiutils`, sin embargo, esta dependencia va a desaparecer porque
-se va a crear un nuevo paquete bajo la organización `PhpCfdi` para certificados, llaves privadas y llaves públicas.
+A partir de 2019-08-13 con la versión `0.4.0` se eliminó la dependencia a `eclipxe/cfdiutils` y se cambió a la
+librería [`phpcfdi/credentials`](https://github.com/phpcfdi/xml-cancelacion), con esta nueva dependencia se trabaja
+mucho mejor con los certificados y llaves privadas.
 
 
 ## Compatilibilidad
