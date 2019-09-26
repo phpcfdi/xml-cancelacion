@@ -1,5 +1,35 @@
 # CHANGELOG
 
+# Version 0.5.0 2019-09-25
+
+- This version is a major change, it is not compatible with previous versions
+  Read [UPGRADE-0.5](https://github.com/phpcfdi/xml-cancelacion/blob/master/docs/UPGRADE-0.5.md)
+- New signed documents:
+    - Cancellation: For request to SAT a cancellation of one or many CFDI.
+    - ObtainRelated: For asking to SAT related documents of a CFDI.
+    - CancellationAnswer: For setting the answer to SAT about a cancellation request.
+- New project concepts:
+    - Capsule: DTO that contains source data, also implements `CapsuleInterface`
+    - Signer: Manipulation object implementing `SignerInterface`, takes a DOMDocument and append signature data
+- New general process:
+    - A `CapsuleInterface` is exported as a `DOMDocument`
+    - Using a `SignerInterface` the `DOMDocument` is signed and signature is appended.
+    - Signature is exported from `DOMDocument::saveXml()`
+- New helper `XmlCancelacionHelper`:
+    - If no `SignerInterface` is provided then the default is used
+- Credentials can be created from `PhpCfdi\Credentials\Credential`
+- Exceptions are specific to this library:
+    - `XmlCancelacionException`
+        - `XmlCancelacionLogicException` extends `LogicException`
+            - `DocumentWithoutRootElement`
+            - `HelperDoesNotHaveCredentials`
+            - `InvalidCapsuleType`
+        - `XmlCancelacionRuntimeException` extends `RuntimeException`
+            - `CannotLoadCertificateAndPrivateKey`
+            - `CapsuleRfcDoesnotBelongToCertificateRfc`
+            - `CertificateIsNotCSD`
+
+
 ## Version 0.4.2 2019-09-05
 
 - Include a helper object `XmlCancelacionHelper` that simplify working with this library,

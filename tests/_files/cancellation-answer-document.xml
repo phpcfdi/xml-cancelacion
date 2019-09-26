@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SolicitudAceptacionRechazo xmlns="http://cancelacfd.sat.gob.mx" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Fecha="2019-01-13T14:15:16" RfcPacEnviaSolicitud="CVD110412TF6" RfcReceptor="LAN7008173R5">
+  <Folios>
+    <UUID>11111111-2222-3333-4444-000000000001</UUID>
+    <Respuesta>Aceptacion</Respuesta>
+  </Folios>
+</SolicitudAceptacionRechazo>

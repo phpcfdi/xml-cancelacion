@@ -6,44 +6,36 @@ namespace PhpCfdi\XmlCancelacion\Tests\Unit;
 
 use DOMDocument;
 use DOMElement;
-use LogicException;
-use PhpCfdi\XmlCancelacion\Credentials;
 use PhpCfdi\XmlCancelacion\DOMSigner;
 use PhpCfdi\XmlCancelacion\Tests\TestCase;
-use PHPUnit\Framework\MockObject\MockObject;
 
+/** @covers \PhpCfdi\XmlCancelacion\DOMSigner */
 class DOMSignerTest extends TestCase
 {
-    public function testThrowExceptionWhenPassingAnEmptyDomDocument(): void
-    {
-        /** @var Credentials&MockObject $credentials */
-        $credentials = $this->createMock(Credentials::class);
-        $signer = new DOMSigner(new DOMDocument());
-
-        $this->expectException(LogicException::class);
-        $this->expectExceptionMessage('Document does not have a root element');
-        $signer->sign($credentials);
-    }
-
     public function testCreateKeyInfoWithIssuerNameWithAmpersand(): void
     {
         $document = new DOMDocument();
-        $signer = new class($document) extends DOMSigner {
-            public function expose(string $name, string $serial, string $contents, array $pubKeyData): DOMElement
-            {
-                return $this->createKeyInfoElement($name, $serial, $contents, $pubKeyData);
+        $signer = new class() extends DOMSigner {
+            public function exposeCreateKeyInfoElement(
+                DOMDocument $document,
+                string $name,
+                string $serial,
+                string $contents,
+                array $pubKeyData
+            ): DOMElement {
+                return $this->createKeyInfoElement($document, $name, $serial, $contents, $pubKeyData);
             }
         };
 
         $issuerName = 'John & Co';
-        $serialNumber = '&0001';
+        $serial = '&0001';
         $pemContents = '&';
         $pubKeyData = [
             'type' => OPENSSL_KEYTYPE_RSA,
             'rsa' => ['n' => '1', 'e' => '2'],
         ];
         /** @var DOMElement $keyInfo */
-        $keyInfo = $signer->expose($issuerName, $serialNumber, $pemContents, $pubKeyData);
+        $keyInfo = $signer->exposeCreateKeyInfoElement($document, $issuerName, $serial, $pemContents, $pubKeyData);
 
         $this->assertXmlStringEqualsXmlString(
             sprintf('<X509IssuerName>%s</X509IssuerName>', htmlspecialchars($issuerName, ENT_XML1)),
@@ -51,7 +43,7 @@ class DOMSignerTest extends TestCase
             'Ampersand was not correctly parsed on X509IssuerName'
         );
         $this->assertXmlStringEqualsXmlString(
-            sprintf('<X509SerialNumber>%s</X509SerialNumber>', htmlspecialchars($serialNumber, ENT_XML1)),
+            sprintf('<X509SerialNumber>%s</X509SerialNumber>', htmlspecialchars($serial, ENT_XML1)),
             $document->saveXML($keyInfo->getElementsByTagName('X509SerialNumber')[0]),
             'Ampersand was not correctly parsed on X509SerialNumber'
         );

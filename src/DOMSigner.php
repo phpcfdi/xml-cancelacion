@@ -6,12 +6,13 @@ namespace PhpCfdi\XmlCancelacion;
 
 use DOMDocument;
 use DOMElement;
-use LogicException;
+use PhpCfdi\XmlCancelacion\Contracts\SignerInterface;
+use PhpCfdi\XmlCancelacion\Exceptions\DocumentWithoutRootElement;
 
-class DOMSigner
+class DOMSigner implements SignerInterface
 {
-    /** @var DOMDocument */
-    private $document;
+    use CreateKeyInfoElementTrait;
+    use SignCapsuleMethodTrait;
 
     /** @var string */
     private $digestSource = '';
@@ -25,15 +26,25 @@ class DOMSigner
     /** @var string */
     private $signedInfoValue = '';
 
-    public function __construct(DOMDocument $document)
+    /** @var DOMDocument|null */
+    private $document;
+
+    public function __construct(DOMDocument $document = null)
     {
-        $this->document = $document;
+        if (null !== $document) {
+            trigger_error('Deprecated constructor with document since 0.5.0', E_USER_DEPRECATED);
+            $this->document = $document;
+        }
     }
 
+    /**
+     * @param DOMDocument $document
+     * @return DOMElement
+     */
     private function rootElement(DOMDocument $document): DOMElement
     {
         if (null === $document->documentElement) {
-            throw new LogicException('Document does not have a root element');
+            throw new DocumentWithoutRootElement();
         }
         return $document->documentElement;
     }
@@ -58,10 +69,19 @@ class DOMSigner
         return $this->signedInfoValue;
     }
 
-    public function sign(Credentials $signObjects): void
+    /** @deprecated 0.5.0 */
+    public function sign(Credentials $credentials): void
     {
-        $document = $this->document;
+        trigger_error('Deprecated method since 0.5.0, use signDocument', E_USER_DEPRECATED);
+        if (null !== $this->document) {
+            $this->signDocument($this->document, $credentials);
+        } else {
+            trigger_error('To use this method must construct with DOMDocument', E_USER_ERROR);
+        }
+    }
 
+    public function signDocument(DOMDocument $document, Credentials $credentials): void
+    {
         // Setup digestSource & digestValue
         // C14N: no exclusive, no comments (if exclusive will drop not used namespaces)
         $this->digestSource = $document->C14N(false, false);
@@ -71,8 +91,7 @@ class DOMSigner
         $signature = $document->createElementNS('http://www.w3.org/2000/09/xmldsig#', 'Signature');
         $this->rootElement($document)->appendChild($signature);
 
-        // append and realocate signedInfo to the node in document
-        // SIGNEDINFO
+        // SignedInfo: import in document and append to the Signature element
         $signedInfo = $signature->appendChild(
             $document->importNode($this->createSignedInfoElement(), true)
         );
@@ -81,7 +100,7 @@ class DOMSigner
         // otherwise the signedinfo will not contain namespaces
         // C14N: no exclusive, no comments (if exclusive will drop not used namespaces)
         $this->signedInfoSource = $signedInfo->C14N(false, false);
-        $this->signedInfoValue = base64_encode($signObjects->sign($this->signedInfoSource, OPENSSL_ALGO_SHA1));
+        $this->signedInfoValue = base64_encode($credentials->sign($this->signedInfoSource, OPENSSL_ALGO_SHA1));
 
         // SIGNATUREVALUE
         $signature->appendChild(
@@ -90,10 +109,11 @@ class DOMSigner
 
         // KEYINFO
         $keyInfoElement = $this->createKeyInfoElement(
-            $signObjects->certificateIssuerName(),
-            $signObjects->serialNumber(),
-            $signObjects->certificateAsPEM(),
-            $signObjects->publicKeyData()
+            $document,
+            $credentials->certificateIssuerName(),
+            $credentials->serialNumber(),
+            $credentials->certificateAsPEM(),
+            $credentials->publicKeyData()
         );
         $signature->appendChild($document->importNode($keyInfoElement, true));
     }
@@ -119,47 +139,5 @@ class DOMSigner
         $docinfoNode = $this->rootElement($docInfo);
 
         return $docinfoNode;
-    }
-
-    protected function createKeyInfoElement(
-        string $issuerName,
-        string $serialNumber,
-        string $pemContents,
-        array $pubKeyData
-    ): DOMElement {
-        $document = $this->document;
-        $keyInfo = $document->createElement('KeyInfo');
-        $x509Data = $document->createElement('X509Data');
-        $x509IssuerSerial = $document->createElement('X509IssuerSerial');
-        $x509IssuerSerial->appendChild(
-            $document->createElement('X509IssuerName', htmlspecialchars($issuerName, ENT_XML1))
-        );
-        $x509IssuerSerial->appendChild(
-            $document->createElement('X509SerialNumber', htmlspecialchars($serialNumber, ENT_XML1))
-        );
-        $x509Data->appendChild($x509IssuerSerial);
-
-        $certificateContents = implode('', preg_grep('/^((?!-).)*$/', explode(PHP_EOL, $pemContents)));
-        $x509Data->appendChild(
-            $document->createElement('X509Certificate', htmlspecialchars($certificateContents, ENT_XML1))
-        );
-
-        $keyInfo->appendChild($x509Data);
-        $keyInfo->appendChild($this->createKeyValueElement($pubKeyData));
-
-        return $keyInfo;
-    }
-
-    protected function createKeyValueElement(array $pubKeyData): DOMElement
-    {
-        $document = $this->document;
-        $keyValue = $document->createElement('KeyValue');
-        if (OPENSSL_KEYTYPE_RSA === $pubKeyData['type']) {
-            $rsaKeyValue = $keyValue->appendChild($document->createElement('RSAKeyValue'));
-            $rsaKeyValue->appendChild($document->createElement('Modulus', base64_encode($pubKeyData['rsa']['n'])));
-            $rsaKeyValue->appendChild($document->createElement('Exponent', base64_encode($pubKeyData['rsa']['e'])));
-        }
-
-        return $keyValue;
     }
 }

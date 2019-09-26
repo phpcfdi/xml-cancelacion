@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace PhpCfdi\XmlCancelacion;
 
 use PhpCfdi\Credentials\Credential;
-use RuntimeException;
+use PhpCfdi\XmlCancelacion\Exceptions\CannotLoadCertificateAndPrivateKey;
+use PhpCfdi\XmlCancelacion\Exceptions\CertificateIsNotCSD;
 use Throwable;
 
 class Credentials
@@ -27,6 +28,13 @@ class Credentials
         $this->certificate = $certificate;
         $this->privateKey = $privateKey;
         $this->passPhrase = $passPhrase;
+    }
+
+    public static function createWithPhpCfdiCredential(Credential $credential): self
+    {
+        $new = new self('', '', '');
+        $new->setCsd($credential);
+        return $new;
     }
 
     public function certificate(): string
@@ -69,29 +77,49 @@ class Credentials
         return $this->getCsd()->certificate()->publicKey()->parsed();
     }
 
+    public function rfc(): string
+    {
+        return $this->getCsd()->rfc();
+    }
+
+    /**
+     * @return Credential
+     * @throws CannotLoadCertificateAndPrivateKey
+     */
     protected function makePhpCfdiCredential(): Credential
     {
-        return Credential::openFiles($this->certificate(), $this->privateKey(), $this->passPhrase());
+        try {
+            $credential = Credential::openFiles($this->certificate(), $this->privateKey(), $this->passPhrase());
+            return $credential;
+        } catch (Throwable $exception) {
+            throw new CannotLoadCertificateAndPrivateKey(
+                $this->certificate(),
+                $this->privateKey(),
+                $this->passPhrase(),
+                $exception
+            );
+        }
     }
 
     protected function getCsd(): Credential
     {
         if (null === $this->csd) {
-            try {
-                $credential = $this->makePhpCfdiCredential();
-                if (! $credential->isCsd()) {
-                    throw new RuntimeException('The certificate is not a CSD from SAT');
-                }
-                $this->csd = $credential;
-            } catch (Throwable $error) {
-                throw new RuntimeException('Cannot load certificate and private key', 0, $error);
-            }
+            $credential = $this->makePhpCfdiCredential();
+            $this->setCsd($credential);
+            return $credential;
         }
         return $this->csd;
     }
 
-    public function rfc(): string
+    /**
+     * @param Credential $credential
+     * @throws CertificateIsNotCSD
+     */
+    protected function setCsd(Credential $credential): void
     {
-        return $this->getCsd()->rfc();
+        if (! $credential->isCsd()) {
+            throw new CertificateIsNotCSD($credential->certificate()->serialNumber()->bytes());
+        }
+        $this->csd = $credential;
     }
 }
