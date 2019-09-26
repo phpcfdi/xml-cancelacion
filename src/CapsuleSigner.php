@@ -1,79 +1,58 @@
 <?php
 
+/** @noinspection PhpDeprecationInspection */
+
 declare(strict_types=1);
 
 namespace PhpCfdi\XmlCancelacion;
 
 use DOMDocument;
+use PhpCfdi\XmlCancelacion\Contracts\AbstractCapsuleDocumentBuilder;
+use PhpCfdi\XmlCancelacion\Contracts\CapsuleInterface;
+use PhpCfdi\XmlCancelacion\Exceptions\CapsuleRfcDoesnotBelongToCertificateRfc;
 
-class CapsuleSigner
+/** @deprecated 0.5.0 */
+class CapsuleSigner extends AbstractCapsuleDocumentBuilder
 {
-    /** @var array<string, string> */
-    private $extraNamespaces;
-
-    /**
-     * CapsuleSigner constructor.
-     *
-     * If $extraNamespaces is null then it will use default extra namespaces,
-     * but if it is defined it will only use what is defined on parameter
-     *
-     * @param array<string, string>|null $extraNamespaces
-     */
     public function __construct(array $extraNamespaces = null)
     {
-        if (null === $extraNamespaces) {
-            $extraNamespaces = $this->defaultExtraNamespaces();
-        }
-        $this->extraNamespaces = $extraNamespaces;
+        parent::__construct($extraNamespaces);
+        trigger_error('Deprecated class since 0.5.0', E_USER_DEPRECATED);
     }
 
-    public function extraNamespaces(): array
-    {
-        return $this->extraNamespaces;
-    }
-
-    public function defaultExtraNamespaces(): array
-    {
-        return [
-            'xsd' => 'http://www.w3.org/2001/XMLSchema',
-            'xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
-        ];
-    }
-
+    /**
+     * @param Capsule $capsule
+     * @param Credentials $signObjects
+     * @return string
+     * @throws CapsuleRfcDoesnotBelongToCertificateRfc
+     * @deprecated 0.5.0
+     */
     public function sign(Capsule $capsule, Credentials $signObjects): string
     {
-        $document = $this->createDocument($capsule);
-        $signatureCreator = new DOMSigner($document);
-        $signatureCreator->sign($signObjects);
-        return $document->saveXML();
+        trigger_error('Deprecated method since 0.5.0', E_USER_DEPRECATED);
+        return (new DOMSigner())->signCapsule($capsule, $signObjects);
     }
 
+    /**
+     * @param Capsule $capsule
+     * @return DOMDocument
+     * @deprecated 0.5.0
+     */
     public function createDocument(Capsule $capsule): DOMDocument
     {
-        $document = new DOMDocument('1.0', 'UTF-8');
-        $document->preserveWhiteSpace = false;
-        $document->formatOutput = false;
+        trigger_error('Deprecated method since 0.5.0', E_USER_DEPRECATED);
+        return $capsule->exportToDocument();
+    }
 
-        // elemento principal
-        $satns = 'http://cancelacfd.sat.gob.mx';
-        $cancelacion = $document->createElementNS($satns, 'Cancelacion');
-        foreach ($this->extraNamespaces() as $prefix => $uri) {
-            $cancelacion->setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:' . $prefix, $uri);
-        }
-        $document->appendChild($cancelacion);
-
-        // registro de atributo RfcEmisor
-        $cancelacion->setAttribute('RfcEmisor', $capsule->rfc()); // en el anexo 20 es opcional!
-        $cancelacion->setAttribute('Fecha', $capsule->date()->format('Y-m-d\TH:i:s'));
-
-        // creación del nodo folios
-        $folios = $cancelacion->appendChild($document->createElementNS($satns, 'Folios'));
-
-        // creación del UUID
-        foreach ($capsule->uuids() as $uuid) {
-            $folios->appendChild($document->createElementNS($satns, 'UUID', htmlspecialchars($uuid, ENT_XML1)));
-        }
-
-        return $document;
+    /**
+     * @param CapsuleInterface&Capsule $capsule
+     * @return DOMDocument
+     * @deprecated 0.5.0
+     */
+    public function makeDocument(CapsuleInterface $capsule): DOMDocument
+    {
+        trigger_error('Deprecated method since 0.5.0', E_USER_DEPRECATED);
+        $this->assertCapsuleType($capsule, Capsule::class);
+        return $capsule->exportToDocument();
     }
 }

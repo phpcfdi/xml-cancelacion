@@ -5,19 +5,33 @@ declare(strict_types=1);
 namespace PhpCfdi\XmlCancelacion;
 
 use DateTimeImmutable;
+use PhpCfdi\XmlCancelacion\Cancellation\CancellationCapsule;
+use PhpCfdi\XmlCancelacion\CancellationAnswer\CancellationAnswerCapsule;
+use PhpCfdi\XmlCancelacion\Contracts\CapsuleInterface;
+use PhpCfdi\XmlCancelacion\Contracts\SignerInterface;
+use PhpCfdi\XmlCancelacion\Definitions\CancellationAnswer;
+use PhpCfdi\XmlCancelacion\Definitions\RfcRole;
+use PhpCfdi\XmlCancelacion\Exceptions\HelperDoesNotHaveCredentials;
+use PhpCfdi\XmlCancelacion\ObtainRelated\ObtainRelatedCapsule;
 
 class XmlCancelacionHelper
 {
     /** @var Credentials|null */
     private $credentials;
 
+    /** @var SignerInterface */
+    private $signer;
+
     /**
-     * XmlCancelacionHelper constructor.
+     * Helper object to create xml signed documents ready to send to PAC/SAT
+     *
      * @param Credentials|null $credentials
+     * @param SignerInterface|null $signer
      */
-    public function __construct(?Credentials $credentials = null)
+    public function __construct(?Credentials $credentials = null, ?SignerInterface $signer = null)
     {
         $this->credentials = $credentials;
+        $this->signer = $signer ?? new DOMSigner();
     }
 
     public function hasCredentials(): bool
@@ -28,7 +42,7 @@ class XmlCancelacionHelper
     public function getCredentials(): Credentials
     {
         if (null === $this->credentials) {
-            throw new \LogicException('The object has no credentials');
+            throw new HelperDoesNotHaveCredentials();
         }
         return $this->credentials;
     }
@@ -39,33 +53,79 @@ class XmlCancelacionHelper
         return $this;
     }
 
-    public function setNewCredentials(string $certificate, string $privateKey, string $passPhrase): self
+    public function getSigner(): SignerInterface
     {
-        $credentials = new Credentials($certificate, $privateKey, $passPhrase);
+        return $this->signer;
+    }
+
+    public function setSigner(SignerInterface $signer): self
+    {
+        $this->signer = $signer;
+        return $this;
+    }
+
+    public function setNewCredentials(string $certificateFile, string $privateKeyFile, string $passPhrase): self
+    {
+        $credentials = new Credentials($certificateFile, $privateKeyFile, $passPhrase);
         return $this->setCredentials($credentials);
     }
 
-    public function make(string $uuid, ? DateTimeImmutable $dateTime = null): string
+    public function createDateTime(?DateTimeImmutable $dateTime): DateTimeImmutable
     {
-        return $this->makeUuids([$uuid], $dateTime);
+        if (null === $dateTime) {
+            return new DateTimeImmutable();
+        }
+        return $dateTime;
     }
 
-    public function makeUuids(array $uuids, ? DateTimeImmutable $dateTime = null): string
+    /** @deprecated 0.5.0 */
+    public function make(string $uuid, ?DateTimeImmutable $dateTime = null): string
     {
-        $dateTime = $dateTime ?? new DateTimeImmutable();
+        trigger_error('Deprecated method since 0.5.0', E_USER_DEPRECATED);
+        return $this->signCancellation($uuid, $dateTime);
+    }
+
+    /** @deprecated 0.5.0 */
+    public function makeUuids(array $uuids, ?DateTimeImmutable $dateTime = null): string
+    {
+        trigger_error('Deprecated method since 0.5.0', E_USER_DEPRECATED);
+        return $this->signCancellationUuids($uuids, $dateTime);
+    }
+
+    public function signCancellation(string $uuid, ?DateTimeImmutable $dateTime = null): string
+    {
+        $capsule = new CancellationCapsule($this->getCredentials()->rfc(), [$uuid], $this->createDateTime($dateTime));
+        return $this->signCapsule($capsule);
+    }
+
+    public function signCancellationUuids(array $uuids, ?DateTimeImmutable $dateTime = null): string
+    {
+        $capsule = new CancellationCapsule($this->getCredentials()->rfc(), $uuids, $this->createDateTime($dateTime));
+        return $this->signCapsule($capsule);
+    }
+
+    public function signObtainRelated(string $uuid, RfcRole $role, string $pacRfc): string
+    {
+        $capsule = new ObtainRelatedCapsule($uuid, $this->getCredentials()->rfc(), $role, $pacRfc);
+        return $this->signCapsule($capsule);
+    }
+
+    public function signCancellationAnswer(
+        string $uuid,
+        CancellationAnswer $answer,
+        string $pacRfc,
+        DateTimeImmutable $dateTime = null
+    ): string {
+        $rfc = $this->getCredentials()->rfc();
+        $dateTime = $this->createDateTime($dateTime);
+        $capsule = new CancellationAnswerCapsule($rfc, $uuid, $answer, $pacRfc, $dateTime);
+        return $this->signCapsule($capsule);
+    }
+
+    public function signCapsule(CapsuleInterface $capsule): string
+    {
         $credentials = $this->getCredentials();
-        $capsule = $this->createCapsule($credentials->rfc(), $uuids, $dateTime);
-        $signer = $this->createCapsuleSigner();
-        return $signer->sign($capsule, $credentials);
-    }
-
-    protected function createCapsule(string $rfc, array $uuids, DateTimeImmutable $dateTime): Capsule
-    {
-        return new Capsule($rfc, $uuids, $dateTime);
-    }
-
-    protected function createCapsuleSigner(): CapsuleSigner
-    {
-        return new CapsuleSigner();
+        $signer = $this->getSigner();
+        return $signer->signCapsule($capsule, $credentials);
     }
 }

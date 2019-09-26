@@ -42,29 +42,45 @@ composer require phpcfdi/xml-cancelacion
 <?php
 
 use PhpCfdi\XmlCancelacion\XmlCancelacionHelper;
+use PhpCfdi\XmlCancelacion\Definitions\RfcRole;
+use PhpCfdi\XmlCancelacion\Definitions\CancellationAnswer;
 
-$solicitudCancelacion = (new XmlCancelacionHelper())
+$xmlCancelacion = new XmlCancelacionHelper();
+
+$solicitudCancelacion = $xmlCancelacion
     ->setNewCredentials('certificado.cer', 'llaveprivada.key', 'contraseña')
-    ->make('11111111-2222-3333-4444-000000000001');
+    ->signCancellation('11111111-2222-3333-4444-000000000001');
+
+$consultaRelacionados = $xmlCancelacion->signObtainRelated(
+    '11111111-2222-3333-4444-000000000002', // uuid a consultar
+    RfcRole::issuer(), // emitido por el rfc de la credencial
+    'CVD110412TF6' // RFC del PAC (Quadrum & Finkok)
+);
+
+$consultaRelacionados = $xmlCancelacion->signCancellationAnswer(
+    '11111111-2222-3333-4444-000000000002', // uuid a responder
+    CancellationAnswer::accept(), // aceptar la cancelación
+    'CVD110412TF6' // RFC del PAC (Quadrum & Finkok)
+);
 
 ```
 
-### Con un uso detallado
+### Con un uso detallado de solicitud de cancelación
 
 ```php
 <?php
-use PhpCfdi\XmlCancelacion\Capsule;
-use PhpCfdi\XmlCancelacion\CapsuleSigner;
+use PhpCfdi\XmlCancelacion\Cancellation\CancellationCapsule;
+use PhpCfdi\XmlCancelacion\DOMSigner;
 use PhpCfdi\XmlCancelacion\Credentials;
 
 // certificado, llave privada y clave de llave
 $credentials = new Credentials('certificado.cer.pem', 'privatekey.key.pem', '12345678a');
 
 // datos de cancelación
-$data = new Capsule('LAN7008173R5', ['12345678-1234-1234-1234-123456789012']);
+$data = new CancellationCapsule('LAN7008173R5', ['12345678-1234-1234-1234-123456789012']);
 
 // generación del xml
-$xml = (new CapsuleSigner())->sign($data, $credentials);
+$xml = (new DOMSigner())->signCapsule($data, $credentials);
 ```
 
 La salida esperada es algo como lo siguiente (sin los espacios en blanco que agregué para mejor lectura).
@@ -118,23 +134,42 @@ La salida esperada es algo como lo siguiente (sin los espacios en blanco que agr
 Requiere de un objeto `Credentials` que puede ser insertado en la construcción,
 puede ser insertado con el método `setCredentials` o por `setNewCredentials`.
 La diferencia entre estos dos métodos es que el primero recibe un objeto, y el segundo
-recibe los parámetros de certificado, llave privada y contraseña.
+recibe los parámetros de ruta al certificado, ruta a la llave privada y contraseña.
 
-Para crear la solicitud firmada se puede hacer con los métodos `make` para un sólo UUID
-o `makeUuids` para varios UUID. Como primer parámetro reciben qué UUID será cancelado y
-como segundo parámetro (opcional) un `DateTimeImmutable` o `null`, en ese caso tomará
-la fecha y hora del sistema.
-
-Con esta herramienta de ayuda no se especifica el RFC, cuando se fabrica la solicitud firmada
+En la herramienta de ayuda no se especifica el RFC, cuando se fabrica la solicitud firmada
 se obtiene el RFC directamente de las propiedades del certificado.
+
+Los métodos de ayuda utilizan una fecha opcional (`DateTimeImmutable` o `null`), si no se especifica
+entonces se toma la fecha actual del sistema, ten en cuenta que para la creación se toma en cuenta
+el reloj del sistema y el uso horario. Si no estás seguro de poder controlar estas configuraciones te
+recomiendo que establezcas el parámetro.
+
+### Solicitud de cancelación
+
+Para crear la solicitud firmada se puede hacer con los métodos `signCancellation` para un sólo UUID
+o `signCancellationUuids` para varios UUID. Como primer parámetro reciben qué UUID será cancelado.
+
+### Solicitud de folios relacionados
+
+Para crear la solicitud de folios relacionados se puede hacer con el método `signObtainRelated`.
+Requiere el UUID del que se está haciendo la consulta, un rol que define si el RFC desde el que se hace
+la consulta se trata de un UUID recibido o emitido y el RFC del PAC por el cual se realiza la consulta.
+
+### Respuesta de aceptación o cancelación a un CFDI
+
+Para crear la solicitud de respuesta usa el método `signCancellationAnswer`.
+Requiere el UUID para el cual estás estableciendo la respuesta, la respuesta (aceptación o cancelación)
+y el RFC del PAC por el cual se realiza la consulta.
 
 
 ## Objetos de trabajo
 
-**`Capsule`** es un contenedor de información que contiene RFC, Fecha y UUID.
+**`CapsuleInterface`** son los objetos que contienen toda la información relacionada con los datos a firmar,
+este tipo de objetos tiene la facultad de poder revisar si el RFC es el mismo usado en la firma así como
+poder generar el documento XML a firmar.
 
-**`Credentials`** contiene la *ruta a los archivos* de certificado y llave privada en *formato PEM*,
-así como la clave para usar la llave privada.
+**`Credentials`** Es un objeto que encapsula el trabajo con los certificados y llave privada. Internamente utiliza
+
 
 **`CapsuleSigner`** genera el XML usando un `Capsule` y un `Credentials`.
 
@@ -174,7 +209,7 @@ y recuerda revisar el archivo de tareas pendientes [TODO][] y el [CHANGELOG][].
 
 ## Copyright and License
 
-The phpcfdi/xml-cancelacion library is copyright © [Carlos C Soto](http://eclipxe.com.mx/)
+The `phpcfdi/xml-cancelacion` library is copyright © [PhpCfdi](https://www.phpcfdi.com/)
 and licensed for use under the MIT License (MIT). Please see [LICENSE][] for more information.
 
 

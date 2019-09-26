@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace PhpCfdi\XmlCancelacion\Tests\Unit;
 
+use PhpCfdi\Credentials\Credential;
 use PhpCfdi\Credentials\Credential as PhpCfdiCredential;
 use PhpCfdi\XmlCancelacion\Credentials;
+use PhpCfdi\XmlCancelacion\Exceptions\CannotLoadCertificateAndPrivateKey;
+use PhpCfdi\XmlCancelacion\Exceptions\CertificateIsNotCSD;
 use PhpCfdi\XmlCancelacion\Tests\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
-use RuntimeException;
 
+/** @covers \PhpCfdi\XmlCancelacion\Credentials */
 class CredentialsTest extends TestCase
 {
     public function testValidCredentialsProperties(): void
@@ -45,8 +48,7 @@ class CredentialsTest extends TestCase
 
         $credential = new Credentials($cerContent, $keyContent, $passPhrase);
 
-        $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Cannot load certificate and private key');
+        $this->expectException(CannotLoadCertificateAndPrivateKey::class);
         $credential->certificateIssuerName(); // something that require csd creation
     }
 
@@ -68,8 +70,17 @@ class CredentialsTest extends TestCase
             ->getMock();
         $credential->expects($this->once())->method('makePhpCfdiCredential')->willReturn($phpCfdiCredential);
 
-        $this->expectException(RuntimeException::class);
-        $this->expectExceptionMessage('Cannot load certificate and private key');
+        $this->expectException(CertificateIsNotCSD::class);
         $credential->certificateIssuerName(); // something that require csd creation
+    }
+
+    public function testCreateWithPhpCfdiCredential(): void
+    {
+        $cerFile = $this->filePath('LAN7008173R5.cer.pem');
+        $keyFile = $this->filePath('LAN7008173R5.key.pem');
+        $passPhrase = trim($this->fileContents('LAN7008173R5.password'));
+        $phpCfdiCredential = Credential::openFiles($cerFile, $keyFile, $passPhrase);
+        $credential = Credentials::createWithPhpCfdiCredential($phpCfdiCredential);
+        $this->assertSame($phpCfdiCredential->rfc(), $credential->rfc());
     }
 }

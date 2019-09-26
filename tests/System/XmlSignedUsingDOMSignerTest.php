@@ -5,16 +5,12 @@ declare(strict_types=1);
 namespace PhpCfdi\XmlCancelacion\Tests\System;
 
 use DateTimeImmutable;
-use DOMDocument;
-use PhpCfdi\XmlCancelacion\Capsule;
-use PhpCfdi\XmlCancelacion\CapsuleSigner;
+use PhpCfdi\XmlCancelacion\Cancellation\CancellationCapsule;
 use PhpCfdi\XmlCancelacion\Credentials;
 use PhpCfdi\XmlCancelacion\DOMSigner;
 use PhpCfdi\XmlCancelacion\Tests\TestCase;
-use RobRichards\XMLSecLibs\XMLSecEnc;
-use RobRichards\XMLSecLibs\XMLSecurityDSig;
 
-class XmlSignedTest extends TestCase
+class XmlSignedUsingDOMSignerTest extends TestCase
 {
     /** @var DOMSigner */
     private $domSigner;
@@ -22,7 +18,7 @@ class XmlSignedTest extends TestCase
     /** @var string */
     private $signature;
 
-    /** @var Capsule */
+    /** @var CancellationCapsule */
     private $capsule;
 
     /** @var Credentials */
@@ -32,25 +28,25 @@ class XmlSignedTest extends TestCase
     {
         parent::setUp();
 
-        $cerContent = $this->filePath('LAN7008173R5.cer.pem');
-        $keyContent = $this->filePath('LAN7008173R5.key.pem');
-        $passPhrase = trim($this->fileContents('LAN7008173R5.password'));
-        $signObjects = new Credentials($cerContent, $keyContent, $passPhrase);
+        $credentials = new Credentials(
+            $this->filePath('LAN7008173R5.cer.pem'),
+            $this->filePath('LAN7008173R5.key.pem'),
+            trim($this->fileContents('LAN7008173R5.password'))
+        );
 
-        $capsule = new Capsule(
+        $capsule = new CancellationCapsule(
             'LAN7008173R5',
             ['E174F807-BEFA-4CF6-9B11-2A013B12F398'],
             new DateTimeImmutable('2019-04-05T16:29:17')
         );
 
-        $transpiler = new CapsuleSigner();
-        $document = $transpiler->createDocument($capsule);
+        $document = $capsule->exportToDocument();
 
-        $signer = new DOMSigner($document);
-        $signer->sign($signObjects);
+        $signer = new DOMSigner();
+        $signer->signDocument($document, $credentials);
 
         $this->capsule = $capsule;
-        $this->signObjects = $signObjects;
+        $this->signObjects = $credentials;
         $this->domSigner = $signer;
         $this->signature = $document->saveXML();
     }
@@ -94,46 +90,5 @@ class XmlSignedTest extends TestCase
         $this->assertSame($expectedDigestValue, $this->domSigner->getDigestValue());
         $this->assertSame($expectedSignedInfo, $this->domSigner->getSignedInfoSource());
         $this->assertSame($expectedSignedValue, $this->domSigner->getSignedInfoValue());
-    }
-
-    public function testSignatureIsValidUsingXmlSecLib(): void
-    {
-        $document = new DOMDocument();
-        $document->loadXML($this->signature);
-
-        $dSig = new XMLSecurityDSig();
-        $signature = $dSig->locateSignature($document);
-        $this->assertNotNull($signature, 'Cannot locate Signature object');
-
-        // this call **must** be made and before validateReference
-        $signedInfo = $dSig->canonicalizeSignedInfo();
-        $this->assertNotEmpty($signedInfo, 'Cannot obtain canonicalized SignedInfo');
-
-        $this->assertTrue($dSig->validateReference(), 'Cannot locate referenced object');
-
-        $objKey = $dSig->locateKey();
-        if (null === $objKey) {
-            $this->fail('Cannot locate XMLSecurityKey object');
-            return;
-        }
-
-        // must call, otherwise verify will not have the public key to check signature
-        $this->assertNotNull(XMLSecEnc::staticLocateKeyInfo($objKey, $signature), 'Cannot extract RSAKeyValue');
-
-        $this->assertSame(1, $dSig->verify($objKey), 'Xml Signature verify fail');
-    }
-
-    public function testCapsuleSigner(): void
-    {
-        $signer = new CapsuleSigner();
-        $signature = $signer->sign($this->capsule, $this->signObjects);
-
-        $this->assertSame($this->signature, $signature);
-    }
-
-    public function testWithPredefinedContent(): void
-    {
-        // file_put_contents($this->filePath('expected-signature.xml'), $this->signature);
-        $this->assertXmlStringEqualsXmlFile($this->filePath('expected-signature.xml'), $this->signature);
     }
 }

@@ -5,9 +5,12 @@ declare(strict_types=1);
 namespace PhpCfdi\XmlCancelacion\Tests\Unit;
 
 use DateTimeImmutable;
-use LogicException;
-use PhpCfdi\XmlCancelacion\Capsule;
+use PhpCfdi\XmlCancelacion\Cancellation\CancellationCapsule;
+use PhpCfdi\XmlCancelacion\Contracts\CapsuleInterface;
+use PhpCfdi\XmlCancelacion\Contracts\SignerInterface;
 use PhpCfdi\XmlCancelacion\Credentials;
+use PhpCfdi\XmlCancelacion\DOMSigner;
+use PhpCfdi\XmlCancelacion\Exceptions\HelperDoesNotHaveCredentials;
 use PhpCfdi\XmlCancelacion\Tests\TestCase;
 use PhpCfdi\XmlCancelacion\XmlCancelacionHelper;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -49,21 +52,41 @@ class XmlCancelacionHelperTest extends TestCase
         $this->assertSame('LAN7008173R5', $helper->getCredentials()->rfc());
     }
 
-    public function testMakeCallsMakeUuids(): void
+    public function testSignerChanges(): void
     {
+        /** @var SignerInterface $fakeSigner */
+        $fakeSigner = $this->createMock(SignerInterface::class);
+        $helper = new XmlCancelacionHelper();
+        $this->assertInstanceOf(
+            DOMSigner::class,
+            $helper->getSigner(),
+            'Default signer must be a DOMSigner instance'
+        );
+        $this->assertSame($helper, $helper->setSigner($fakeSigner));
+        $this->assertSame($fakeSigner, $helper->getSigner());
+    }
+
+    public function testMakeCallsSignCancellation(): void
+    {
+        $dateTime = new DateTimeImmutable();
         $uuid = '11111111-2222-3333-4444-000000000001';
+
+        $credentials = $this->createRealCredentials();
+        $expectedCapsule = new CancellationCapsule('LAN7008173R5', [$uuid], $dateTime);
+
         $predefinedReturn = 'signed-xml';
 
         /** @var XmlCancelacionHelper&MockObject $helper */
         $helper = $this->getMockBuilder(XmlCancelacionHelper::class)
-            ->onlyMethods(['makeUuids'])
+            ->onlyMethods(['signCapsule'])
             ->getMock();
         $helper->expects($this->once())
-            ->method('makeUuids')
-            ->with($this->equalTo([$uuid]), $this->isNull())
+            ->method('signCapsule')
+            ->with($this->equalTo($expectedCapsule))
             ->willReturn($predefinedReturn);
+        $helper->setCredentials($credentials);
 
-        $this->assertSame($predefinedReturn, $helper->make($uuid));
+        $this->assertSame($predefinedReturn, $helper->signCancellation($uuid, $dateTime));
     }
 
     public function testMakeUuids(): void
@@ -72,27 +95,28 @@ class XmlCancelacionHelperTest extends TestCase
         $rfc = $credentials->rfc();
         $uuids = ['11111111-2222-3333-4444-000000000001', '11111111-2222-3333-4444-000000000002'];
         $helper = new class() extends XmlCancelacionHelper {
-            /** @var Capsule */
+            /** @var CapsuleInterface */
             private $capsule;
 
-            protected function createCapsule(string $rfc, array $uuids, DateTimeImmutable $dateTime): Capsule
+            public function signCapsule(CapsuleInterface $capsule): string
             {
-                $this->capsule = parent::createCapsule($rfc, $uuids, $dateTime);
-                return $this->capsule;
+                $this->capsule = $capsule;
+                return parent::signCapsule($capsule);
             }
 
-            public function getCreatedCapsule(): Capsule
+            public function getCreatedCapsule(): CapsuleInterface
             {
                 return $this->capsule;
             }
         };
 
         $now = new DateTimeImmutable();
-        $result = $helper->setCredentials($credentials)->makeUuids($uuids);
+        $result = $helper->setCredentials($credentials)->signCancellationUuids($uuids);
         $this->assertStringContainsString('<Signature xmlns="http://www.w3.org/2000/09/xmldsig#">', $result);
 
-        /** @var Capsule $spyCapsule */
+        /** @var CancellationCapsule $spyCapsule */
         $spyCapsule = $helper->getCreatedCapsule();
+        $this->assertInstanceOf(CancellationCapsule::class, $spyCapsule);
         $spyDate = $spyCapsule->date();
         $this->assertSame($rfc, $spyCapsule->rfc());
         $this->assertSame($uuids, $spyCapsule->uuids());
@@ -102,8 +126,7 @@ class XmlCancelacionHelperTest extends TestCase
     public function testGetCredentialsWithoutSettingBefore(): void
     {
         $helper = new XmlCancelacionHelper();
-        $this->expectException(LogicException::class);
-        $this->expectExceptionMessage('The object has no credentials');
+        $this->expectException(HelperDoesNotHaveCredentials::class);
         $helper->getCredentials();
     }
 
