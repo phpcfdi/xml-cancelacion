@@ -26,17 +26,6 @@ class DOMSigner implements SignerInterface
     /** @var string */
     private $signedInfoValue = '';
 
-    /** @var DOMDocument|null */
-    private $document;
-
-    public function __construct(DOMDocument $document = null)
-    {
-        if (null !== $document) {
-            trigger_error('Deprecated constructor with document since 0.5.0', E_USER_DEPRECATED);
-            $this->document = $document;
-        }
-    }
-
     /**
      * @param DOMDocument $document
      * @return DOMElement
@@ -67,17 +56,6 @@ class DOMSigner implements SignerInterface
     public function getSignedInfoValue(): string
     {
         return $this->signedInfoValue;
-    }
-
-    /** @deprecated 0.5.0 */
-    public function sign(Credentials $credentials): void
-    {
-        trigger_error('Deprecated method since 0.5.0, use signDocument', E_USER_DEPRECATED);
-        if (null !== $this->document) {
-            $this->signDocument($this->document, $credentials);
-        } else {
-            trigger_error('To use this method must construct with DOMDocument', E_USER_ERROR);
-        }
     }
 
     public function signDocument(DOMDocument $document, Credentials $credentials): void

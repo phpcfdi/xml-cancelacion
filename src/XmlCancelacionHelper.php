@@ -78,20 +78,6 @@ class XmlCancelacionHelper
         return $dateTime;
     }
 
-    /** @deprecated 0.5.0 */
-    public function make(string $uuid, ?DateTimeImmutable $dateTime = null): string
-    {
-        trigger_error('Deprecated method since 0.5.0', E_USER_DEPRECATED);
-        return $this->signCancellation($uuid, $dateTime);
-    }
-
-    /** @deprecated 0.5.0 */
-    public function makeUuids(array $uuids, ?DateTimeImmutable $dateTime = null): string
-    {
-        trigger_error('Deprecated method since 0.5.0', E_USER_DEPRECATED);
-        return $this->signCancellationUuids($uuids, $dateTime);
-    }
-
     public function signCancellation(string $uuid, ?DateTimeImmutable $dateTime = null): string
     {
         $capsule = new CancellationCapsule($this->getCredentials()->rfc(), [$uuid], $this->createDateTime($dateTime));
