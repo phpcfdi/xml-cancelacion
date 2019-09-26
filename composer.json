@@ -11,6 +11,10 @@
             "homepage": "http://eclipxe.com.mx/"
         }
     ],
+    "support": {
+        "source": "https://github.com/phpcfdi/xml-cancelacion",
+        "issues": "https://github.com/phpcfdi/xml-cancelacion/issues"
+    },
     "prefer-stable": true,
     "config": {
         "optimize-autoloader": true,
