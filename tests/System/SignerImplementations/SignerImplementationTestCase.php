@@ -71,6 +71,7 @@ abstract class SignerImplementationTestCase extends TestCase
         $expectedXml = $this->xmlWithoutWhitespace($this->fileContents('cancellation-signed.xml'));
         $this->assertXmlStringEqualsXmlString($expectedXml, $signature);
         $this->assertSame($expectedXml, $signature);
+        $this->checkSignatureIsValidUsingXmlSecLib($signature);
     }
 
     public function testObtainRelated(): void
@@ -84,6 +85,7 @@ abstract class SignerImplementationTestCase extends TestCase
         $expectedXml = $this->xmlWithoutWhitespace($this->fileContents('obtain-related-signed.xml'));
         $this->assertXmlStringEqualsXmlString($expectedXml, $signature);
         $this->assertSame($expectedXml, $signature);
+        $this->checkSignatureIsValidUsingXmlSecLib($signature);
     }
 
     public function testCancellationAnswer(): void
@@ -95,10 +97,10 @@ abstract class SignerImplementationTestCase extends TestCase
             'CVD110412TF6',
             new DateTimeImmutable('2019-01-13 14:15:16')
         );
-        $this->checkSignatureIsValidUsingXmlSecLib($signature);
         $expectedXml = $this->xmlWithoutWhitespace($this->fileContents('cancellation-answer-signed.xml'));
         $this->assertXmlStringEqualsXmlString($expectedXml, $signature);
         $this->assertSame($expectedXml, $signature);
+        $this->checkSignatureIsValidUsingXmlSecLib($signature);
     }
 
     public function checkSignatureIsValidUsingXmlSecLib(string $signedXml): void

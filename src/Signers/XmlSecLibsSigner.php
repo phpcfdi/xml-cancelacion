@@ -28,14 +28,9 @@ class XmlSecLibsSigner implements SignerInterface
 
         try {
             // move XmlSecLibs signature to internal method
-            $objDSig = $this->signDocumentInternal($document, $credentials);
+            $sigNode = $this->signDocumentInternal($document, $credentials);
         } catch (Exception $xmlSecLibsException) {
             throw new LogicException('Cannot create signature using XmlSecLibs', 0, $xmlSecLibsException);
-        }
-
-        $sigNode = $objDSig->sigNode;
-        if (! $sigNode instanceof DOMElement) {
-            throw new LogicException('Signature node does not exists after sign');
         }
 
         // create the KeyInfo element using own procedure
@@ -49,22 +44,19 @@ class XmlSecLibsSigner implements SignerInterface
             $credentials->publicKeyData()
         );
         $sigNode->appendChild($keyInfoElement);
-
-        // Append the signature to the root element
-        $objDSig->appendSignature($rootElement);
     }
 
     /**
      * @param DOMDocument $document
      * @param Credentials $credentials
-     * @return XMLSecurityDSig
+     * @return DOMElement Signature node
      * @throws Exception
      */
-    private function signDocumentInternal(DOMDocument $document, Credentials $credentials): XMLSecurityDSig
+    protected function signDocumentInternal(DOMDocument $document, Credentials $credentials): DOMElement
     {
         // use a mofidied version of XMLSecurityDSig that does not contains xml white-spaces
         $objDSig = new class('') extends XMLSecurityDSig {
-            public function __construct(string $prefix = 'ds')
+            public function __construct(string $prefix)
             {
                 parent::__construct($prefix);
                 // set sigNode property with a signature node without inner spaces
@@ -97,6 +89,12 @@ class XmlSecLibsSigner implements SignerInterface
         // if second parameter is empty it will remove extra namespaces
         $objDSig->sign($objKey, $rootElement);
 
-        return $objDSig;
+        $sigNode = $objDSig->sigNode;
+        if (! $sigNode instanceof DOMElement) {
+            /** @codeCoverageIgnore */
+            throw new Exception('Signature node does not exists after sign');
+        }
+
+        return $sigNode;
     }
 }

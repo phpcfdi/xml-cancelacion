@@ -5,11 +5,14 @@ declare(strict_types=1);
 namespace PhpCfdi\XmlCancelacion\Tests\Unit\Signers;
 
 use DateTimeImmutable;
+use Exception;
+use LogicException;
 use PhpCfdi\XmlCancelacion\Capsules\Cancellation;
 use PhpCfdi\XmlCancelacion\Credentials;
 use PhpCfdi\XmlCancelacion\Signers\DOMSigner;
 use PhpCfdi\XmlCancelacion\Signers\XmlSecLibsSigner;
 use PhpCfdi\XmlCancelacion\Tests\TestCase;
+use PHPUnit\Framework\MockObject\MockObject;
 
 /** @covers \PhpCfdi\XmlCancelacion\Signers\XmlSecLibsSigner */
 class XmlSecLibsSignerTest extends TestCase
@@ -35,5 +38,25 @@ class XmlSecLibsSignerTest extends TestCase
         $xmlsecSignature = $xmlSecLibsSigner->signCapsule($capsule, $credentials);
 
         $this->assertXmlStringEqualsXmlString($expected, $xmlsecSignature);
+    }
+
+    public function testSignDocumentInternalThrowsException(): void
+    {
+        /** @var Credentials&MockObject $credentials */
+        $credentials = $this->createMock(Credentials::class);
+        $credentials->method('rfc')->willReturn('LAN7008173R5');
+        /** @var XmlSecLibsSigner&MockObject $signer */
+        $signer = $this->getMockBuilder(XmlSecLibsSigner::class)
+            ->onlyMethods(['signDocumentInternal'])
+            ->getMock();
+        $signer->method('signDocumentInternal')->willThrowException(new Exception('dummy'));
+        $capsule = new Cancellation(
+            'LAN7008173R5',
+            ['11111111-2222-3333-4444-000000000001'],
+            new DateTimeImmutable('2019-01-13T14:15:16-06:00')
+        );
+        $this->expectException(LogicException::class);
+        $this->expectExceptionMessage('Cannot create signature using XmlSecLibs');
+        $signer->signCapsule($capsule, $credentials);
     }
 }

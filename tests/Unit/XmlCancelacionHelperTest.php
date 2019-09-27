@@ -34,6 +34,17 @@ class XmlCancelacionHelperTest extends TestCase
         return new Credentials($cerFile, $keyFile, $passPhrase);
     }
 
+    public function testConstructWithValues(): void
+    {
+        $credentials = $this->createFakeCredentials();
+        /** @var SignerInterface $signer */
+        $signer = $this->createMock(SignerInterface::class);
+
+        $helper = new XmlCancelacionHelper($credentials, $signer);
+        $this->assertSame($credentials, $helper->getCredentials());
+        $this->assertSame($signer, $helper->getSigner());
+    }
+
     public function testCredentialChanges(): void
     {
         $fakeCredentials = $this->createFakeCredentials();
