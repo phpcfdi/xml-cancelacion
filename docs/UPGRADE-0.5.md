@@ -90,7 +90,6 @@ $credentials = PhpCfdi\XmlCancelacion\Credentials::createWithPhpCfdiCredential($
     - `class XmlCancelacionLogicException` extends `\LogicException`
         - `class DocumentWithoutRootElement`
         - `class HelperDoesNotHaveCredentials`
-        - `class InvalidCapsuleType`
     - `class XmlCancelacionRuntimeException` extends `\RuntimeException`
         - `class CannotLoadCertificateAndPrivateKey`
         - `class CapsuleRfcDoesnotBelongToCertificateRfc`

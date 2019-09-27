@@ -23,7 +23,6 @@
         - `XmlCancelacionLogicException` extends `LogicException`
             - `DocumentWithoutRootElement`
             - `HelperDoesNotHaveCredentials`
-            - `InvalidCapsuleType`
         - `XmlCancelacionRuntimeException` extends `RuntimeException`
             - `CannotLoadCertificateAndPrivateKey`
             - `CapsuleRfcDoesnotBelongToCertificateRfc`
