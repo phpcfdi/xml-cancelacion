@@ -14,7 +14,7 @@ use Eclipxe\Enum\Enum;
  * @method bool isAccept()
  * @method bool isReject()
  */
-class CancellationAnswer extends Enum
+class CancelAnswer extends Enum
 {
     /** @noinspection PhpMissingParentCallCommonInspection */
     protected static function overrideValues(): array

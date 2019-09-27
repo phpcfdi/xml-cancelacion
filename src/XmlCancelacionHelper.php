@@ -9,7 +9,7 @@ use PhpCfdi\XmlCancelacion\Capsules\CancellationAnswerCapsule;
 use PhpCfdi\XmlCancelacion\Capsules\CancellationCapsule;
 use PhpCfdi\XmlCancelacion\Capsules\CapsuleInterface;
 use PhpCfdi\XmlCancelacion\Capsules\ObtainRelatedCapsule;
-use PhpCfdi\XmlCancelacion\Definitions\CancellationAnswer;
+use PhpCfdi\XmlCancelacion\Definitions\CancelAnswer;
 use PhpCfdi\XmlCancelacion\Definitions\RfcRole;
 use PhpCfdi\XmlCancelacion\Exceptions\HelperDoesNotHaveCredentials;
 use PhpCfdi\XmlCancelacion\Signers\DOMSigner;
@@ -99,7 +99,7 @@ class XmlCancelacionHelper
 
     public function signCancellationAnswer(
         string $uuid,
-        CancellationAnswer $answer,
+        CancelAnswer $answer,
         string $pacRfc,
         DateTimeImmutable $dateTime = null
     ): string {

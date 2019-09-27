@@ -43,7 +43,7 @@ composer require phpcfdi/xml-cancelacion
 
 use PhpCfdi\XmlCancelacion\XmlCancelacionHelper;
 use PhpCfdi\XmlCancelacion\Definitions\RfcRole;
-use PhpCfdi\XmlCancelacion\Definitions\CancellationAnswer;
+use PhpCfdi\XmlCancelacion\Definitions\CancelAnswer;
 
 $xmlCancelacion = new XmlCancelacionHelper();
 
@@ -59,7 +59,7 @@ $consultaRelacionados = $xmlCancelacion->signObtainRelated(
 
 $consultaRelacionados = $xmlCancelacion->signCancellationAnswer(
     '11111111-2222-3333-4444-000000000002', // uuid a responder
-    CancellationAnswer::accept(), // aceptar la cancelación
+    CancelAnswer::accept(), // aceptar la cancelación
     'CVD110412TF6' // RFC del PAC (Quadrum & Finkok)
 );
 

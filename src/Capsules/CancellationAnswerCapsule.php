@@ -7,14 +7,14 @@ namespace PhpCfdi\XmlCancelacion\Capsules;
 use DateTimeImmutable;
 use DOMDocument;
 use DOMElement;
-use PhpCfdi\XmlCancelacion\Definitions\CancellationAnswer;
+use PhpCfdi\XmlCancelacion\Definitions\CancelAnswer;
 
 class CancellationAnswerCapsule implements CapsuleInterface
 {
     /** @var string */
     private $uuid;
 
-    /** @var CancellationAnswer */
+    /** @var CancelAnswer */
     private $answer;
 
     /** @var string */
@@ -29,7 +29,7 @@ class CancellationAnswerCapsule implements CapsuleInterface
     public function __construct(
         string $rfc,
         string $uuid,
-        CancellationAnswer $answer,
+        CancelAnswer $answer,
         string $pacRfc,
         DateTimeImmutable $dateTime
     ) {
@@ -50,7 +50,7 @@ class CancellationAnswerCapsule implements CapsuleInterface
         return $this->uuid;
     }
 
-    public function answer(): CancellationAnswer
+    public function answer(): CancelAnswer
     {
         return $this->answer;
     }

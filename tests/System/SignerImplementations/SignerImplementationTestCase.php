@@ -8,7 +8,7 @@ use DateTimeImmutable;
 use DOMDocument;
 use PhpCfdi\XmlCancelacion\Capsules\CapsuleInterface;
 use PhpCfdi\XmlCancelacion\Credentials;
-use PhpCfdi\XmlCancelacion\Definitions\CancellationAnswer;
+use PhpCfdi\XmlCancelacion\Definitions\CancelAnswer;
 use PhpCfdi\XmlCancelacion\Definitions\RfcRole;
 use PhpCfdi\XmlCancelacion\Exceptions\CapsuleRfcDoesnotBelongToCertificateRfc;
 use PhpCfdi\XmlCancelacion\Exceptions\DocumentWithoutRootElement;
@@ -89,7 +89,7 @@ abstract class SignerImplementationTestCase extends TestCase
         $helper = $this->createHelper();
         $signature = $helper->signCancellationAnswer(
             '11111111-2222-3333-4444-000000000001',
-            CancellationAnswer::accept(),
+            CancelAnswer::accept(),
             'CVD110412TF6',
             new DateTimeImmutable('2019-01-13 14:15:16')
         );
