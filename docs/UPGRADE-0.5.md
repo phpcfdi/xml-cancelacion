@@ -21,7 +21,7 @@ $xml = (new CapsuleSigner())->sign($data, $credentials);
 
 // a este código
 $xmlCancelacion = new XmlCancelacionHelper($credentials);
-$xml = $xmlCancelacion->signCancellation(['12345678-1234-1234-1234-123456789012']);
+$xml = $xmlCancelacion->signCancellation('12345678-1234-1234-1234-123456789012');
 
 // o a este otro
 $data = new CancellationCapsule('LAN7008173R5', ['12345678-1234-1234-1234-123456789012']);
