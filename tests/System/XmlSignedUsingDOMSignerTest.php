@@ -12,13 +12,13 @@ use PhpCfdi\XmlCancelacion\Tests\TestCase;
 
 class XmlSignedUsingDOMSignerTest extends TestCase
 {
-    /** @var \PhpCfdi\XmlCancelacion\Signers\DOMSigner */
+    /** @var DOMSigner */
     private $domSigner;
 
     /** @var string */
     private $signature;
 
-    /** @var \PhpCfdi\XmlCancelacion\Capsules\Cancellation */
+    /** @var Cancellation */
     private $capsule;
 
     /** @var Credentials */

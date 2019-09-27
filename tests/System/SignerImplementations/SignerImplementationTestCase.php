@@ -1,5 +1,7 @@
 <?php
 
+/** @noinspection PhpUnhandledExceptionInspection */
+
 declare(strict_types=1);
 
 namespace PhpCfdi\XmlCancelacion\Tests\System\SignerImplementations;
@@ -35,7 +37,7 @@ abstract class SignerImplementationTestCase extends TestCase
 
     public function testSignUsingNotMatchingCapsuleRfcAndCredentialsRfc(): void
     {
-        /** @var \PhpCfdi\XmlCancelacion\Capsules\CapsuleInterface&MockObject $capsule */
+        /** @var CapsuleInterface&MockObject $capsule */
         $capsule = $this->createMock(CapsuleInterface::class);
         $capsule->method('belongsToRfc')->willReturn(false);
         /** @var Credentials&MockObject $credentials */

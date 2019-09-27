@@ -20,14 +20,14 @@ class XmlCancelacionHelper
     /** @var Credentials|null */
     private $credentials;
 
-    /** @var \PhpCfdi\XmlCancelacion\Signers\SignerInterface */
+    /** @var SignerInterface */
     private $signer;
 
     /**
      * Helper object to create xml signed documents ready to send to PAC/SAT
      *
      * @param Credentials|null $credentials
-     * @param \PhpCfdi\XmlCancelacion\Signers\SignerInterface|null $signer
+     * @param SignerInterface|null $signer
      */
     public function __construct(?Credentials $credentials = null, ?SignerInterface $signer = null)
     {
