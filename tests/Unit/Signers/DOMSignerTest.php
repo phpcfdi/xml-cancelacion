@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace PhpCfdi\XmlCancelacion\Tests\Unit;
+namespace PhpCfdi\XmlCancelacion\Tests\Unit\Signers;
 
 use DOMDocument;
 use DOMElement;
-use PhpCfdi\XmlCancelacion\DOMSigner;
+use PhpCfdi\XmlCancelacion\Signers\DOMSigner;
 use PhpCfdi\XmlCancelacion\Tests\TestCase;
 
-/** @covers \PhpCfdi\XmlCancelacion\DOMSigner */
+/** @covers \PhpCfdi\XmlCancelacion\Signers\DOMSigner */
 class DOMSignerTest extends TestCase
 {
     public function testCreateKeyInfoWithIssuerNameWithAmpersand(): void

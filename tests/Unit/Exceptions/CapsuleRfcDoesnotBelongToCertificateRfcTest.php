@@ -7,7 +7,7 @@ namespace PhpCfdi\XmlCancelacion\Tests\Unit\Exceptions;
 use PhpCfdi\XmlCancelacion\Exceptions\CapsuleRfcDoesnotBelongToCertificateRfc;
 use PhpCfdi\XmlCancelacion\Exceptions\XmlCancelacionRuntimeException;
 use PhpCfdi\XmlCancelacion\Tests\TestCase;
-use PhpCfdi\XmlCancelacion\Tests\Unit\Contracts\FakeCapsule;
+use PhpCfdi\XmlCancelacion\Tests\Unit\Capsules\FakeCapsule;
 
 class CapsuleRfcDoesnotBelongToCertificateRfcTest extends TestCase
 {

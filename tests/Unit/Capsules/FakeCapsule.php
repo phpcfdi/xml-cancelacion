@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace PhpCfdi\XmlCancelacion\Tests\Unit\Contracts;
+namespace PhpCfdi\XmlCancelacion\Tests\Unit\Capsules;
 
 use DOMDocument;
-use PhpCfdi\XmlCancelacion\Contracts\BaseDocumentBuilder;
-use PhpCfdi\XmlCancelacion\Contracts\CapsuleInterface;
+use PhpCfdi\XmlCancelacion\Capsules\BaseDocumentBuilder;
+use PhpCfdi\XmlCancelacion\Capsules\CapsuleInterface;
 
 class FakeCapsule implements CapsuleInterface
 {

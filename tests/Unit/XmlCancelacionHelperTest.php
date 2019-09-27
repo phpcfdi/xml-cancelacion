@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace PhpCfdi\XmlCancelacion\Tests\Unit;
 
 use DateTimeImmutable;
-use PhpCfdi\XmlCancelacion\Cancellation\CancellationCapsule;
-use PhpCfdi\XmlCancelacion\Contracts\CapsuleInterface;
-use PhpCfdi\XmlCancelacion\Contracts\SignerInterface;
+use PhpCfdi\XmlCancelacion\Capsules\CancellationCapsule;
+use PhpCfdi\XmlCancelacion\Capsules\CapsuleInterface;
 use PhpCfdi\XmlCancelacion\Credentials;
-use PhpCfdi\XmlCancelacion\DOMSigner;
 use PhpCfdi\XmlCancelacion\Exceptions\HelperDoesNotHaveCredentials;
+use PhpCfdi\XmlCancelacion\Signers\DOMSigner;
+use PhpCfdi\XmlCancelacion\Signers\SignerInterface;
 use PhpCfdi\XmlCancelacion\Tests\TestCase;
 use PhpCfdi\XmlCancelacion\XmlCancelacionHelper;
 use PHPUnit\Framework\MockObject\MockObject;

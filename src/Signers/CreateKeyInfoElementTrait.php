@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpCfdi\XmlCancelacion;
+namespace PhpCfdi\XmlCancelacion\Signers;
 
 use DOMDocument;
 use DOMElement;

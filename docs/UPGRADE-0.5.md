@@ -15,16 +15,29 @@ Si estás usando `Capsule` directamente:
 <?php
 $credentials = new Credentials('certificado.cer.pem', 'privatekey.key.pem', '12345678a');
 
-// cambia este código
+// código de 0.4.0
 $data = new Capsule('LAN7008173R5', ['12345678-1234-1234-1234-123456789012']);
 $xml = (new CapsuleSigner())->sign($data, $credentials);
+```
 
-// a este código
+Cualquiera de estas dos formas pueden ser un remplazo:
+
+```php
+<?php
+
+use PhpCfdi\XmlCancelacion\Credentials;
+use PhpCfdi\XmlCancelacion\XmlCancelacionHelper;
+use PhpCfdi\XmlCancelacion\Capsules\CancellationCapsule;
+use PhpCfdi\XmlCancelacion\Signers\DOMSigner;
+
+$credentials = new Credentials('certificado.cer.pem', 'privatekey.key.pem', '12345678a');
+
+// código de 0.5.0 con helper
 $xmlCancelacion = new XmlCancelacionHelper($credentials);
 $xml = $xmlCancelacion->signCancellation('12345678-1234-1234-1234-123456789012');
 
-// o a este otro
-$data = new CancellationCapsule('LAN7008173R5', ['12345678-1234-1234-1234-123456789012']);
+// código de 0.5.0 granulado
+$data = new CancellationCapsule('LAN7008173R5', ['12345678-1234-1234-1234-123456789012'], new DateTimeImmutable());
 $signer = new DOMSigner(); // o new XmlSecLibsSigner()
 $xml = $signer->signCapsule($data, $credentials);
 ```
@@ -70,18 +83,19 @@ y se puede crear la credencial de esta librería con los datos de una credencial
 <?php
 
 use PhpCfdi\Credentials\Certificate;
-use PhpCfdi\Credentials\Credential;
+use PhpCfdi\Credentials\Credential as PhpCfdiCredential;
 use PhpCfdi\Credentials\PrivateKey;
+use PhpCfdi\XmlCancelacion\Credentials;
 
 $certificateContents = ''; // contenido del certificado desde algún lugar, como la base de datos
 $privateKeyPemContents = ''; // contenido de la llave privada como PEM desde algún lugar, como la base de datos
 $passPhrase = '';
-$phpCfdiCretential = new Credential(
+$phpCfdiCretential = new PhpCfdiCredential(
     new Certificate($certificateContents),
     new PrivateKey($privateKeyPemContents, $passPhrase)
 );
 
-$credentials = PhpCfdi\XmlCancelacion\Credentials::createWithPhpCfdiCredential($phpCfdiCretential);
+$credentials = Credentials::createWithPhpCfdiCredential($phpCfdiCretential);
 ```
 
 ## Excepciones de dominio
@@ -113,17 +127,17 @@ roave-backward-compatibility-check roave-backwards-compatibility-check:assert-ba
 
 [BC] REMOVED: Method PhpCfdi\XmlCancelacion\XmlCancelacionHelper#createCapsule() was removed
 [BC] REMOVED: Method PhpCfdi\XmlCancelacion\XmlCancelacionHelper#createCapsuleSigner() was removed
-[BC] REMOVED: Method PhpCfdi\XmlCancelacion\DOMSigner#createKeyValueElement() was removed
-[BC] CHANGED: The parameter $document of PhpCfdi\XmlCancelacion\DOMSigner#__construct() changed from DOMDocument to ?DOMDocument
-[BC] CHANGED: The number of required arguments for PhpCfdi\XmlCancelacion\DOMSigner#createKeyInfoElement() increased from 4 to 5
-[BC] CHANGED: The parameter $issuerName of PhpCfdi\XmlCancelacion\DOMSigner#createKeyInfoElement() changed from string to a non-contravariant DOMDocument
-[BC] CHANGED: The parameter $pubKeyData of PhpCfdi\XmlCancelacion\DOMSigner#createKeyInfoElement() changed from array to a non-contravariant string
-[BC] CHANGED: The parameter $issuerName of PhpCfdi\XmlCancelacion\DOMSigner#createKeyInfoElement() changed from string to DOMDocument
-[BC] CHANGED: The parameter $pubKeyData of PhpCfdi\XmlCancelacion\DOMSigner#createKeyInfoElement() changed from array to string
-[BC] CHANGED: Method createKeyValueElement() of class PhpCfdi\XmlCancelacion\DOMSigner visibility reduced from protected to private
-[BC] CHANGED: The number of required arguments for PhpCfdi\XmlCancelacion\DOMSigner#createKeyValueElement() increased from 1 to 2
-[BC] CHANGED: The parameter $pubKeyData of PhpCfdi\XmlCancelacion\DOMSigner#createKeyValueElement() changed from array to a non-contravariant DOMDocument
-[BC] CHANGED: The parameter $pubKeyData of PhpCfdi\XmlCancelacion\DOMSigner#createKeyValueElement() changed from array to DOMDocument
+[BC] REMOVED: Method PhpCfdi\XmlCancelacion\Signers\DOMSigner#createKeyValueElement() was removed
+[BC] CHANGED: The parameter $document of PhpCfdi\XmlCancelacion\Signers\DOMSigner#__construct() changed from DOMDocument to ?DOMDocument
+[BC] CHANGED: The number of required arguments for PhpCfdi\XmlCancelacion\Signers\DOMSigner#createKeyInfoElement() increased from 4 to 5
+[BC] CHANGED: The parameter $issuerName of PhpCfdi\XmlCancelacion\Signers\DOMSigner#createKeyInfoElement() changed from string to a non-contravariant DOMDocument
+[BC] CHANGED: The parameter $pubKeyData of PhpCfdi\XmlCancelacion\Signers\DOMSigner#createKeyInfoElement() changed from array to a non-contravariant string
+[BC] CHANGED: The parameter $issuerName of PhpCfdi\XmlCancelacion\Signers\DOMSigner#createKeyInfoElement() changed from string to DOMDocument
+[BC] CHANGED: The parameter $pubKeyData of PhpCfdi\XmlCancelacion\Signers\DOMSigner#createKeyInfoElement() changed from array to string
+[BC] CHANGED: Method createKeyValueElement() of class PhpCfdi\XmlCancelacion\Signers\DOMSigner visibility reduced from protected to private
+[BC] CHANGED: The number of required arguments for PhpCfdi\XmlCancelacion\Signers\DOMSigner#createKeyValueElement() increased from 1 to 2
+[BC] CHANGED: The parameter $pubKeyData of PhpCfdi\XmlCancelacion\Signers\DOMSigner#createKeyValueElement() changed from array to a non-contravariant DOMDocument
+[BC] CHANGED: The parameter $pubKeyData of PhpCfdi\XmlCancelacion\Signers\DOMSigner#createKeyValueElement() changed from array to DOMDocument
 [BC] CHANGED: Method defaultExtraNamespaces() of class PhpCfdi\XmlCancelacion\CapsuleSigner changed scope from instance to static
 ```
 

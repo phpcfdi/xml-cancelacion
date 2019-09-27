@@ -2,12 +2,10 @@
 
 declare(strict_types=1);
 
-namespace PhpCfdi\XmlCancelacion\ObtainRelated;
+namespace PhpCfdi\XmlCancelacion\Capsules;
 
 use DOMDocument;
 use DOMElement;
-use PhpCfdi\XmlCancelacion\Contracts\BaseDocumentBuilder;
-use PhpCfdi\XmlCancelacion\Contracts\CapsuleInterface;
 use PhpCfdi\XmlCancelacion\Definitions;
 use PhpCfdi\XmlCancelacion\Definitions\RfcRole;
 

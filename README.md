@@ -69,8 +69,8 @@ $consultaRelacionados = $xmlCancelacion->signCancellationAnswer(
 
 ```php
 <?php
-use PhpCfdi\XmlCancelacion\Cancellation\CancellationCapsule;
-use PhpCfdi\XmlCancelacion\DOMSigner;
+use PhpCfdi\XmlCancelacion\Capsules\CancellationCapsule;
+use PhpCfdi\XmlCancelacion\Signers\DOMSigner;
 use PhpCfdi\XmlCancelacion\Credentials;
 
 // certificado, llave privada y clave de llave

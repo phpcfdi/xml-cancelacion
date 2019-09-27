@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace PhpCfdi\XmlCancelacion\Tests\Unit\Cancellation;
+namespace PhpCfdi\XmlCancelacion\Tests\Unit\Capsules;
 
 use DateTimeImmutable;
-use PhpCfdi\XmlCancelacion\Cancellation\CancellationCapsule;
+use PhpCfdi\XmlCancelacion\Capsules\CancellationCapsule;
 use PhpCfdi\XmlCancelacion\Tests\TestCase;
 
 class CancellationCapsuleTest extends TestCase

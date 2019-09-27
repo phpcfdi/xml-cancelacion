@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace PhpCfdi\XmlCancelacion\Tests\Unit\Contracts;
+namespace PhpCfdi\XmlCancelacion\Tests\Unit\Capsules;
 
-use PhpCfdi\XmlCancelacion\Contracts\BaseDocumentBuilder;
+use PhpCfdi\XmlCancelacion\Capsules\BaseDocumentBuilder;
 use PhpCfdi\XmlCancelacion\Tests\TestCase;
 
-/** @covers \PhpCfdi\XmlCancelacion\Contracts\BaseDocumentBuilder */
+/** @covers \PhpCfdi\XmlCancelacion\Capsules\BaseDocumentBuilder */
 class BaseDocumentBuilderTest extends TestCase
 {
     public function testDefaultNameSpacesExactContentAndOrder(): void

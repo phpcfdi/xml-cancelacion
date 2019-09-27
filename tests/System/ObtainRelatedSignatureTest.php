@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace PhpCfdi\XmlCancelacion\Tests\System;
 
+use PhpCfdi\XmlCancelacion\Capsules\ObtainRelatedCapsule;
 use PhpCfdi\XmlCancelacion\Credentials;
 use PhpCfdi\XmlCancelacion\Definitions\RfcRole;
-use PhpCfdi\XmlCancelacion\DOMSigner;
-use PhpCfdi\XmlCancelacion\ObtainRelated\ObtainRelatedCapsule;
+use PhpCfdi\XmlCancelacion\Signers\DOMSigner;
 use PhpCfdi\XmlCancelacion\Tests\TestCase;
 
 class ObtainRelatedSignatureTest extends TestCase

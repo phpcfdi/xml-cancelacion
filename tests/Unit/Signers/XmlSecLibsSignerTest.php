@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace PhpCfdi\XmlCancelacion\Tests\Unit;
+namespace PhpCfdi\XmlCancelacion\Tests\Unit\Signers;
 
 use DateTimeImmutable;
-use PhpCfdi\XmlCancelacion\Cancellation\CancellationCapsule;
+use PhpCfdi\XmlCancelacion\Capsules\CancellationCapsule;
 use PhpCfdi\XmlCancelacion\Credentials;
-use PhpCfdi\XmlCancelacion\DOMSigner;
+use PhpCfdi\XmlCancelacion\Signers\DOMSigner;
+use PhpCfdi\XmlCancelacion\Signers\XmlSecLibsSigner;
 use PhpCfdi\XmlCancelacion\Tests\TestCase;
-use PhpCfdi\XmlCancelacion\XmlSecLibsSigner;
 
-/** @covers \PhpCfdi\XmlCancelacion\XmlSecLibsSigner */
+/** @covers \PhpCfdi\XmlCancelacion\Signers\XmlSecLibsSigner */
 class XmlSecLibsSignerTest extends TestCase
 {
     public function testsignIsEqualToDomSigner(): void

@@ -2,13 +2,11 @@
 
 declare(strict_types=1);
 
-namespace PhpCfdi\XmlCancelacion\CancellationAnswer;
+namespace PhpCfdi\XmlCancelacion\Capsules;
 
 use DateTimeImmutable;
 use DOMDocument;
 use DOMElement;
-use PhpCfdi\XmlCancelacion\Contracts\BaseDocumentBuilder;
-use PhpCfdi\XmlCancelacion\Contracts\CapsuleInterface;
 use PhpCfdi\XmlCancelacion\Definitions\CancellationAnswer;
 
 class CancellationAnswerCapsule implements CapsuleInterface

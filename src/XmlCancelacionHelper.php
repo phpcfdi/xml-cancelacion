@@ -5,28 +5,29 @@ declare(strict_types=1);
 namespace PhpCfdi\XmlCancelacion;
 
 use DateTimeImmutable;
-use PhpCfdi\XmlCancelacion\Cancellation\CancellationCapsule;
-use PhpCfdi\XmlCancelacion\CancellationAnswer\CancellationAnswerCapsule;
-use PhpCfdi\XmlCancelacion\Contracts\CapsuleInterface;
-use PhpCfdi\XmlCancelacion\Contracts\SignerInterface;
+use PhpCfdi\XmlCancelacion\Capsules\CancellationAnswerCapsule;
+use PhpCfdi\XmlCancelacion\Capsules\CancellationCapsule;
+use PhpCfdi\XmlCancelacion\Capsules\CapsuleInterface;
+use PhpCfdi\XmlCancelacion\Capsules\ObtainRelatedCapsule;
 use PhpCfdi\XmlCancelacion\Definitions\CancellationAnswer;
 use PhpCfdi\XmlCancelacion\Definitions\RfcRole;
 use PhpCfdi\XmlCancelacion\Exceptions\HelperDoesNotHaveCredentials;
-use PhpCfdi\XmlCancelacion\ObtainRelated\ObtainRelatedCapsule;
+use PhpCfdi\XmlCancelacion\Signers\DOMSigner;
+use PhpCfdi\XmlCancelacion\Signers\SignerInterface;
 
 class XmlCancelacionHelper
 {
     /** @var Credentials|null */
     private $credentials;
 
-    /** @var SignerInterface */
+    /** @var \PhpCfdi\XmlCancelacion\Signers\SignerInterface */
     private $signer;
 
     /**
      * Helper object to create xml signed documents ready to send to PAC/SAT
      *
      * @param Credentials|null $credentials
-     * @param SignerInterface|null $signer
+     * @param \PhpCfdi\XmlCancelacion\Signers\SignerInterface|null $signer
      */
     public function __construct(?Credentials $credentials = null, ?SignerInterface $signer = null)
     {

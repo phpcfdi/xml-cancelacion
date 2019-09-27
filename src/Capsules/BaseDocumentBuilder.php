@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpCfdi\XmlCancelacion\Contracts;
+namespace PhpCfdi\XmlCancelacion\Capsules;
 
 use DOMDocument;
 

@@ -6,13 +6,13 @@ namespace PhpCfdi\XmlCancelacion\Tests\System\SignerImplementations;
 
 use DateTimeImmutable;
 use DOMDocument;
-use PhpCfdi\XmlCancelacion\Contracts\CapsuleInterface;
-use PhpCfdi\XmlCancelacion\Contracts\SignerInterface;
+use PhpCfdi\XmlCancelacion\Capsules\CapsuleInterface;
 use PhpCfdi\XmlCancelacion\Credentials;
 use PhpCfdi\XmlCancelacion\Definitions\CancellationAnswer;
 use PhpCfdi\XmlCancelacion\Definitions\RfcRole;
 use PhpCfdi\XmlCancelacion\Exceptions\CapsuleRfcDoesnotBelongToCertificateRfc;
 use PhpCfdi\XmlCancelacion\Exceptions\DocumentWithoutRootElement;
+use PhpCfdi\XmlCancelacion\Signers\SignerInterface;
 use PhpCfdi\XmlCancelacion\Tests\TestCase;
 use PhpCfdi\XmlCancelacion\XmlCancelacionHelper;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -35,7 +35,7 @@ abstract class SignerImplementationTestCase extends TestCase
 
     public function testSignUsingNotMatchingCapsuleRfcAndCredentialsRfc(): void
     {
-        /** @var CapsuleInterface&MockObject $capsule */
+        /** @var \PhpCfdi\XmlCancelacion\Capsules\CapsuleInterface&MockObject $capsule */
         $capsule = $this->createMock(CapsuleInterface::class);
         $capsule->method('belongsToRfc')->willReturn(false);
         /** @var Credentials&MockObject $credentials */

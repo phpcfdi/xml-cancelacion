@@ -5,20 +5,20 @@ declare(strict_types=1);
 namespace PhpCfdi\XmlCancelacion\Tests\System;
 
 use DateTimeImmutable;
-use PhpCfdi\XmlCancelacion\Cancellation\CancellationCapsule;
+use PhpCfdi\XmlCancelacion\Capsules\CancellationCapsule;
 use PhpCfdi\XmlCancelacion\Credentials;
-use PhpCfdi\XmlCancelacion\DOMSigner;
+use PhpCfdi\XmlCancelacion\Signers\DOMSigner;
 use PhpCfdi\XmlCancelacion\Tests\TestCase;
 
 class XmlSignedUsingDOMSignerTest extends TestCase
 {
-    /** @var DOMSigner */
+    /** @var \PhpCfdi\XmlCancelacion\Signers\DOMSigner */
     private $domSigner;
 
     /** @var string */
     private $signature;
 
-    /** @var CancellationCapsule */
+    /** @var \PhpCfdi\XmlCancelacion\Capsules\CancellationCapsule */
     private $capsule;
 
     /** @var Credentials */

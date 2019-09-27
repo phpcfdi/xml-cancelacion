@@ -2,14 +2,12 @@
 
 declare(strict_types=1);
 
-namespace PhpCfdi\XmlCancelacion\Cancellation;
+namespace PhpCfdi\XmlCancelacion\Capsules;
 
 use Countable;
 use DateTimeImmutable;
 use DOMDocument;
 use DOMElement;
-use PhpCfdi\XmlCancelacion\Contracts\BaseDocumentBuilder;
-use PhpCfdi\XmlCancelacion\Contracts\CapsuleInterface;
 
 class CancellationCapsule implements Countable, CapsuleInterface
 {
