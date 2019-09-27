@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PhpCfdi\XmlCancelacion\Tests\Unit\Contracts;
 
 use DOMDocument;
+use PhpCfdi\XmlCancelacion\Contracts\BaseDocumentBuilder;
 use PhpCfdi\XmlCancelacion\Contracts\CapsuleInterface;
 
 class FakeCapsule implements CapsuleInterface
@@ -17,13 +18,18 @@ class FakeCapsule implements CapsuleInterface
         $this->rfc = $rfc;
     }
 
+    public function rfc(): string
+    {
+        return $this->rfc;
+    }
+
     public function exportToDocument(): DOMDocument
     {
-        return (new FakeDocumentBuilder())->makeDocument($this);
+        return (new BaseDocumentBuilder())->createBaseDocument('fake', 'http://tempuri.org/fake');
     }
 
     public function belongsToRfc(string $rfc): bool
     {
-        return ($rfc === $this->rfc);
+        return ($rfc === $this->rfc());
     }
 }

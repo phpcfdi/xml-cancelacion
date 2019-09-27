@@ -6,25 +6,13 @@ namespace PhpCfdi\XmlCancelacion\Cancellation;
 
 use DOMDocument;
 use DOMElement;
-use PhpCfdi\XmlCancelacion\Contracts\AbstractCapsuleDocumentBuilder;
-use PhpCfdi\XmlCancelacion\Contracts\CapsuleInterface;
-use PhpCfdi\XmlCancelacion\Exceptions\InvalidCapsuleType;
+use PhpCfdi\XmlCancelacion\Contracts\BaseDocumentBuilder;
 
-class CancellationDocumentBuilder extends AbstractCapsuleDocumentBuilder
+class CancellationDocumentBuilder
 {
-    /**
-     * Build and return a DOMDocument with the capsule data
-     *
-     * @param CapsuleInterface|CancellationCapsule $capsule
-     * @return DOMDocument
-     */
-    public function makeDocument(CapsuleInterface $capsule): DOMDocument
+    public function makeDocument(CancellationCapsule $capsule): DOMDocument
     {
-        if (! $capsule instanceof CancellationCapsule) {
-            throw new InvalidCapsuleType($capsule, CancellationCapsule::class);
-        }
-
-        $document = $this->createBaseDocument('Cancelacion', 'http://cancelacfd.sat.gob.mx');
+        $document = (new BaseDocumentBuilder())->createBaseDocument('Cancelacion', 'http://cancelacfd.sat.gob.mx');
         /** @var DOMElement $cancelacion */
         $cancelacion = $document->documentElement;
 

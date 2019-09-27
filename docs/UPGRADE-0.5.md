@@ -47,8 +47,9 @@ A los mensajes se les llaman *cápsulas (capsule)* y tienen tres característica
 pueden producir un documento XML `DOMDocument` con la información que será firmada y pueden verificar que el RFC
 de la cápsula coincide con un RFC (usado para verificar que se está usando la el CSD correcto)
 
-Para que una cápsula fabrique el documento XML utiliza un *DocumentBuilder*.
+Para que una cápsula fabrique el documento XML utiliza un `BaseDocumentBuilder`.
 A cada cápsula le corresponde un objeto relacionado para fabricar este documento.
+Y aunque no es necesario hacerlo así provee una mejor manera de testeo.
 
 Los documentos XML pueden ser firmados utilizando cualquier objeto que implemente `SignerInterface`.
 Anteriormente solo se producían utilizando `DOMSigner`, ahora `DOMSigner` es el usado por defecto pero se puede cambiar.
