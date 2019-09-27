@@ -6,6 +6,8 @@ namespace PhpCfdi\XmlCancelacion\CancellationAnswer;
 
 use DateTimeImmutable;
 use DOMDocument;
+use DOMElement;
+use PhpCfdi\XmlCancelacion\Contracts\BaseDocumentBuilder;
 use PhpCfdi\XmlCancelacion\Contracts\CapsuleInterface;
 use PhpCfdi\XmlCancelacion\Definitions\CancellationAnswer;
 
@@ -67,7 +69,25 @@ class CancellationAnswerCapsule implements CapsuleInterface
 
     public function exportToDocument(): DOMDocument
     {
-        return (new CancellationAnswerDocumentBuilder())->makeDocument($this);
+        $document = (new BaseDocumentBuilder())
+            ->createBaseDocument('SolicitudAceptacionRechazo', 'http://cancelacfd.sat.gob.mx');
+
+        /** @var DOMElement $solicitudAceptacionRechazo */
+        $solicitudAceptacionRechazo = $document->documentElement;
+        $solicitudAceptacionRechazo->setAttribute('Fecha', $this->dateTime()->format('Y-m-d\TH:i:s'));
+        $solicitudAceptacionRechazo->setAttribute('RfcPacEnviaSolicitud', $this->pacRfc());
+        $solicitudAceptacionRechazo->setAttribute('RfcReceptor', $this->rfc());
+        $solicitudAceptacionRechazo->appendChild(
+            $folios = $document->createElement('Folios')
+        );
+        $folios->appendChild(
+            $document->createElement('UUID', htmlspecialchars($this->uuid(), ENT_XML1))
+        );
+        $folios->appendChild(
+            $document->createElement('Respuesta', htmlspecialchars($this->answer()->value(), ENT_XML1))
+        );
+
+        return $document;
     }
 
     public function belongsToRfc(string $rfc): bool

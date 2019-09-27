@@ -7,6 +7,8 @@ namespace PhpCfdi\XmlCancelacion\Cancellation;
 use Countable;
 use DateTimeImmutable;
 use DOMDocument;
+use DOMElement;
+use PhpCfdi\XmlCancelacion\Contracts\BaseDocumentBuilder;
 use PhpCfdi\XmlCancelacion\Contracts\CapsuleInterface;
 
 class CancellationCapsule implements Countable, CapsuleInterface
@@ -56,7 +58,18 @@ class CancellationCapsule implements Countable, CapsuleInterface
 
     public function exportToDocument(): DOMDocument
     {
-        return (new CancellationDocumentBuilder())->makeDocument($this);
+        $document = (new BaseDocumentBuilder())->createBaseDocument('Cancelacion', 'http://cancelacfd.sat.gob.mx');
+
+        /** @var DOMElement $cancelacion */
+        $cancelacion = $document->documentElement;
+        $cancelacion->setAttribute('RfcEmisor', $this->rfc()); // en el anexo 20 es opcional!
+        $cancelacion->setAttribute('Fecha', $this->date()->format('Y-m-d\TH:i:s'));
+        $folios = $cancelacion->appendChild($document->createElement('Folios'));
+        foreach ($this->uuids() as $uuid) {
+            $folios->appendChild($document->createElement('UUID', htmlspecialchars($uuid, ENT_XML1)));
+        }
+
+        return $document;
     }
 
     public function belongsToRfc(string $rfc): bool
