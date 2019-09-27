@@ -17,13 +17,14 @@ class CancellationCapsule implements Countable, CapsuleInterface
     /** @var DateTimeImmutable */
     private $date;
 
-    /** @var array This is a B-Tree array, values are stored in keys */
+    /** @var array<string, bool> This is a B-Tree array, values are stored in keys */
     private $uuids;
 
     public function __construct(string $rfc, array $uuids, DateTimeImmutable $date)
     {
         $this->rfc = $rfc;
         $this->date = $date;
+        $this->uuids = [];
         foreach ($uuids as $uuid) {
             $this->uuids[strtoupper($uuid)] = true;
         }
@@ -39,6 +40,10 @@ class CancellationCapsule implements Countable, CapsuleInterface
         return $this->date;
     }
 
+    /**
+     * The list of UUIDS
+     * @return string[]
+     */
     public function uuids(): array
     {
         return array_keys($this->uuids);

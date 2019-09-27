@@ -32,10 +32,12 @@ class DOMSigner implements SignerInterface
      */
     private function rootElement(DOMDocument $document): DOMElement
     {
-        if (null === $document->documentElement) {
+        /** @var DOMElement|null $rootElement help static analyzers to detect that documentElement can be null */
+        $rootElement = $document->documentElement;
+        if (null === $rootElement) {
             throw new DocumentWithoutRootElement();
         }
-        return $document->documentElement;
+        return $rootElement;
     }
 
     public function getDigestSource(): string
