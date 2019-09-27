@@ -69,7 +69,7 @@ $consultaRelacionados = $xmlCancelacion->signCancellationAnswer(
 
 ```php
 <?php
-use PhpCfdi\XmlCancelacion\Capsules\CancellationCapsule;
+use PhpCfdi\XmlCancelacion\Capsules\Cancellation;
 use PhpCfdi\XmlCancelacion\Signers\DOMSigner;
 use PhpCfdi\XmlCancelacion\Credentials;
 
@@ -77,7 +77,7 @@ use PhpCfdi\XmlCancelacion\Credentials;
 $credentials = new Credentials('certificado.cer.pem', 'privatekey.key.pem', '12345678a');
 
 // datos de cancelación
-$data = new CancellationCapsule('LAN7008173R5', ['12345678-1234-1234-1234-123456789012']);
+$data = new Cancellation('LAN7008173R5', ['12345678-1234-1234-1234-123456789012']);
 
 // generación del xml
 $xml = (new DOMSigner())->signCapsule($data, $credentials);

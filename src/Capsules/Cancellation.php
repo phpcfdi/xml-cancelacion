@@ -9,7 +9,7 @@ use DateTimeImmutable;
 use DOMDocument;
 use DOMElement;
 
-class CancellationCapsule implements Countable, CapsuleInterface
+class Cancellation implements Countable, CapsuleInterface
 {
     /** @var string */
     private $rfc;

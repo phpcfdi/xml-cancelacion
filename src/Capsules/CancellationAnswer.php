@@ -9,7 +9,7 @@ use DOMDocument;
 use DOMElement;
 use PhpCfdi\XmlCancelacion\Definitions\CancelAnswer;
 
-class CancellationAnswerCapsule implements CapsuleInterface
+class CancellationAnswer implements CapsuleInterface
 {
     /** @var string */
     private $uuid;

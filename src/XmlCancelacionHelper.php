@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace PhpCfdi\XmlCancelacion;
 
 use DateTimeImmutable;
-use PhpCfdi\XmlCancelacion\Capsules\CancellationAnswerCapsule;
-use PhpCfdi\XmlCancelacion\Capsules\CancellationCapsule;
+use PhpCfdi\XmlCancelacion\Capsules\Cancellation;
+use PhpCfdi\XmlCancelacion\Capsules\CancellationAnswer;
 use PhpCfdi\XmlCancelacion\Capsules\CapsuleInterface;
-use PhpCfdi\XmlCancelacion\Capsules\ObtainRelatedCapsule;
+use PhpCfdi\XmlCancelacion\Capsules\ObtainRelated;
 use PhpCfdi\XmlCancelacion\Definitions\CancelAnswer;
 use PhpCfdi\XmlCancelacion\Definitions\RfcRole;
 use PhpCfdi\XmlCancelacion\Exceptions\HelperDoesNotHaveCredentials;
@@ -81,19 +81,19 @@ class XmlCancelacionHelper
 
     public function signCancellation(string $uuid, ?DateTimeImmutable $dateTime = null): string
     {
-        $capsule = new CancellationCapsule($this->getCredentials()->rfc(), [$uuid], $this->createDateTime($dateTime));
+        $capsule = new Cancellation($this->getCredentials()->rfc(), [$uuid], $this->createDateTime($dateTime));
         return $this->signCapsule($capsule);
     }
 
     public function signCancellationUuids(array $uuids, ?DateTimeImmutable $dateTime = null): string
     {
-        $capsule = new CancellationCapsule($this->getCredentials()->rfc(), $uuids, $this->createDateTime($dateTime));
+        $capsule = new Cancellation($this->getCredentials()->rfc(), $uuids, $this->createDateTime($dateTime));
         return $this->signCapsule($capsule);
     }
 
     public function signObtainRelated(string $uuid, RfcRole $role, string $pacRfc): string
     {
-        $capsule = new ObtainRelatedCapsule($uuid, $this->getCredentials()->rfc(), $role, $pacRfc);
+        $capsule = new ObtainRelated($uuid, $this->getCredentials()->rfc(), $role, $pacRfc);
         return $this->signCapsule($capsule);
     }
 
@@ -105,7 +105,7 @@ class XmlCancelacionHelper
     ): string {
         $rfc = $this->getCredentials()->rfc();
         $dateTime = $this->createDateTime($dateTime);
-        $capsule = new CancellationAnswerCapsule($rfc, $uuid, $answer, $pacRfc, $dateTime);
+        $capsule = new CancellationAnswer($rfc, $uuid, $answer, $pacRfc, $dateTime);
         return $this->signCapsule($capsule);
     }
 

@@ -9,7 +9,7 @@ use DOMElement;
 use PhpCfdi\XmlCancelacion\Definitions;
 use PhpCfdi\XmlCancelacion\Definitions\RfcRole;
 
-class ObtainRelatedCapsule implements CapsuleInterface
+class ObtainRelated implements CapsuleInterface
 {
     /** @var string */
     private $uuid;

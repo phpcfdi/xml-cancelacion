@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace PhpCfdi\XmlCancelacion\Tests\System;
 
-use PhpCfdi\XmlCancelacion\Capsules\ObtainRelatedCapsule;
+use PhpCfdi\XmlCancelacion\Capsules\ObtainRelated;
 use PhpCfdi\XmlCancelacion\Credentials;
 use PhpCfdi\XmlCancelacion\Definitions\RfcRole;
 use PhpCfdi\XmlCancelacion\Signers\DOMSigner;
@@ -19,7 +19,7 @@ class ObtainRelatedSignatureTest extends TestCase
         $passPhrase = trim($this->fileContents('LAN7008173R5.password'));
         $credentials = new Credentials($cerFile, $keyFile, $passPhrase);
 
-        $capsule = new ObtainRelatedCapsule(
+        $capsule = new ObtainRelated(
             '11111111-2222-3333-4444-000000000001',
             'LAN7008173R5',
             RfcRole::receiver(),

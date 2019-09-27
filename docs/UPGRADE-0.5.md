@@ -27,7 +27,7 @@ Cualquiera de estas dos formas pueden ser un remplazo:
 
 use PhpCfdi\XmlCancelacion\Credentials;
 use PhpCfdi\XmlCancelacion\XmlCancelacionHelper;
-use PhpCfdi\XmlCancelacion\Capsules\CancellationCapsule;
+use PhpCfdi\XmlCancelacion\Capsules\Cancellation;
 use PhpCfdi\XmlCancelacion\Signers\DOMSigner;
 
 $credentials = new Credentials('certificado.cer.pem', 'privatekey.key.pem', '12345678a');
@@ -37,7 +37,7 @@ $xmlCancelacion = new XmlCancelacionHelper($credentials);
 $xml = $xmlCancelacion->signCancellation('12345678-1234-1234-1234-123456789012');
 
 // código de 0.5.0 granulado
-$data = new CancellationCapsule('LAN7008173R5', ['12345678-1234-1234-1234-123456789012'], new DateTimeImmutable());
+$data = new Cancellation('LAN7008173R5', ['12345678-1234-1234-1234-123456789012'], new DateTimeImmutable());
 $signer = new DOMSigner(); // o new XmlSecLibsSigner()
 $xml = $signer->signCapsule($data, $credentials);
 ```
