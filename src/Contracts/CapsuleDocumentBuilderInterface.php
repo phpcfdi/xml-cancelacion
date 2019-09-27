@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace PhpCfdi\XmlCancelacion\Contracts;
 
 use DOMDocument;
+use PhpCfdi\XmlCancelacion\Exceptions\InvalidCapsuleType;
 
 interface CapsuleDocumentBuilderInterface
 {
@@ -13,6 +14,7 @@ interface CapsuleDocumentBuilderInterface
      *
      * @param CapsuleInterface $capsule
      * @return DOMDocument
+     * @throws InvalidCapsuleType
      */
     public function makeDocument(CapsuleInterface $capsule): DOMDocument;
 }

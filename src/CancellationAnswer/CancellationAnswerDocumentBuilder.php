@@ -8,18 +8,21 @@ use DOMDocument;
 use DOMElement;
 use PhpCfdi\XmlCancelacion\Contracts\AbstractCapsuleDocumentBuilder;
 use PhpCfdi\XmlCancelacion\Contracts\CapsuleInterface;
+use PhpCfdi\XmlCancelacion\Exceptions\InvalidCapsuleType;
 
 class CancellationAnswerDocumentBuilder extends AbstractCapsuleDocumentBuilder
 {
     /**
      * Build and return a DOMDocument with the capsule data
      *
-     * @param CapsuleInterface&CancellationAnswerCapsule $capsule
+     * @param CapsuleInterface|CancellationAnswerCapsule $capsule
      * @return DOMDocument
      */
     public function makeDocument(CapsuleInterface $capsule): DOMDocument
     {
-        $this->assertCapsuleType($capsule, CancellationAnswerCapsule::class);
+        if (! $capsule instanceof CancellationAnswerCapsule) {
+            throw new InvalidCapsuleType($capsule, CancellationAnswerCapsule::class);
+        }
 
         $document = $this->createBaseDocument('SolicitudAceptacionRechazo', 'http://cancelacfd.sat.gob.mx');
         /** @var DOMElement $solicitudAceptacionRechazo */

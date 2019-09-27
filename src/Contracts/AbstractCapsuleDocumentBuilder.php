@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace PhpCfdi\XmlCancelacion\Contracts;
 
 use DOMDocument;
-use PhpCfdi\XmlCancelacion\Exceptions\InvalidCapsuleType;
 
 /**
  * Helper class to be extended and implement in fewer steps a CapsuleDocumentBuilderInterface
@@ -47,13 +46,6 @@ abstract class AbstractCapsuleDocumentBuilder implements CapsuleDocumentBuilderI
             'xsd' => 'http://www.w3.org/2001/XMLSchema',
             'xsi' => 'http://www.w3.org/2001/XMLSchema-instance',
         ];
-    }
-
-    protected function assertCapsuleType(CapsuleInterface $capsule, string $expectedClassName): void
-    {
-        if (! $capsule instanceof $expectedClassName) {
-            throw new InvalidCapsuleType($capsule, $expectedClassName);
-        }
     }
 
     protected function createBaseDocument(string $tagName, string $namespace): DOMDocument
