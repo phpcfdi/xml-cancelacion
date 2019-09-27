@@ -180,12 +180,8 @@ Al parecer es obligatorio incluir en la firma los nombres de espacio `xmlns:xsd`
 Si bien, esto no es necesario para producir un documento con la firma correcta, sí parece ser necesario para
 producir la información que se requiere por parte del PAC o del SAT.
 
-Se podría utilizar [`robrichards/xmlseclibs`] para hacer el firmado, sin embargo al 2019-04-09 aun no se
-habían implementado los mecanismos para incluir el `RSAKeyValue`, a pesar de tener un
-[PR abierto](https://github.com/robrichards/xmlseclibs/pull/75) desde 2015-09-03.
-Las otras dos desventajas están en la forma en que escribe los valores de `X509IssuerSerial`.
-Que aunque creo que no son muy relevantes para generar una firma correcta, sí podrían ser importantes,
-y motivo de rechazo -o pretexto- en el servicio de cancelación del SAT.
+A partir de 2019-08-27 con la versión `0.5.0` se puede usar [`robrichards/xmlseclibs`](https://github.com/robrichards/xmlseclibs).
+Para más información ver el archivo [XmlSecLibs](https://github.com/phpcfdi/xml-cancelacion/blob/master/XmlSecLibs.md).
 
 A partir de 2019-08-13 con la versión `0.4.0` se eliminó la dependencia a `eclipxe/cfdiutils` y se cambió a la
 librería [`phpcfdi/credentials`](https://github.com/phpcfdi/xml-cancelacion), con esta nueva dependencia se trabaja
