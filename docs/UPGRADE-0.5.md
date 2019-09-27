@@ -50,15 +50,14 @@ solicitud de cancelación, solicitud de UUID relacionados y aceptación/rechazo 
 La solicitud de cancelación es lo único que se cubría hasta la versión `0.4.x` y en la versión `0.5.x` se han
 creado las firmas de las otras dos comunicaciones.
 
-Este cambio evidenció que se necesitaba restructurar la librería para poder firmar los mensajes de
-solicitud de UUID relacionados y aceptación/rechazo de cancelaciones pendientes porque antes solo se procesaba el
-mensaje de solicitud de cancelación.
+Este cambio evidenció que se necesitaba restructurar la librería para poder firmar los otros mensajes de
+solicitud de UUID relacionados y aceptación/rechazo de cancelaciones.
 
 ## Nuevos conceptos desde la versión 0.5.0
 
 A los mensajes se les llaman *cápsulas (capsule)* y tienen tres características: Almacenan los datos del mensaje,
 pueden producir un documento XML `DOMDocument` con la información que será firmada y pueden verificar que el RFC
-de la cápsula coincide con un RFC (usado para verificar que se está usando la el CSD correcto)
+de la cápsula coincide con un RFC dado (usado para verificar que se está usando el RFC del CSD).
 
 Para que una cápsula fabrique el documento XML utiliza un `BaseDocumentBuilder`.
 A cada cápsula le corresponde un objeto relacionado para fabricar este documento.
