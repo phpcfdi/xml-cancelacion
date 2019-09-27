@@ -20,10 +20,10 @@ class CancellationCapsule implements Countable, CapsuleInterface
     /** @var array This is a B-Tree array, values are stored in keys */
     private $uuids;
 
-    public function __construct(string $rfc, array $uuids = [], DateTimeImmutable $date = null)
+    public function __construct(string $rfc, array $uuids, DateTimeImmutable $date)
     {
         $this->rfc = $rfc;
-        $this->date = $date ?? new DateTimeImmutable('now');
+        $this->date = $date;
         foreach ($uuids as $uuid) {
             $this->uuids[strtoupper($uuid)] = true;
         }

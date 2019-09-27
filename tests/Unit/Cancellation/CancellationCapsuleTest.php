@@ -27,18 +27,6 @@ class CancellationCapsuleTest extends TestCase
         $this->assertFalse($capsule->belongsToRfc('AAA010101AAA'));
     }
 
-    public function testConstructCapsuleWithoutDateGivesNow(): void
-    {
-        $uuids = [
-            '12345678-1234-1234-1234-123456789001',
-            '12345678-1234-1234-1234-123456789002',
-        ];
-        $rfc = 'LAN7008173R5';
-        $date = new DateTimeImmutable('now');
-        $capsule = new CancellationCapsule($rfc, $uuids);
-        $this->assertSame(0, $date->getTimestamp() - $capsule->date()->getTimestamp());
-    }
-
     public function testCount(): void
     {
         $date = new DateTimeImmutable('2019-01-13 14:15:16');
