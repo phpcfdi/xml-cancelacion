@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace PhpCfdi\XmlCancelacion\Exceptions;
 
-use PhpCfdi\XmlCancelacion\Contracts\CapsuleInterface;
+use PhpCfdi\XmlCancelacion\Capsules\CapsuleInterface;
 
 class CapsuleRfcDoesnotBelongToCertificateRfc extends XmlCancelacionRuntimeException
 {

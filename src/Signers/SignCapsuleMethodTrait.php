@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace PhpCfdi\XmlCancelacion;
+namespace PhpCfdi\XmlCancelacion\Signers;
 
-use PhpCfdi\XmlCancelacion\Contracts\CapsuleInterface;
+use PhpCfdi\XmlCancelacion\Capsules\CapsuleInterface;
+use PhpCfdi\XmlCancelacion\Credentials;
 use PhpCfdi\XmlCancelacion\Exceptions\CapsuleRfcDoesnotBelongToCertificateRfc;
 
 trait SignCapsuleMethodTrait

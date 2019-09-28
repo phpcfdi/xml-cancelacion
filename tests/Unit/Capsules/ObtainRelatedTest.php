@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace PhpCfdi\XmlCancelacion\Tests\Unit\ObtainRelated;
+namespace PhpCfdi\XmlCancelacion\Tests\Unit\Capsules;
 
+use PhpCfdi\XmlCancelacion\Capsules\ObtainRelated;
 use PhpCfdi\XmlCancelacion\Definitions\RfcRole;
-use PhpCfdi\XmlCancelacion\ObtainRelated\ObtainRelatedCapsule;
 use PhpCfdi\XmlCancelacion\Tests\TestCase;
 
-class ObtainRelatedCapsuleTest extends TestCase
+class ObtainRelatedTest extends TestCase
 {
     public function testConstructAndExportToDocument(): void
     {
@@ -17,7 +17,7 @@ class ObtainRelatedCapsuleTest extends TestCase
         $role = RfcRole::receiver();
         $pacRfc = 'CVD110412TF6';
 
-        $capsule = new ObtainRelatedCapsule($uuid, $rfc, $role, $pacRfc);
+        $capsule = new ObtainRelated($uuid, $rfc, $role, $pacRfc);
 
         $this->assertSame($uuid, $capsule->uuid());
         $this->assertSame($rfc, $capsule->rfc());

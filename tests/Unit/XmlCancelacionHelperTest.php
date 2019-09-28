@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace PhpCfdi\XmlCancelacion\Tests\Unit;
 
 use DateTimeImmutable;
-use PhpCfdi\XmlCancelacion\Cancellation\CancellationCapsule;
-use PhpCfdi\XmlCancelacion\Contracts\CapsuleInterface;
-use PhpCfdi\XmlCancelacion\Contracts\SignerInterface;
+use PhpCfdi\XmlCancelacion\Capsules\Cancellation;
+use PhpCfdi\XmlCancelacion\Capsules\CapsuleInterface;
 use PhpCfdi\XmlCancelacion\Credentials;
-use PhpCfdi\XmlCancelacion\DOMSigner;
 use PhpCfdi\XmlCancelacion\Exceptions\HelperDoesNotHaveCredentials;
+use PhpCfdi\XmlCancelacion\Signers\DOMSigner;
+use PhpCfdi\XmlCancelacion\Signers\SignerInterface;
 use PhpCfdi\XmlCancelacion\Tests\TestCase;
 use PhpCfdi\XmlCancelacion\XmlCancelacionHelper;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -32,6 +32,17 @@ class XmlCancelacionHelperTest extends TestCase
         $keyFile = $this->filePath('LAN7008173R5.key.pem');
         $passPhrase = trim($this->fileContents('LAN7008173R5.password'));
         return new Credentials($cerFile, $keyFile, $passPhrase);
+    }
+
+    public function testConstructWithValues(): void
+    {
+        $credentials = $this->createFakeCredentials();
+        /** @var SignerInterface $signer */
+        $signer = $this->createMock(SignerInterface::class);
+
+        $helper = new XmlCancelacionHelper($credentials, $signer);
+        $this->assertSame($credentials, $helper->getCredentials());
+        $this->assertSame($signer, $helper->getSigner());
     }
 
     public function testCredentialChanges(): void
@@ -72,7 +83,7 @@ class XmlCancelacionHelperTest extends TestCase
         $uuid = '11111111-2222-3333-4444-000000000001';
 
         $credentials = $this->createRealCredentials();
-        $expectedCapsule = new CancellationCapsule('LAN7008173R5', [$uuid], $dateTime);
+        $expectedCapsule = new Cancellation('LAN7008173R5', [$uuid], $dateTime);
 
         $predefinedReturn = 'signed-xml';
 
@@ -114,9 +125,9 @@ class XmlCancelacionHelperTest extends TestCase
         $result = $helper->setCredentials($credentials)->signCancellationUuids($uuids);
         $this->assertStringContainsString('<Signature xmlns="http://www.w3.org/2000/09/xmldsig#">', $result);
 
-        /** @var CancellationCapsule $spyCapsule */
+        /** @var Cancellation $spyCapsule */
         $spyCapsule = $helper->getCreatedCapsule();
-        $this->assertInstanceOf(CancellationCapsule::class, $spyCapsule);
+        $this->assertInstanceOf(Cancellation::class, $spyCapsule);
         $spyDate = $spyCapsule->date();
         $this->assertSame($rfc, $spyCapsule->rfc());
         $this->assertSame($uuids, $spyCapsule->uuids());

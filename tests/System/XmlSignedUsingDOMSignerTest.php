@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace PhpCfdi\XmlCancelacion\Tests\System;
 
 use DateTimeImmutable;
-use PhpCfdi\XmlCancelacion\Cancellation\CancellationCapsule;
+use PhpCfdi\XmlCancelacion\Capsules\Cancellation;
 use PhpCfdi\XmlCancelacion\Credentials;
-use PhpCfdi\XmlCancelacion\DOMSigner;
+use PhpCfdi\XmlCancelacion\Signers\DOMSigner;
 use PhpCfdi\XmlCancelacion\Tests\TestCase;
 
 class XmlSignedUsingDOMSignerTest extends TestCase
@@ -18,7 +18,7 @@ class XmlSignedUsingDOMSignerTest extends TestCase
     /** @var string */
     private $signature;
 
-    /** @var CancellationCapsule */
+    /** @var Cancellation */
     private $capsule;
 
     /** @var Credentials */
@@ -34,7 +34,7 @@ class XmlSignedUsingDOMSignerTest extends TestCase
             trim($this->fileContents('LAN7008173R5.password'))
         );
 
-        $capsule = new CancellationCapsule(
+        $capsule = new Cancellation(
             'LAN7008173R5',
             ['E174F807-BEFA-4CF6-9B11-2A013B12F398'],
             new DateTimeImmutable('2019-04-05T16:29:17')

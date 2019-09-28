@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace PhpCfdi\XmlCancelacion\Contracts;
+namespace PhpCfdi\XmlCancelacion\Signers;
 
 use DOMDocument;
+use PhpCfdi\XmlCancelacion\Capsules\CapsuleInterface;
 use PhpCfdi\XmlCancelacion\Credentials;
 use PhpCfdi\XmlCancelacion\Exceptions\CapsuleRfcDoesnotBelongToCertificateRfc;
 

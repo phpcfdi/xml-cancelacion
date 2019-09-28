@@ -1,6 +1,6 @@
 # CHANGELOG
 
-# Version 0.5.0 2019-09-25
+# Version 1.0.0 2019-09-28
 
 - This version is a major change, it is not compatible with previous versions
   Read [UPGRADE-0.5](https://github.com/phpcfdi/xml-cancelacion/blob/master/docs/UPGRADE-0.5.md)
@@ -23,7 +23,6 @@
         - `XmlCancelacionLogicException` extends `LogicException`
             - `DocumentWithoutRootElement`
             - `HelperDoesNotHaveCredentials`
-            - `InvalidCapsuleType`
         - `XmlCancelacionRuntimeException` extends `RuntimeException`
             - `CannotLoadCertificateAndPrivateKey`
             - `CapsuleRfcDoesnotBelongToCertificateRfc`

@@ -1,18 +1,20 @@
 <?php
 
+/** @noinspection PhpUnhandledExceptionInspection */
+
 declare(strict_types=1);
 
 namespace PhpCfdi\XmlCancelacion\Tests\System\SignerImplementations;
 
 use DateTimeImmutable;
 use DOMDocument;
-use PhpCfdi\XmlCancelacion\Contracts\CapsuleInterface;
-use PhpCfdi\XmlCancelacion\Contracts\SignerInterface;
+use PhpCfdi\XmlCancelacion\Capsules\CapsuleInterface;
 use PhpCfdi\XmlCancelacion\Credentials;
-use PhpCfdi\XmlCancelacion\Definitions\CancellationAnswer;
+use PhpCfdi\XmlCancelacion\Definitions\CancelAnswer;
 use PhpCfdi\XmlCancelacion\Definitions\RfcRole;
 use PhpCfdi\XmlCancelacion\Exceptions\CapsuleRfcDoesnotBelongToCertificateRfc;
 use PhpCfdi\XmlCancelacion\Exceptions\DocumentWithoutRootElement;
+use PhpCfdi\XmlCancelacion\Signers\SignerInterface;
 use PhpCfdi\XmlCancelacion\Tests\TestCase;
 use PhpCfdi\XmlCancelacion\XmlCancelacionHelper;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -69,6 +71,7 @@ abstract class SignerImplementationTestCase extends TestCase
         $expectedXml = $this->xmlWithoutWhitespace($this->fileContents('cancellation-signed.xml'));
         $this->assertXmlStringEqualsXmlString($expectedXml, $signature);
         $this->assertSame($expectedXml, $signature);
+        $this->checkSignatureIsValidUsingXmlSecLib($signature);
     }
 
     public function testObtainRelated(): void
@@ -82,6 +85,7 @@ abstract class SignerImplementationTestCase extends TestCase
         $expectedXml = $this->xmlWithoutWhitespace($this->fileContents('obtain-related-signed.xml'));
         $this->assertXmlStringEqualsXmlString($expectedXml, $signature);
         $this->assertSame($expectedXml, $signature);
+        $this->checkSignatureIsValidUsingXmlSecLib($signature);
     }
 
     public function testCancellationAnswer(): void
@@ -89,14 +93,14 @@ abstract class SignerImplementationTestCase extends TestCase
         $helper = $this->createHelper();
         $signature = $helper->signCancellationAnswer(
             '11111111-2222-3333-4444-000000000001',
-            CancellationAnswer::accept(),
+            CancelAnswer::accept(),
             'CVD110412TF6',
             new DateTimeImmutable('2019-01-13 14:15:16')
         );
-        $this->checkSignatureIsValidUsingXmlSecLib($signature);
         $expectedXml = $this->xmlWithoutWhitespace($this->fileContents('cancellation-answer-signed.xml'));
         $this->assertXmlStringEqualsXmlString($expectedXml, $signature);
         $this->assertSame($expectedXml, $signature);
+        $this->checkSignatureIsValidUsingXmlSecLib($signature);
     }
 
     public function checkSignatureIsValidUsingXmlSecLib(string $signedXml): void

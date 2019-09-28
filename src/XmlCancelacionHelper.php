@@ -5,14 +5,15 @@ declare(strict_types=1);
 namespace PhpCfdi\XmlCancelacion;
 
 use DateTimeImmutable;
-use PhpCfdi\XmlCancelacion\Cancellation\CancellationCapsule;
-use PhpCfdi\XmlCancelacion\CancellationAnswer\CancellationAnswerCapsule;
-use PhpCfdi\XmlCancelacion\Contracts\CapsuleInterface;
-use PhpCfdi\XmlCancelacion\Contracts\SignerInterface;
-use PhpCfdi\XmlCancelacion\Definitions\CancellationAnswer;
+use PhpCfdi\XmlCancelacion\Capsules\Cancellation;
+use PhpCfdi\XmlCancelacion\Capsules\CancellationAnswer;
+use PhpCfdi\XmlCancelacion\Capsules\CapsuleInterface;
+use PhpCfdi\XmlCancelacion\Capsules\ObtainRelated;
+use PhpCfdi\XmlCancelacion\Definitions\CancelAnswer;
 use PhpCfdi\XmlCancelacion\Definitions\RfcRole;
 use PhpCfdi\XmlCancelacion\Exceptions\HelperDoesNotHaveCredentials;
-use PhpCfdi\XmlCancelacion\ObtainRelated\ObtainRelatedCapsule;
+use PhpCfdi\XmlCancelacion\Signers\DOMSigner;
+use PhpCfdi\XmlCancelacion\Signers\SignerInterface;
 
 class XmlCancelacionHelper
 {
@@ -78,47 +79,33 @@ class XmlCancelacionHelper
         return $dateTime;
     }
 
-    /** @deprecated 0.5.0 */
-    public function make(string $uuid, ?DateTimeImmutable $dateTime = null): string
-    {
-        trigger_error('Deprecated method since 0.5.0', E_USER_DEPRECATED);
-        return $this->signCancellation($uuid, $dateTime);
-    }
-
-    /** @deprecated 0.5.0 */
-    public function makeUuids(array $uuids, ?DateTimeImmutable $dateTime = null): string
-    {
-        trigger_error('Deprecated method since 0.5.0', E_USER_DEPRECATED);
-        return $this->signCancellationUuids($uuids, $dateTime);
-    }
-
     public function signCancellation(string $uuid, ?DateTimeImmutable $dateTime = null): string
     {
-        $capsule = new CancellationCapsule($this->getCredentials()->rfc(), [$uuid], $this->createDateTime($dateTime));
+        $capsule = new Cancellation($this->getCredentials()->rfc(), [$uuid], $this->createDateTime($dateTime));
         return $this->signCapsule($capsule);
     }
 
     public function signCancellationUuids(array $uuids, ?DateTimeImmutable $dateTime = null): string
     {
-        $capsule = new CancellationCapsule($this->getCredentials()->rfc(), $uuids, $this->createDateTime($dateTime));
+        $capsule = new Cancellation($this->getCredentials()->rfc(), $uuids, $this->createDateTime($dateTime));
         return $this->signCapsule($capsule);
     }
 
     public function signObtainRelated(string $uuid, RfcRole $role, string $pacRfc): string
     {
-        $capsule = new ObtainRelatedCapsule($uuid, $this->getCredentials()->rfc(), $role, $pacRfc);
+        $capsule = new ObtainRelated($uuid, $this->getCredentials()->rfc(), $role, $pacRfc);
         return $this->signCapsule($capsule);
     }
 
     public function signCancellationAnswer(
         string $uuid,
-        CancellationAnswer $answer,
+        CancelAnswer $answer,
         string $pacRfc,
         DateTimeImmutable $dateTime = null
     ): string {
         $rfc = $this->getCredentials()->rfc();
         $dateTime = $this->createDateTime($dateTime);
-        $capsule = new CancellationAnswerCapsule($rfc, $uuid, $answer, $pacRfc, $dateTime);
+        $capsule = new CancellationAnswer($rfc, $uuid, $answer, $pacRfc, $dateTime);
         return $this->signCapsule($capsule);
     }
 

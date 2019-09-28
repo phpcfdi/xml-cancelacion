@@ -43,7 +43,7 @@ composer require phpcfdi/xml-cancelacion
 
 use PhpCfdi\XmlCancelacion\XmlCancelacionHelper;
 use PhpCfdi\XmlCancelacion\Definitions\RfcRole;
-use PhpCfdi\XmlCancelacion\Definitions\CancellationAnswer;
+use PhpCfdi\XmlCancelacion\Definitions\CancelAnswer;
 
 $xmlCancelacion = new XmlCancelacionHelper();
 
@@ -59,7 +59,7 @@ $consultaRelacionados = $xmlCancelacion->signObtainRelated(
 
 $consultaRelacionados = $xmlCancelacion->signCancellationAnswer(
     '11111111-2222-3333-4444-000000000002', // uuid a responder
-    CancellationAnswer::accept(), // aceptar la cancelación
+    CancelAnswer::accept(), // aceptar la cancelación
     'CVD110412TF6' // RFC del PAC (Quadrum & Finkok)
 );
 
@@ -69,15 +69,15 @@ $consultaRelacionados = $xmlCancelacion->signCancellationAnswer(
 
 ```php
 <?php
-use PhpCfdi\XmlCancelacion\Cancellation\CancellationCapsule;
-use PhpCfdi\XmlCancelacion\DOMSigner;
+use PhpCfdi\XmlCancelacion\Capsules\Cancellation;
+use PhpCfdi\XmlCancelacion\Signers\DOMSigner;
 use PhpCfdi\XmlCancelacion\Credentials;
 
 // certificado, llave privada y clave de llave
 $credentials = new Credentials('certificado.cer.pem', 'privatekey.key.pem', '12345678a');
 
 // datos de cancelación
-$data = new CancellationCapsule('LAN7008173R5', ['12345678-1234-1234-1234-123456789012']);
+$data = new Cancellation('LAN7008173R5', ['12345678-1234-1234-1234-123456789012']);
 
 // generación del xml
 $xml = (new DOMSigner())->signCapsule($data, $credentials);
@@ -180,12 +180,8 @@ Al parecer es obligatorio incluir en la firma los nombres de espacio `xmlns:xsd`
 Si bien, esto no es necesario para producir un documento con la firma correcta, sí parece ser necesario para
 producir la información que se requiere por parte del PAC o del SAT.
 
-Se podría utilizar [`robrichards/xmlseclibs`] para hacer el firmado, sin embargo al 2019-04-09 aun no se
-habían implementado los mecanismos para incluir el `RSAKeyValue`, a pesar de tener un
-[PR abierto](https://github.com/robrichards/xmlseclibs/pull/75) desde 2015-09-03.
-Las otras dos desventajas están en la forma en que escribe los valores de `X509IssuerSerial`.
-Que aunque creo que no son muy relevantes para generar una firma correcta, sí podrían ser importantes,
-y motivo de rechazo -o pretexto- en el servicio de cancelación del SAT.
+A partir de 2019-08-27 con la versión `1.0.0` se puede usar [`robrichards/xmlseclibs`](https://github.com/robrichards/xmlseclibs).
+Para más información ver el archivo [XmlSecLibs](https://github.com/phpcfdi/xml-cancelacion/blob/master/XmlSecLibs.md).
 
 A partir de 2019-08-13 con la versión `0.4.0` se eliminó la dependencia a `eclipxe/cfdiutils` y se cambió a la
 librería [`phpcfdi/credentials`](https://github.com/phpcfdi/xml-cancelacion), con esta nueva dependencia se trabaja
