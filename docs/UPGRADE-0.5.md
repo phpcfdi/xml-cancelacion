@@ -32,11 +32,11 @@ use PhpCfdi\XmlCancelacion\Signers\DOMSigner;
 
 $credentials = new Credentials('certificado.cer.pem', 'privatekey.key.pem', '12345678a');
 
-// código de 0.5.0 con helper
+// código de 1.0.0 con helper
 $xmlCancelacion = new XmlCancelacionHelper($credentials);
 $xml = $xmlCancelacion->signCancellation('12345678-1234-1234-1234-123456789012');
 
-// código de 0.5.0 granulado
+// código de 1.0.0 granulado
 $data = new Cancellation('LAN7008173R5', ['12345678-1234-1234-1234-123456789012'], new DateTimeImmutable());
 $signer = new DOMSigner(); // o new XmlSecLibsSigner()
 $xml = $signer->signCapsule($data, $credentials);
@@ -53,7 +53,7 @@ creado las firmas de las otras dos comunicaciones.
 Este cambio evidenció que se necesitaba restructurar la librería para poder firmar los otros mensajes de
 solicitud de UUID relacionados y aceptación/rechazo de cancelaciones.
 
-## Nuevos conceptos desde la versión 0.5.0
+## Nuevos conceptos desde la versión 1.0.0
 
 A los mensajes se les llaman *cápsulas (capsule)* y tienen tres características: Almacenan los datos del mensaje,
 pueden producir un documento XML `DOMDocument` con la información que será firmada y pueden verificar que el RFC

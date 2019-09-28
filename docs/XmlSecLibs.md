@@ -1,6 +1,6 @@
 # Uso de XmlSecLibs `robrichards/xmlseclibs`
 
-A partir de la versión `0.5.0` se incluye un objeto `XmlSecLibsSigner` que implementa `SignerInterface`.
+A partir de la versión `1.0.0` se incluye un objeto `XmlSecLibsSigner` que implementa `SignerInterface`.
 
 Se puede utilizar [`robrichards/xmlseclibs`](https://github.com/robrichards/xmlseclibs) para hacer el firmado,
 sin embargo al 2019-04-09 aun no se han implementado los mecanismos para incluir el elemento `KeyValue`,

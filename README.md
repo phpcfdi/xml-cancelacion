@@ -180,7 +180,7 @@ Al parecer es obligatorio incluir en la firma los nombres de espacio `xmlns:xsd`
 Si bien, esto no es necesario para producir un documento con la firma correcta, sí parece ser necesario para
 producir la información que se requiere por parte del PAC o del SAT.
 
-A partir de 2019-08-27 con la versión `0.5.0` se puede usar [`robrichards/xmlseclibs`](https://github.com/robrichards/xmlseclibs).
+A partir de 2019-08-27 con la versión `1.0.0` se puede usar [`robrichards/xmlseclibs`](https://github.com/robrichards/xmlseclibs).
 Para más información ver el archivo [XmlSecLibs](https://github.com/phpcfdi/xml-cancelacion/blob/master/XmlSecLibs.md).
 
 A partir de 2019-08-13 con la versión `0.4.0` se eliminó la dependencia a `eclipxe/cfdiutils` y se cambió a la
