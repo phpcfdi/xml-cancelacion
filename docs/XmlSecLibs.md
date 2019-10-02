@@ -15,8 +15,8 @@ implementación manual y no la incompleta/incorrecta de XmlSecLibs.
 ## Ejemplo de uso:
 
 ```php
-<?php declare(strict_types=1);
-
+<?php
+declare(strict_types=1);
 use PhpCfdi\XmlCancelacion\Signers\XmlSecLibsSigner;
 use PhpCfdi\XmlCancelacion\XmlCancelacionHelper;
 
