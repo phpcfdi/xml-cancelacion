@@ -1,4 +1,4 @@
-# Actualización de 0.4 a 0.5
+# Actualización de 0.4 a 1.0
 
 :us: This document is in spanish as this is the primary language of the target developers
 
@@ -12,7 +12,6 @@ Si estás usando el objeto de ayuda `XmlCancelacionHelper` disponible desde la v
 Si estás usando `Capsule` directamente:
 
 ```text
-<?php
 $credentials = new Credentials('certificado.cer.pem', 'privatekey.key.pem', '12345678a');
 
 // código de 0.4.0
@@ -24,7 +23,7 @@ Cualquiera de estas dos formas pueden ser un remplazo:
 
 ```php
 <?php
-
+declare(strict_types=1);
 use PhpCfdi\XmlCancelacion\Credentials;
 use PhpCfdi\XmlCancelacion\XmlCancelacionHelper;
 use PhpCfdi\XmlCancelacion\Capsules\Cancellation;
@@ -47,7 +46,7 @@ $xml = $signer->signCapsule($data, $credentials);
 El SAT ofrece algunos servicios a través de los PAC como una pasarela, al menos conozco tres servicios documentados:
 solicitud de cancelación, solicitud de UUID relacionados y aceptación/rechazo de cancelaciones pendientes.
 
-La solicitud de cancelación es lo único que se cubría hasta la versión `0.4.x` y en la versión `0.5.x` se han
+La solicitud de cancelación es lo único que se cubría hasta la versión `0.4.x` y en la versión `1.0.x` se han
 creado las firmas de las otras dos comunicaciones.
 
 Este cambio evidenció que se necesitaba restructurar la librería para poder firmar los otros mensajes de
@@ -72,7 +71,7 @@ agregar el elemento `KeyInfo` tal como lo quiere el SAT, por lo que para esta ú
 ## Mejor uso de credenciales
 
 El objeto `PhpCfdi\XmlCancelacion\Credentials` internamente utiliza un objeto `PhpCfdi\Credentials\Credential`.
-En la versión `0.5` se introduce un método constructor `createWithPhpCfdiCredential()` para poder fabricar el objeto
+En la versión `1.0` se introduce un método constructor `createWithPhpCfdiCredential()` para poder fabricar el objeto
 `Credentials` usando un objeto `Credential` ya existente.
 
 Esto es útil porque de esta manera el certificado y llave privada no necesitan existir en el sistema de archivos local
@@ -80,7 +79,7 @@ y se puede crear la credencial de esta librería con los datos de una credencial
 
 ```php
 <?php
-
+declare(strict_types=1);
 use PhpCfdi\Credentials\Certificate;
 use PhpCfdi\Credentials\Credential as PhpCfdiCredential;
 use PhpCfdi\Credentials\PrivateKey;

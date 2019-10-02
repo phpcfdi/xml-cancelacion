@@ -1,9 +1,14 @@
 # CHANGELOG
 
+# Version 1.0.1 2019-10-02
+
+- Fix documentation to point out version 1.0 instead of 0.5.
+- Fix documentation PHP examples.
+
 # Version 1.0.0 2019-09-28
 
 - This version is a major change, it is not compatible with previous versions
-  Read [UPGRADE-0.5](https://github.com/phpcfdi/xml-cancelacion/blob/master/docs/UPGRADE-0.5.md)
+  Read [UPGRADE-1.0](https://github.com/phpcfdi/xml-cancelacion/blob/master/docs/UPGRADE-1.0.md)
 - New signed documents:
     - Cancellation: For request to SAT a cancellation of one or many CFDI.
     - ObtainRelated: For asking to SAT related documents of a CFDI.
