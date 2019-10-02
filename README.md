@@ -24,7 +24,6 @@ de esta manera no es necesario compartir el certificado ni la llave privada con 
 - Si tu PAC no lo ofrece entonces deberías solicitárselo.
 - Nunca compartas tu llave privada de firmado de CFDI con nadie, ni con tu PAC.
 
-
 ## Instalación
 
 Usa [composer](https://getcomposer.org/)
@@ -32,7 +31,6 @@ Usa [composer](https://getcomposer.org/)
 ```shell
 composer require phpcfdi/xml-cancelacion
 ```
-
 
 ## Ejemplo básico de uso
 
@@ -62,7 +60,6 @@ $consultaRelacionados = $xmlCancelacion->signCancellationAnswer(
     CancelAnswer::accept(), // aceptar la cancelación
     'CVD110412TF6' // RFC del PAC (Quadrum & Finkok)
 );
-
 ```
 
 ### Con un uso detallado de solicitud de cancelación
@@ -127,7 +124,6 @@ La salida esperada es algo como lo siguiente (sin los espacios en blanco que agr
 </Cancelacion>
 ```
 
-
 ## Objeto de ayuda
 
 **`XmlCancelacionHelper`** te permite usar la librería rápidamente.
@@ -162,18 +158,22 @@ Para crear la solicitud de respuesta usa el método `signCancellationAnswer`.
 Requiere el UUID para el cual estás estableciendo la respuesta, la respuesta (aceptación o cancelación)
 y el RFC del PAC por el cual se realiza la consulta.
 
-
 ## Objetos de trabajo
 
 **`CapsuleInterface`** son los objetos que contienen toda la información relacionada con los datos a firmar,
 este tipo de objetos tiene la facultad de poder revisar si el RFC es el mismo usado en la firma así como
 poder generar el documento XML a firmar.
 
-**`Credentials`** Es un objeto que encapsula el trabajo con los certificados y llave privada. Internamente utiliza
+**`Credentials`** Es un objeto que encapsula el trabajo con los certificados y llave privada.
+Internamente utiliza [`phpcfdi/credentials`](https://github.com/phpcfdi/credentials) y la clase interna es solo
+una indirección de `PhpCfdi\Credentials\Credential`. Incluso puedes crear una credencial de `phpcfd/xml-cancelacion`
+a partir de un objeto directo de `phpcfdi/credentials`. 
 
-
-**`CapsuleSigner`** genera el XML usando un `Capsule` y un `Credentials`.
-
+**`SignerInterface`** son los objetos que permiten firmar el documento generado por una *cápsula* y una *credencial*.
+Existen dos implementaciones: `DOMSigner` (recomendada) y `XmlSecLibsSigner`. La primera no requiere de mayores
+dependencias y realiza el firmado utilizando las especificaciones del SAT. La segunda utiliza *parcialmente*
+[XmlSecLibs](https://github.com/phpcfdi/xml-cancelacion/blob/master/XmlSecLibs.md) y termina la información de
+la firma usando un mecanismo interno.
 
 ## Observaciones
 
@@ -188,7 +188,6 @@ A partir de 2019-08-13 con la versión `0.4.0` se eliminó la dependencia a `ecl
 librería [`phpcfdi/credentials`](https://github.com/phpcfdi/xml-cancelacion), con esta nueva dependencia se trabaja
 mucho mejor con los certificados y llaves privadas.
 
-
 ## Compatilibilidad
 
 Esta librería se mantendrá compatible con al menos la versión con
@@ -197,18 +196,15 @@ Esta librería se mantendrá compatible con al menos la versión con
 También utilizamos [Versionado Semántico 2.0.0](https://semver.org/lang/es/) por lo que puedes usar esta librería
 sin temor a romper tu aplicación.
 
-
 ## Contribuciones
 
 Las contribuciones con bienvenidas. Por favor lee [CONTRIBUTING][] para más detalles
 y recuerda revisar el archivo de tareas pendientes [TODO][] y el [CHANGELOG][].
 
-
 ## Copyright and License
 
 The `phpcfdi/xml-cancelacion` library is copyright © [PhpCfdi](https://www.phpcfdi.com/)
 and licensed for use under the MIT License (MIT). Please see [LICENSE][] for more information.
-
 
 [contributing]: https://github.com/phpcfdi/xml-cancelacion/blob/master/CONTRIBUTING.md
 [changelog]: https://github.com/phpcfdi/xml-cancelacion/blob/master/docs/CHANGELOG.md
