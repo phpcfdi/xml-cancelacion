@@ -1,5 +1,10 @@
 # CHANGELOG
 
+# Version 1.0.1 2019-10-02
+
+- Fix documentation to point out version 1.0 instead of 0.5.
+- Fix documentation PHP examples.
+
 # Version 1.0.0 2019-09-28
 
 - This version is a major change, it is not compatible with previous versions
