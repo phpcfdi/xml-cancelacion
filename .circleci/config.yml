@@ -37,15 +37,15 @@ shared: &shared-build-steps
 jobs:
   "php-71":
     docker:
-      - image: alpine:php-7.1-cli
+      - image: circleci/php:7.1-cli
     <<: *shared-build-steps
   "php-72":
     docker:
-      - image: alpine:php-7.2-cli
+      - image: circleci/php:7.2-cli
     <<: *shared-build-steps
   "php-73":
     docker:
-      - image: alpine:php-7.3-cli
+      - image: circleci/php:7.3-cli
     <<: *shared-build-steps
 
 workflows:
