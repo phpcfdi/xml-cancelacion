@@ -4,7 +4,6 @@
 [![Latest Version][badge-release]][release]
 [![Software License][badge-license]][license]
 [![Build Status][badge-build]][build]
-[![Circle CI][badge-circle-ci]][circle-ci]
 [![Scrutinizer][badge-quality]][quality]
 [![Coverage Status][badge-coverage]][coverage]
 [![Total Downloads][badge-downloads]][downloads]
@@ -215,7 +214,6 @@ and licensed for use under the MIT License (MIT). Please see [LICENSE][] for mor
 [release]: https://github.com/phpcfdi/xml-cancelacion/releases
 [license]: https://github.com/phpcfdi/xml-cancelacion/blob/master/LICENSE
 [build]: https://travis-ci.org/phpcfdi/xml-cancelacion?branch=master
-[circle-ci]: https://circleci.com/gh/phpcfdi/xml-cancelacion
 [quality]: https://scrutinizer-ci.com/g/phpcfdi/xml-cancelacion/
 [coverage]: https://scrutinizer-ci.com/g/phpcfdi/xml-cancelacion/code-structure/master/code-coverage/src/
 [downloads]: https://packagist.org/packages/phpcfdi/xml-cancelacion
@@ -224,7 +222,6 @@ and licensed for use under the MIT License (MIT). Please see [LICENSE][] for mor
 [badge-release]: https://img.shields.io/github/release/phpcfdi/xml-cancelacion?style=flat-square
 [badge-license]: https://img.shields.io/github/license/phpcfdi/xml-cancelacion?style=flat-square
 [badge-build]: https://img.shields.io/travis/phpcfdi/xml-cancelacion/master?style=flat-square
-[badge-circle-ci]: https://img.shields.io/circleci/build/github/phpcfdi/xml-cancelacion/master?style=flat-square
 [badge-quality]: https://img.shields.io/scrutinizer/g/phpcfdi/xml-cancelacion/master?style=flat-square
 [badge-coverage]: https://img.shields.io/scrutinizer/coverage/g/phpcfdi/xml-cancelacion/master?style=flat-square
 [badge-downloads]: https://img.shields.io/packagist/dt/phpcfdi/xml-cancelacion?style=flat-square
