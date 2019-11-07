@@ -191,7 +191,7 @@ mucho mejor con los certificados y llaves privadas.
 ## Compatilibilidad
 
 Esta librería se mantendrá compatible con al menos la versión con
-[soporte activo de PHP](http://php.net/supported-versions.php) más reciente.
+[soporte activo de PHP](https://www.php.net/supported-versions.php) más reciente.
 
 También utilizamos [Versionado Semántico 2.0.0](https://semver.org/lang/es/) por lo que puedes usar esta librería
 sin temor a romper tu aplicación.
@@ -218,7 +218,7 @@ and licensed for use under the MIT License (MIT). Please see [LICENSE][] for mor
 [coverage]: https://scrutinizer-ci.com/g/phpcfdi/xml-cancelacion/code-structure/master/code-coverage/src/
 [downloads]: https://packagist.org/packages/phpcfdi/xml-cancelacion
 
-[badge-source]: http://img.shields.io/badge/source-phpcfdi/xml--cancelacion-blue?style=flat-square
+[badge-source]: https://img.shields.io/badge/source-phpcfdi/xml--cancelacion-blue?style=flat-square
 [badge-release]: https://img.shields.io/github/release/phpcfdi/xml-cancelacion?style=flat-square
 [badge-license]: https://img.shields.io/github/license/phpcfdi/xml-cancelacion?style=flat-square
 [badge-build]: https://img.shields.io/travis/phpcfdi/xml-cancelacion/master?style=flat-square
