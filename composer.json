@@ -29,7 +29,7 @@
         "phpcfdi/credentials": "^1.0"
     },
     "require-dev": {
-        "robrichards/xmlseclibs": "^3.0",
+        "robrichards/xmlseclibs": "^3.0.4",
         "phpunit/phpunit": "^8.3.5",
         "overtrue/phplint": "^1.0",
         "squizlabs/php_codesniffer": "^3.0",
