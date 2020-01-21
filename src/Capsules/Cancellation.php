@@ -8,6 +8,7 @@ use Countable;
 use DateTimeImmutable;
 use DOMDocument;
 use DOMElement;
+use PhpCfdi\XmlCancelacion\Definitions\DocumentType;
 
 class Cancellation implements Countable, CapsuleInterface
 {
@@ -20,11 +21,15 @@ class Cancellation implements Countable, CapsuleInterface
     /** @var array<string, bool> This is a B-Tree array, values are stored in keys */
     private $uuids;
 
-    public function __construct(string $rfc, array $uuids, DateTimeImmutable $date)
+    /** @var DocumentType */
+    private $documentType;
+
+    public function __construct(string $rfc, array $uuids, DateTimeImmutable $date, DocumentType $type = null)
     {
         $this->rfc = $rfc;
         $this->date = $date;
         $this->uuids = [];
+        $this->documentType = $type ?? DocumentType::cfdi();
         foreach ($uuids as $uuid) {
             $this->uuids[strtoupper($uuid)] = true;
         }
@@ -38,6 +43,11 @@ class Cancellation implements Countable, CapsuleInterface
     public function date(): DateTimeImmutable
     {
         return $this->date;
+    }
+
+    public function documentType(): DocumentType
+    {
+        return $this->documentType;
     }
 
     /**
@@ -56,7 +66,7 @@ class Cancellation implements Countable, CapsuleInterface
 
     public function exportToDocument(): DOMDocument
     {
-        $document = (new BaseDocumentBuilder())->createBaseDocument('Cancelacion', 'http://cancelacfd.sat.gob.mx');
+        $document = (new BaseDocumentBuilder())->createBaseDocument('Cancelacion', $this->documentType->value());
 
         /** @var DOMElement $cancelacion */
         $cancelacion = $document->documentElement;
