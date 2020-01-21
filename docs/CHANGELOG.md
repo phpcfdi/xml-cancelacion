@@ -1,5 +1,9 @@
 # CHANGELOG
 
+# UNRELEASED
+
+- Update license year, happy 2020!
+
 # Version 1.0.1 2019-10-02
 
 - Fix documentation to point out version 1.0 instead of 0.5.
