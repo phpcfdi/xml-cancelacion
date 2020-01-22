@@ -10,6 +10,7 @@ use PhpCfdi\XmlCancelacion\Capsules\CancellationAnswer;
 use PhpCfdi\XmlCancelacion\Capsules\CapsuleInterface;
 use PhpCfdi\XmlCancelacion\Capsules\ObtainRelated;
 use PhpCfdi\XmlCancelacion\Definitions\CancelAnswer;
+use PhpCfdi\XmlCancelacion\Definitions\DocumentType;
 use PhpCfdi\XmlCancelacion\Definitions\RfcRole;
 use PhpCfdi\XmlCancelacion\Exceptions\HelperDoesNotHaveCredentials;
 use PhpCfdi\XmlCancelacion\Signers\DOMSigner;
@@ -81,13 +82,25 @@ class XmlCancelacionHelper
 
     public function signCancellation(string $uuid, ?DateTimeImmutable $dateTime = null): string
     {
-        $capsule = new Cancellation($this->getCredentials()->rfc(), [$uuid], $this->createDateTime($dateTime));
+        $capsule = $this->createCancellationObject([$uuid], $dateTime, DocumentType::cfdi());
         return $this->signCapsule($capsule);
     }
 
     public function signCancellationUuids(array $uuids, ?DateTimeImmutable $dateTime = null): string
     {
-        $capsule = new Cancellation($this->getCredentials()->rfc(), $uuids, $this->createDateTime($dateTime));
+        $capsule = $this->createCancellationObject($uuids, $dateTime, DocumentType::cfdi());
+        return $this->signCapsule($capsule);
+    }
+
+    public function signRetentionCancellation(string $uuid, ?DateTimeImmutable $dateTime = null): string
+    {
+        $capsule = $this->createCancellationObject([$uuid], $dateTime, DocumentType::retention());
+        return $this->signCapsule($capsule);
+    }
+
+    public function signRetentionCancellationUuids(array $uuids, ?DateTimeImmutable $dateTime = null): string
+    {
+        $capsule = $this->createCancellationObject($uuids, $dateTime, DocumentType::retention());
         return $this->signCapsule($capsule);
     }
 
@@ -114,5 +127,13 @@ class XmlCancelacionHelper
         $credentials = $this->getCredentials();
         $signer = $this->getSigner();
         return $signer->signCapsule($capsule, $credentials);
+    }
+
+    protected function createCancellationObject(
+        array $uuids,
+        ?DateTimeImmutable $dateTime,
+        DocumentType $type
+    ): Cancellation {
+        return new Cancellation($this->getCredentials()->rfc(), $uuids, $this->createDateTime($dateTime), $type);
     }
 }

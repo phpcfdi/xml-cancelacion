@@ -5,8 +5,14 @@
 - Update license year, happy 2020!
 - Include cancellation document for document *"CFDI de retención e información de pagos"*.
 - Add `DocumentType` enumerator with keys `cfdi` and `retention` to specify the correct namespace of the request.
+- Add `XmlCancellationHelper::signRetentionCancellation` and `XmlCancellationHelper::signRetentionCancellationUuids`
+  that create cancellation request for retentions.
+- Refactor `XmlCancelacionHelper` and delegate the creation of the `Cancellation` object to a specific
+  protected method.
 - Testing:
     - Improve `CancellationTest` to check that `DocumentType` is used correctly.
+    - Create a testing class `XmlCancelacionHelperSpy` to spy on `XmlCancelacionHelper`.
+    - Refactor tests on `XmlCancelacionHelperTest` to test against the spy class.  
 
 # Version 1.0.1 2019-10-02
 
