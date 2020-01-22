@@ -9,6 +9,8 @@
   that create cancellation request for retentions.
 - Refactor `XmlCancelacionHelper` and delegate the creation of the `Cancellation` object to a specific
   protected method.
+- Development:
+    - Move from `phpstan/phpstan-shim` to `phpstan/phpstan`.
 - Testing:
     - Improve `CancellationTest` to check that `DocumentType` is used correctly.
     - Create a testing class `XmlCancelacionHelperSpy` to spy on `XmlCancelacionHelper`.
