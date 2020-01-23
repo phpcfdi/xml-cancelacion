@@ -80,6 +80,7 @@ class CancellationTest extends TestCase
         $dateTime = new DateTimeImmutable('2019-04-05T16:29:17');
         $cancellation = new Cancellation('LAN7008173R5', [$badUuidWithAmpersand], $dateTime);
         $document = $cancellation->exportToDocument();
-        $this->assertStringContainsString(htmlspecialchars($badUuidWithAmpersand, ENT_XML1), $document->saveXML());
+        $xml = $document->saveXML() ?: '';
+        $this->assertStringContainsString(htmlspecialchars($badUuidWithAmpersand, ENT_XML1), $xml);
     }
 }

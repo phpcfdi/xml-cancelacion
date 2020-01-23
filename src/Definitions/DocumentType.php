@@ -16,7 +16,10 @@ use Eclipxe\Enum\Enum;
  */
 final class DocumentType extends Enum
 {
-    /** @noinspection PhpMissingParentCallCommonInspection */
+    /**
+     * @inheritDoc
+     * @noinspection PhpMissingParentCallCommonInspection
+     */
     protected static function overrideValues(): array
     {
         return [

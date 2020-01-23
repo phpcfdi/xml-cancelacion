@@ -24,6 +24,14 @@ class Cancellation implements Countable, CapsuleInterface
     /** @var DocumentType */
     private $documentType;
 
+    /**
+     * DTO for cancellation request, it support CFDI and Retention
+     *
+     * @param string $rfc
+     * @param string[] $uuids
+     * @param DateTimeImmutable $date
+     * @param DocumentType|null $type Uses CFDI if non provided
+     */
     public function __construct(string $rfc, array $uuids, DateTimeImmutable $date, DocumentType $type = null)
     {
         $this->rfc = $rfc;

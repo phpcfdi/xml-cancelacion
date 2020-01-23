@@ -12,6 +12,7 @@
 - Other capsules uses also `DocumentType` to set the main namespace but as hardcoded.
 - Development:
     - Move from `phpstan/phpstan-shim` to `phpstan/phpstan`.
+    - Upgrade to `phpstan/phpstan: ^0.12`
 - Testing:
     - Improve `CancellationTest` to check that `DocumentType` is used correctly.
     - Create a testing class `XmlCancelacionHelperSpy` to spy on `XmlCancelacionHelper`.

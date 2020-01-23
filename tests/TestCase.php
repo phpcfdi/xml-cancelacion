@@ -25,6 +25,6 @@ class TestCase extends \PHPUnit\Framework\TestCase
         $document->preserveWhiteSpace = false;
         $document->formatOutput = false;
         $document->loadXML($contents);
-        return $document->saveXml();
+        return $document->saveXml() ?: '';
     }
 }

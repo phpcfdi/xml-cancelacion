@@ -72,6 +72,7 @@ class Credentials
         return $this->getCsd()->certificate()->pem();
     }
 
+    /** @return array<mixed> */
     public function publicKeyData(): array
     {
         return $this->getCsd()->certificate()->publicKey()->parsed();

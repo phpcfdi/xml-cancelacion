@@ -48,7 +48,7 @@ class XmlSignedUsingDOMSignerTest extends TestCase
         $this->capsule = $capsule;
         $this->signObjects = $credentials;
         $this->domSigner = $signer;
-        $this->signature = $document->saveXML();
+        $this->signature = $document->saveXML() ?: '';
     }
 
     public function testCreatedValues(): void
