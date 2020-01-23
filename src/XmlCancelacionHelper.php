@@ -80,36 +80,84 @@ class XmlCancelacionHelper
         return $dateTime;
     }
 
+    /**
+     * Creates a XML Signed cancellation request for a single CFDI
+     *
+     * @param string $uuid
+     * @param DateTimeImmutable|null $dateTime
+     * @return string
+     */
     public function signCancellation(string $uuid, ?DateTimeImmutable $dateTime = null): string
     {
         $capsule = $this->createCancellationObject([$uuid], $dateTime, DocumentType::cfdi());
         return $this->signCapsule($capsule);
     }
 
+    /**
+     * Creates a XML Signed cancellation request for one or multiple CFDI
+     * Is adviced to always send a request for only 1 UUID
+     *
+     * @param string[] $uuids
+     * @param DateTimeImmutable|null $dateTime
+     * @return string
+     */
     public function signCancellationUuids(array $uuids, ?DateTimeImmutable $dateTime = null): string
     {
         $capsule = $this->createCancellationObject($uuids, $dateTime, DocumentType::cfdi());
         return $this->signCapsule($capsule);
     }
 
+    /**
+     * Creates a XML Signed cancellation request for a single Retention
+     * Is adviced to always send a request for only 1 UUID
+     *
+     * @param string $uuid
+     * @param DateTimeImmutable|null $dateTime
+     * @return string
+     */
     public function signRetentionCancellation(string $uuid, ?DateTimeImmutable $dateTime = null): string
     {
         $capsule = $this->createCancellationObject([$uuid], $dateTime, DocumentType::retention());
         return $this->signCapsule($capsule);
     }
 
+    /**
+     * Creates a XML Signed cancellation request for one or multiple Retention
+     * Is adviced to always send a request for only 1 UUID
+     *
+     * @param string[] $uuids
+     * @param DateTimeImmutable|null $dateTime
+     * @return string
+     */
     public function signRetentionCancellationUuids(array $uuids, ?DateTimeImmutable $dateTime = null): string
     {
         $capsule = $this->createCancellationObject($uuids, $dateTime, DocumentType::retention());
         return $this->signCapsule($capsule);
     }
 
+    /**
+     * Creates a XML Signed request to obtain the related CFDI documents to a single UUID
+     *
+     * @param string $uuid
+     * @param RfcRole $role
+     * @param string $pacRfc
+     * @return string
+     */
     public function signObtainRelated(string $uuid, RfcRole $role, string $pacRfc): string
     {
         $capsule = new ObtainRelated($uuid, $this->getCredentials()->rfc(), $role, $pacRfc);
         return $this->signCapsule($capsule);
     }
 
+    /**
+     * Creates a XML Signed cancellation answer (accept or reject a cancellation)
+
+     * @param string $uuid
+     * @param CancelAnswer $answer
+     * @param string $pacRfc
+     * @param DateTimeImmutable|null $dateTime
+     * @return string
+     */
     public function signCancellationAnswer(
         string $uuid,
         CancelAnswer $answer,
@@ -129,6 +177,15 @@ class XmlCancelacionHelper
         return $signer->signCapsule($capsule, $credentials);
     }
 
+    /**
+     * This method was isolated to be able to test the calls made by specific methods
+     * It is not intended to be replaced or overrided by anything but tests
+     *
+     * @param string[] $uuids
+     * @param DateTimeImmutable|null $dateTime
+     * @param DocumentType $type
+     * @return Cancellation
+     */
     protected function createCancellationObject(
         array $uuids,
         ?DateTimeImmutable $dateTime,
