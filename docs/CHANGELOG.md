@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## Version 1.0.2 2020-01-23
+## Version 1.1.0 2020-01-23
 
 - Update license year, happy 2020!
 - Include cancellation document for document *"CFDI de retención e información de pagos"*.
