@@ -9,6 +9,7 @@
   that create cancellation request for retentions.
 - Refactor `XmlCancelacionHelper` and delegate the creation of the `Cancellation` object to a specific
   protected method.
+- Other capsules uses also `DocumentType` to set the main namespace but as hardcoded.
 - Development:
     - Move from `phpstan/phpstan-shim` to `phpstan/phpstan`.
 - Testing:
