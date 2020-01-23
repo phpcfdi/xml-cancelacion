@@ -1,6 +1,6 @@
 # CHANGELOG
 
-# UNRELEASED
+## Version 1.0.2 2020-01-23
 
 - Update license year, happy 2020!
 - Include cancellation document for document *"CFDI de retención e información de pagos"*.
@@ -18,12 +18,12 @@
     - Create a testing class `XmlCancelacionHelperSpy` to spy on `XmlCancelacionHelper`.
     - Refactor tests on `XmlCancelacionHelperTest` to test against the spy class.  
 
-# Version 1.0.1 2019-10-02
+## Version 1.0.1 2019-10-02
 
 - Fix documentation to point out version 1.0 instead of 0.5.
 - Fix documentation PHP examples.
 
-# Version 1.0.0 2019-09-28
+## Version 1.0.0 2019-09-28
 
 - This version is a major change, it is not compatible with previous versions
   Read [UPGRADE-1.0](https://github.com/phpcfdi/xml-cancelacion/blob/master/docs/UPGRADE-1.0.md)
