@@ -26,7 +26,7 @@
         "ext-dom": "*",
         "ext-openssl": "*",
         "eclipxe/enum": "^0.2",
-        "phpcfdi/credentials": "^1.0"
+        "phpcfdi/credentials": "^1.1.1"
     },
     "require-dev": {
         "robrichards/xmlseclibs": "^3.0.4",
