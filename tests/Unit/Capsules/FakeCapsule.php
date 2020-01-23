@@ -13,7 +13,7 @@ class FakeCapsule implements CapsuleInterface
     /** @var string */
     private $rfc;
 
-    public function __construct($rfc)
+    public function __construct(string $rfc)
     {
         $this->rfc = $rfc;
     }

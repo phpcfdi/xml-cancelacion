@@ -7,6 +7,7 @@ namespace PhpCfdi\XmlCancelacion\Capsules;
 use DOMDocument;
 use DOMElement;
 use PhpCfdi\XmlCancelacion\Definitions;
+use PhpCfdi\XmlCancelacion\Definitions\DocumentType;
 use PhpCfdi\XmlCancelacion\Definitions\RfcRole;
 
 class ObtainRelated implements CapsuleInterface
@@ -54,7 +55,7 @@ class ObtainRelated implements CapsuleInterface
     public function exportToDocument(): DOMDocument
     {
         $document = (new BaseDocumentBuilder())
-            ->createBaseDocument('PeticionConsultaRelacionados', 'http://cancelacfd.sat.gob.mx');
+            ->createBaseDocument('PeticionConsultaRelacionados', DocumentType::cfdi()->value());
 
         /** @var DOMElement $peticion */
         $peticion = $document->documentElement;

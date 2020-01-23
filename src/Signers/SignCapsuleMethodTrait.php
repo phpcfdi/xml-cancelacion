@@ -17,6 +17,6 @@ trait SignCapsuleMethodTrait
         }
         $document = $capsule->exportToDocument();
         $this->signDocument($document, $credentials);
-        return $document->saveXML();
+        return $document->saveXML() ?: '';
     }
 }

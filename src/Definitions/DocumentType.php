@@ -9,12 +9,12 @@ use Eclipxe\Enum\Enum;
 /**
  * Define the answer to the cancellation request (accept/reject)
  *
- * @method static self accept()
- * @method static self reject()
- * @method bool isAccept()
- * @method bool isReject()
+ * @method static self cfdi()
+ * @method static self retention()
+ * @method bool isCfdi()
+ * @method bool isRetention()
  */
-class CancelAnswer extends Enum
+final class DocumentType extends Enum
 {
     /**
      * @inheritDoc
@@ -23,8 +23,8 @@ class CancelAnswer extends Enum
     protected static function overrideValues(): array
     {
         return [
-            'accept' => 'Aceptacion',
-            'reject' => 'Rechazo',
+            'cfdi' => 'http://cancelacfd.sat.gob.mx',
+            'retention' => 'http://cancelaretencion.sat.gob.mx',
         ];
     }
 }

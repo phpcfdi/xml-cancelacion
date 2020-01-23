@@ -8,6 +8,7 @@ use DateTimeImmutable;
 use DOMDocument;
 use DOMElement;
 use PhpCfdi\XmlCancelacion\Definitions\CancelAnswer;
+use PhpCfdi\XmlCancelacion\Definitions\DocumentType;
 
 class CancellationAnswer implements CapsuleInterface
 {
@@ -68,7 +69,7 @@ class CancellationAnswer implements CapsuleInterface
     public function exportToDocument(): DOMDocument
     {
         $document = (new BaseDocumentBuilder())
-            ->createBaseDocument('SolicitudAceptacionRechazo', 'http://cancelacfd.sat.gob.mx');
+            ->createBaseDocument('SolicitudAceptacionRechazo', DocumentType::cfdi()->value());
 
         /** @var DOMElement $solicitudAceptacionRechazo */
         $solicitudAceptacionRechazo = $document->documentElement;

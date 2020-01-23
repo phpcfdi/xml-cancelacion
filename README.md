@@ -137,8 +137,8 @@ En la herramienta de ayuda no se especifica el RFC, cuando se fabrica la solicit
 se obtiene el RFC directamente de las propiedades del certificado.
 
 Los métodos de ayuda utilizan una fecha opcional (`DateTimeImmutable` o `null`), si no se especifica
-entonces se toma la fecha actual del sistema, ten en cuenta que para la creación se toma en cuenta
-el reloj del sistema y el uso horario. Si no estás seguro de poder controlar estas configuraciones te
+entonces se toma la fecha actual del sistema, ten en cuenta que para la creación se utiliza el reloj
+del sistema y el uso horario. Si no estás seguro de poder controlar estas configuraciones te
 recomiendo que establezcas el parámetro.
 
 ### Solicitud de cancelación
@@ -157,6 +157,16 @@ la consulta se trata de un UUID recibido o emitido y el RFC del PAC por el cual 
 Para crear la solicitud de respuesta usa el método `signCancellationAnswer`.
 Requiere el UUID para el cual estás estableciendo la respuesta, la respuesta (aceptación o cancelación)
 y el RFC del PAC por el cual se realiza la consulta.
+
+### Solicitud de cancelación de RET
+
+Existe un CFDI especial de *"Retenciones e información de pagos"*, donde también se requiere una solicitud
+firmada tal como en una cancelación de CFDI pero su contenido cambia.
+
+Para crear la solicitud firmada para RET se puede hacer con los métodos `signRetentionCancellation` para un sólo UUID
+o `signRetentionCancellationUuids` para varios UUID. Como primer parámetro reciben qué UUID será cancelado.
+
+TIP: Por la experiencia en el uso de los servicios de SAT se comienda usar siempre cancelaciones individuales.
 
 ## Objetos de trabajo
 
@@ -213,7 +223,7 @@ and licensed for use under the MIT License (MIT). Please see [LICENSE][] for mor
 [source]: https://github.com/phpcfdi/xml-cancelacion
 [release]: https://github.com/phpcfdi/xml-cancelacion/releases
 [license]: https://github.com/phpcfdi/xml-cancelacion/blob/master/LICENSE
-[build]: https://travis-ci.org/phpcfdi/xml-cancelacion?branch=master
+[build]: https://travis-ci.com/phpcfdi/xml-cancelacion?branch=master
 [quality]: https://scrutinizer-ci.com/g/phpcfdi/xml-cancelacion/
 [coverage]: https://scrutinizer-ci.com/g/phpcfdi/xml-cancelacion/code-structure/master/code-coverage/src/
 [downloads]: https://packagist.org/packages/phpcfdi/xml-cancelacion
@@ -221,7 +231,7 @@ and licensed for use under the MIT License (MIT). Please see [LICENSE][] for mor
 [badge-source]: https://img.shields.io/badge/source-phpcfdi/xml--cancelacion-blue?style=flat-square
 [badge-release]: https://img.shields.io/github/release/phpcfdi/xml-cancelacion?style=flat-square
 [badge-license]: https://img.shields.io/github/license/phpcfdi/xml-cancelacion?style=flat-square
-[badge-build]: https://img.shields.io/travis/phpcfdi/xml-cancelacion/master?style=flat-square
+[badge-build]: https://img.shields.io/travis/com/phpcfdi/xml-cancelacion/master?style=flat-square
 [badge-quality]: https://img.shields.io/scrutinizer/g/phpcfdi/xml-cancelacion/master?style=flat-square
 [badge-coverage]: https://img.shields.io/scrutinizer/coverage/g/phpcfdi/xml-cancelacion/master?style=flat-square
 [badge-downloads]: https://img.shields.io/packagist/dt/phpcfdi/xml-cancelacion?style=flat-square
