@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## UNRELEASED
+## Version 1.1.1 2020-08-28
 
 - Refactor `CreateKeyInfoElementTraitTest` explaining what it is for.
     - Add a class to use `CreateKeyInfoElementTrait` changing `createKeyInfoElement` method visibility.
