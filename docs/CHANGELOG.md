@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## UNRELEASED
+
+- Refactor `CreateKeyInfoElementTraitTest` explaining what it is for.
+    - Add a class to use `CreateKeyInfoElementTrait` changing `createKeyInfoElement` method visibility.
+    - Make 3 different tests for 3 different cases instead of all in one test.
+    - Fixes recently (false positive) issue detected by `phpstan/phpstan:^0.12.40`.
+
 ## Version 1.1.0 2020-01-23
 
 - Update license year, happy 2020!
