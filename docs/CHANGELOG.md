@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## UNRELEASED 2020-11-12
+
+- Fix Travis-CI build: `phpstan: ^0.12.54` detects issues on unit tests control flow.
+
 ## Version 1.1.1 2020-08-28
 
 - Refactor `CreateKeyInfoElementTraitTest` explaining what it is for.

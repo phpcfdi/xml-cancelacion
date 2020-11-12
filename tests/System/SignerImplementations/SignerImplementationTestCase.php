@@ -121,7 +121,6 @@ abstract class SignerImplementationTestCase extends TestCase
         $objKey = $dSig->locateKey();
         if (null === $objKey) {
             $this->fail('Cannot locate XMLSecurityKey object');
-            return;
         }
 
         // must call, otherwise verify will not have the public key to check signature
