@@ -34,7 +34,7 @@ trait CreateKeyInfoElementTrait
         );
         $x509Data->appendChild($x509IssuerSerial);
 
-        $certificateContents = implode('', preg_grep('/^((?!-).)*$/', explode(PHP_EOL, $pemContents)));
+        $certificateContents = implode('', preg_grep('/^((?!-).)*$/', explode(PHP_EOL, $pemContents)) ?: []);
         $x509Data->appendChild(
             $document->createElement('X509Certificate', htmlspecialchars($certificateContents, ENT_XML1))
         );
