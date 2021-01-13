@@ -6,7 +6,7 @@ filter:
 build:
   dependencies:
     override:
-      - composer self-update --2 --stable --no-interaction --no-progress
+      - composer self-update --2 --no-interaction --no-progress
       - composer remove squizlabs/php_codesniffer friendsofphp/php-cs-fixer phpstan/phpstan --dev --no-interaction --no-progress --no-update
       - composer upgrade --no-interaction --prefer-dist
   nodes:
