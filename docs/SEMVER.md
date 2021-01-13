@@ -39,4 +39,4 @@ Cuando un elemento es `@internal`, dicho elemento:
 
 - no debe ser una entrada (parámetro)
 - no debe ser una salida (retorno)
-- no debe exponer exponer funcionalidades en los objetos públicos (rasgos)
+- no debe exponer funcionalidades en los objetos públicos (rasgos)
