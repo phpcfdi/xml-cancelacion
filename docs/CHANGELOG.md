@@ -1,5 +1,12 @@
 # CHANGELOG
 
+## UNRELEASED 2021-01-12
+
+- La documentación del proyecto cambia a español.
+- Se agrega PHP 8.0 a la integración continua.
+- Se modifican los comandos de construcción para usar composer versión 2.
+- Actualización del año en la licencia, feliz 2021 desde PhpCfdi.
+
 ## UNRELEASED 2020-11-12
 
 - Fix Travis-CI build: `phpstan: ^0.12.54` detects issues on unit tests control flow.
