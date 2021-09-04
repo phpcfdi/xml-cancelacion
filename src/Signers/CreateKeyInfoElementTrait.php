@@ -53,9 +53,9 @@ trait CreateKeyInfoElementTrait
      */
     private function createKeyValueElement(DOMDocument $document, array $pubKeyData): DOMElement
     {
+        /** @var array{type: int, rsa: array{n: string, e: string}} $pubKeyData */
         $keyValue = $document->createElement('KeyValue');
-        $type = $pubKeyData['type'] ?? -1;
-        if (OPENSSL_KEYTYPE_RSA === $type) {
+        if (OPENSSL_KEYTYPE_RSA === $pubKeyData['type']) {
             $rsaKeyValue = $keyValue->appendChild($document->createElement('RSAKeyValue'));
             $rsaKeyValue->appendChild($document->createElement('Modulus', base64_encode($pubKeyData['rsa']['n'])));
             $rsaKeyValue->appendChild($document->createElement('Exponent', base64_encode($pubKeyData['rsa']['e'])));

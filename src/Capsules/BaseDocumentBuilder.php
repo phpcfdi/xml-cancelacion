@@ -45,9 +45,7 @@ class BaseDocumentBuilder
         return $this->extraNamespaces;
     }
 
-    /**
-     * @return array<string| string>
-     */
+    /** @return array<string, string> */
     public static function defaultExtraNamespaces(): array
     {
         return [

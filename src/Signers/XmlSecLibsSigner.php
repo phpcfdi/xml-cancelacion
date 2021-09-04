@@ -53,11 +53,11 @@ class XmlSecLibsSigner implements SignerInterface
      */
     protected function signDocumentInternal(DOMDocument $document, Credentials $credentials): DOMElement
     {
-        // use a mofidied version of XMLSecurityDSig that does not contains xml white-spaces
-        $objDSig = new class('') extends XMLSecurityDSig {
-            public function __construct(string $prefix)
+        // use a modified version of XMLSecurityDSig that does not contain xml white-spaces
+        $objDSig = new class () extends XMLSecurityDSig {
+            /** @noinspection PhpMissingParentConstructorInspection */
+            public function __construct()
             {
-                parent::__construct($prefix);
                 // set sigNode property with a signature node without inner spaces
                 $document = new DOMDocument();
                 $document->appendChild($signature = $document->createElementNS(parent::XMLDSIGNS, 'Signature'))
@@ -87,11 +87,11 @@ class XmlSecLibsSigner implements SignerInterface
         // if second parameter is empty it will remove extra namespaces
         $objDSig->sign($objKey, $rootElement);
 
+        /**
+         * @noinspection PhpUnnecessaryLocalVariableInspection
+         * @var DOMElement $sigNode
+         */
         $sigNode = $objDSig->sigNode;
-        if (! $sigNode instanceof DOMElement) {
-            /** @codeCoverageIgnore */
-            throw new Exception('Signature node does not exists after sign');
-        }
 
         return $sigNode;
     }

@@ -28,6 +28,6 @@ class ObtainRelatedTest extends TestCase
         $this->assertFalse($capsule->belongsToRfc($pacRfc));
 
         $expectedFile = $this->filePath('obtain-related-document.xml');
-        $this->assertXmlStringEqualsXmlFile($expectedFile, $capsule->exportToDocument());
+        $this->assertXmlStringEqualsXmlFile($expectedFile, (string) $capsule->exportToDocument()->saveXML());
     }
 }
