@@ -2,8 +2,10 @@
 
 ## Pendientes
 
-- El tercer parámetro del constructor de `Cancellation` que recibe el `DocumentType` debería ser obligatorio,
+- El tercer parámetro del constructor de `Cancellation` que recibe el valor `DocumentType` debería ser obligatorio,
   es opcional para compatibilidad con la versión actual.
+
+- Mejorar los casos de cobertura de código para hacer mandatorio `infection` en los pasos de construcción.
 
 ## Resueltas
 

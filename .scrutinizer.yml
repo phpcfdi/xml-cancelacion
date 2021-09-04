@@ -1,6 +1,8 @@
 filter:
   excluded_paths:
     - 'tests/'
+  dependency_paths:
+    - 'tools/'
     - 'vendor/'
 
 build:
@@ -13,7 +15,5 @@ build:
       tests:
         override:
           - php-scrutinizer-run --enable-security-analysis
-          - command: vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
-            coverage:
-              file: coverage.clover
-              format: clover
+tools:
+  external_code_coverage: true

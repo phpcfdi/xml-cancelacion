@@ -10,7 +10,7 @@
 
 > Genera documentos de cancelación de CFDI firmados (XMLSEC)
 
-:us: The documentation of this project is in spanish as this is the natural language for intented audience.
+:us: The documentation of this project is in spanish as this is the natural language for intended audience.
 
 :mexico: La documentación del proyecto está en español porque ese es el lenguaje principal de los usuarios.
 
@@ -81,7 +81,7 @@ $data = new Cancellation('LAN7008173R5', ['12345678-1234-1234-1234-123456789012'
 $xml = (new DOMSigner())->signCapsule($data, $credentials);
 ```
 
-La salida esperada es algo como lo siguiente (sin los espacios en blanco que agregué para mejor lectura).
+La salida esperada es algo como lo siguiente (sin los espacios en blanco, que agregué para mejor lectura).
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -138,12 +138,12 @@ se obtiene el RFC directamente de las propiedades del certificado.
 
 Los métodos de ayuda utilizan una fecha opcional (`DateTimeImmutable` o `null`), si no se especifica
 entonces se toma la fecha actual del sistema, ten en cuenta que para la creación se utiliza el reloj
-del sistema y el uso horario. Si no estás seguro de poder controlar estas configuraciones te
+del sistema y el huso horario. Si no estás seguro de poder controlar estas configuraciones te
 recomiendo que establezcas el parámetro.
 
 ### Solicitud de cancelación
 
-Para crear la solicitud firmada se puede hacer con los métodos `signCancellation` para un sólo UUID
+Para crear la solicitud firmada se puede hacer con los métodos `signCancellation` para un solo UUID
 o `signCancellationUuids` para varios UUID. Como primer parámetro reciben qué UUID será cancelado.
 
 ### Solicitud de folios relacionados
@@ -161,12 +161,12 @@ y el RFC del PAC por el cual se realiza la consulta.
 ### Solicitud de cancelación de RET
 
 Existe un CFDI especial de *"Retenciones e información de pagos"*, donde también se requiere una solicitud
-firmada tal como en una cancelación de CFDI pero su contenido cambia.
+firmada tal como en una cancelación de CFDI, pero su contenido es diferente.
 
-Para crear la solicitud firmada para RET se puede hacer con los métodos `signRetentionCancellation` para un sólo UUID
+Para crear la solicitud firmada para RET se puede hacer con los métodos `signRetentionCancellation` para un solo UUID
 o `signRetentionCancellationUuids` para varios UUID. Como primer parámetro reciben qué UUID será cancelado.
 
-TIP: Por la experiencia en el uso de los servicios de SAT se comienda usar siempre cancelaciones individuales.
+TIP: Por la experiencia en el uso de los servicios de SAT es recomendado usar siempre cancelaciones individuales.
 
 ## Objetos de trabajo
 
@@ -177,12 +177,27 @@ poder generar el documento XML a firmar.
 **`Credentials`** Es un objeto que encapsula el trabajo con los certificados y llave privada.
 Internamente utiliza [`phpcfdi/credentials`](https://github.com/phpcfdi/credentials) y la clase interna es solo
 una indirección de `PhpCfdi\Credentials\Credential`. Incluso puedes crear una credencial de `phpcfd/xml-cancelacion`
-a partir de un objeto directo de `phpcfdi/credentials`. 
+a partir de un objeto directo de `phpcfdi/credentials` usando `Credentials::createWithPhpCfdiCredential`, por ejemplo:
+
+```php
+<?php
+declare(strict_types=1);
+use PhpCfdi\Credentials\Credential;
+use PhpCfdi\XmlCancelacion\Credentials;
+use PhpCfdi\XmlCancelacion\XmlCancelacionHelper;
+
+$phpCfdiCredential = Credential::openFiles('certificado.cer', 'llaveprivada.key', 'contraseña');
+$credentials = Credentials::createWithPhpCfdiCredential($phpCfdiCredential);
+
+$xmlCancelacion = new XmlCancelacionHelper($credentials);
+
+$solicitudCancelacion = $xmlCancelacion->signCancellation('11111111-2222-3333-4444-000000000001');
+```
 
 **`SignerInterface`** son los objetos que permiten firmar el documento generado por una *cápsula* y una *credencial*.
 Existen dos implementaciones: `DOMSigner` (recomendada) y `XmlSecLibsSigner`. La primera no requiere de mayores
 dependencias y realiza el firmado utilizando las especificaciones del SAT. La segunda utiliza *parcialmente*
-[XmlSecLibs](https://github.com/phpcfdi/xml-cancelacion/blob/master/XmlSecLibs.md) y termina la información de
+[XmlSecLibs](https://github.com/phpcfdi/xml-cancelacion/blob/main/docs/XmlSecLibs.md) y termina la información de
 la firma usando un mecanismo interno.
 
 ## Observaciones
@@ -192,13 +207,13 @@ Si bien, esto no es necesario para producir un documento con la firma correcta, 
 producir la información que se requiere por parte del PAC o del SAT.
 
 A partir de 2019-08-27 con la versión `1.0.0` se puede usar [`robrichards/xmlseclibs`](https://github.com/robrichards/xmlseclibs).
-Para más información ver el archivo [XmlSecLibs](https://github.com/phpcfdi/xml-cancelacion/blob/master/XmlSecLibs.md).
+Para más información ver el archivo [XmlSecLibs](https://github.com/phpcfdi/xml-cancelacion/blob/main/docs/XmlSecLibs.md).
 
 A partir de 2019-08-13 con la versión `0.4.0` se eliminó la dependencia a `eclipxe/cfdiutils` y se cambió a la
 librería [`phpcfdi/credentials`](https://github.com/phpcfdi/xml-cancelacion), con esta nueva dependencia se trabaja
 mucho mejor con los certificados y llaves privadas.
 
-## Compatilibilidad
+## Compatibilidad
 
 Esta librería se mantendrá compatible con al menos la versión con
 [soporte activo de PHP](https://www.php.net/supported-versions.php) más reciente.
@@ -216,22 +231,22 @@ y recuerda revisar el archivo de tareas pendientes [TODO][] y el archivo [CHANGE
 The `phpcfdi/xml-cancelacion` library is copyright © [PhpCfdi](https://www.phpcfdi.com/)
 and licensed for use under the MIT License (MIT). Please see [LICENSE][] for more information.
 
-[contributing]: https://github.com/phpcfdi/xml-cancelacion/blob/master/CONTRIBUTING.md
-[changelog]: https://github.com/phpcfdi/xml-cancelacion/blob/master/docs/CHANGELOG.md
-[todo]: https://github.com/phpcfdi/xml-cancelacion/blob/master/docs/TODO.md
+[contributing]: https://github.com/phpcfdi/xml-cancelacion/blob/main/CONTRIBUTING.md
+[changelog]: https://github.com/phpcfdi/xml-cancelacion/blob/main/docs/CHANGELOG.md
+[todo]: https://github.com/phpcfdi/xml-cancelacion/blob/main/docs/TODO.md
 
 [source]: https://github.com/phpcfdi/xml-cancelacion
 [release]: https://github.com/phpcfdi/xml-cancelacion/releases
-[license]: https://github.com/phpcfdi/xml-cancelacion/blob/master/LICENSE
-[build]: https://github.com/phpcfdi/xml-cancelacion/actions/workflows/build.yml?query=branch:master
+[license]: https://github.com/phpcfdi/xml-cancelacion/blob/main/LICENSE
+[build]: https://github.com/phpcfdi/xml-cancelacion/actions/workflows/build.yml?query=branch:main
 [quality]: https://scrutinizer-ci.com/g/phpcfdi/xml-cancelacion/
-[coverage]: https://scrutinizer-ci.com/g/phpcfdi/xml-cancelacion/code-structure/master/code-coverage/src/
+[coverage]: https://scrutinizer-ci.com/g/phpcfdi/xml-cancelacion/code-structure/main/code-coverage
 [downloads]: https://packagist.org/packages/phpcfdi/xml-cancelacion
 
 [badge-source]: https://img.shields.io/badge/source-phpcfdi/xml--cancelacion-blue?style=flat-square
 [badge-release]: https://img.shields.io/github/release/phpcfdi/xml-cancelacion?style=flat-square
 [badge-license]: https://img.shields.io/github/license/phpcfdi/xml-cancelacion?style=flat-square
-[badge-build]: https://img.shields.io/travis/com/phpcfdi/xml-cancelacion/master?style=flat-square
+[badge-build]: https://img.shields.io/github/workflow/status/phpcfdi/xml-cancelacion/build/main?style=flat-square
 [badge-quality]: https://img.shields.io/scrutinizer/g/phpcfdi/xml-cancelacion/main?style=flat-square
-[badge-coverage]: https://img.shields.io/scrutinizer/coverage/g/phpcfdi/xml-cancelacion/master?style=flat-square
+[badge-coverage]: https://img.shields.io/scrutinizer/coverage/g/phpcfdi/xml-cancelacion/main?style=flat-square
 [badge-downloads]: https://img.shields.io/packagist/dt/phpcfdi/xml-cancelacion?style=flat-square
