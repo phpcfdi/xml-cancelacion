@@ -14,6 +14,8 @@ class Cancellation implements Countable, CapsuleInterface
 {
     use XmlHelperFunctions;
 
+    private const UUID_EXISTS = true;
+
     /** @var string */
     private $rfc;
 
@@ -41,7 +43,7 @@ class Cancellation implements Countable, CapsuleInterface
         $this->uuids = [];
         $this->documentType = $type ?? DocumentType::cfdi();
         foreach ($uuids as $uuid) {
-            $this->uuids[strtoupper($uuid)] = true;
+            $this->uuids[strtoupper($uuid)] = self::UUID_EXISTS;
         }
     }
 
