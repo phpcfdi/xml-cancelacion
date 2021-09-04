@@ -11,7 +11,7 @@ versión, aunque sí su incorporación en la rama principal de trabajo. Generalm
 
 ## Listado de cambios
 
-### Versión 1.1.2 2020-01-23
+### Versión 1.1.2 2021-09-03
 
 - La versión menor de PHP es 7.3.
 - Se actualiza PHPUnit a 9.5.
