@@ -9,22 +9,21 @@ use DOMElement;
 use Exception;
 use LogicException;
 use PhpCfdi\XmlCancelacion\Credentials;
-use PhpCfdi\XmlCancelacion\Exceptions\DocumentWithoutRootElement;
+use PhpCfdi\XmlCancelacion\Internal\XmlHelperFunctions;
 use RobRichards\XMLSecLibs\XMLSecurityDSig;
 use RobRichards\XMLSecLibs\XMLSecurityKey;
 
 class XmlSecLibsSigner implements SignerInterface
 {
+    use XmlHelperFunctions;
+
     use CreateKeyInfoElementTrait;
+
     use SignCapsuleMethodTrait;
 
     public function signDocument(DOMDocument $document, Credentials $credentials): void
     {
-        /** @var DOMElement|null $rootElement help static analyzers to detect that documentElement can be null */
-        $rootElement = $document->documentElement;
-        if (! $rootElement instanceof DOMElement) {
-            throw new DocumentWithoutRootElement();
-        }
+        $this->xmlDocumentElement($document);
 
         try {
             // move XmlSecLibs signature to internal method
@@ -83,8 +82,7 @@ class XmlSecLibsSigner implements SignerInterface
         $objKey->passphrase = $credentials->passPhrase();
         $objKey->loadKey($credentials->privateKey(), true);
 
-        /** @var DOMElement $rootElement */
-        $rootElement = $document->documentElement;
+        $rootElement = $this->xmlDocumentElement($document);
         // Sign the XML file, set the second parameter to document element,
         // if second parameter is empty it will remove extra namespaces
         $objDSig->sign($objKey, $rootElement);

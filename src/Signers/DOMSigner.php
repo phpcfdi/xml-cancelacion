@@ -7,12 +7,15 @@ namespace PhpCfdi\XmlCancelacion\Signers;
 use DOMDocument;
 use DOMElement;
 use PhpCfdi\XmlCancelacion\Credentials;
-use PhpCfdi\XmlCancelacion\Exceptions\DocumentWithoutRootElement;
+use PhpCfdi\XmlCancelacion\Internal\XmlHelperFunctions;
 
 class DOMSigner implements SignerInterface
 {
     use CreateKeyInfoElementTrait;
+
     use SignCapsuleMethodTrait;
+
+    use XmlHelperFunctions;
 
     /** @var string */
     private $digestSource = '';
@@ -25,20 +28,6 @@ class DOMSigner implements SignerInterface
 
     /** @var string */
     private $signedInfoValue = '';
-
-    /**
-     * @param DOMDocument $document
-     * @return DOMElement
-     */
-    private function rootElement(DOMDocument $document): DOMElement
-    {
-        /** @var DOMElement|null $rootElement help static analyzers to detect that documentElement can be null */
-        $rootElement = $document->documentElement;
-        if (null === $rootElement) {
-            throw new DocumentWithoutRootElement();
-        }
-        return $rootElement;
-    }
 
     public function getDigestSource(): string
     {
@@ -69,7 +58,7 @@ class DOMSigner implements SignerInterface
 
         /** @var DOMElement $signature */
         $signature = $document->createElementNS('http://www.w3.org/2000/09/xmldsig#', 'Signature');
-        $this->rootElement($document)->appendChild($signature);
+        $this->xmlDocumentElement($document)->appendChild($signature);
 
         // SignedInfo: import in document and append to the Signature element
         $signedInfo = $signature->appendChild(
@@ -116,8 +105,6 @@ class DOMSigner implements SignerInterface
         $docInfo->preserveWhiteSpace = false;
         $docInfo->formatOutput = false;
         $docInfo->loadXML($template);
-        $docinfoNode = $this->rootElement($docInfo);
-
-        return $docinfoNode;
+        return $this->xmlDocumentElement($docInfo);
     }
 }

@@ -5,13 +5,15 @@ declare(strict_types=1);
 namespace PhpCfdi\XmlCancelacion\Capsules;
 
 use DOMDocument;
-use DOMElement;
 use PhpCfdi\XmlCancelacion\Definitions;
 use PhpCfdi\XmlCancelacion\Definitions\DocumentType;
 use PhpCfdi\XmlCancelacion\Definitions\RfcRole;
+use PhpCfdi\XmlCancelacion\Internal\XmlHelperFunctions;
 
 class ObtainRelated implements CapsuleInterface
 {
+    use XmlHelperFunctions;
+
     /** @var string */
     private $uuid;
 
@@ -57,8 +59,7 @@ class ObtainRelated implements CapsuleInterface
         $document = (new BaseDocumentBuilder())
             ->createBaseDocument('PeticionConsultaRelacionados', DocumentType::cfdi()->value());
 
-        /** @var DOMElement $peticion */
-        $peticion = $document->documentElement;
+        $peticion = $this->xmlDocumentElement($document);
         $peticion->setAttribute('RfcEmisor', ($this->role()->isIssuer()) ? $this->rfc() : '');
         $peticion->setAttribute('RfcPacEnviaSolicitud', $this->pacRfc());
         $peticion->setAttribute('RfcReceptor', ($this->role()->isReceiver()) ? $this->rfc() : '');
