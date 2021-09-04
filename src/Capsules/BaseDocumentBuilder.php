@@ -16,6 +16,10 @@ use DOMDocument;
  */
 class BaseDocumentBuilder
 {
+    private const XMLDOC_NO_PRESERVE_WHITESPACE = false;
+
+    private const XMLDOC_NO_FORMAT_OUTPUT = false;
+
     /** @var array<string, string> */
     private $extraNamespaces;
 
@@ -41,9 +45,7 @@ class BaseDocumentBuilder
         return $this->extraNamespaces;
     }
 
-    /**
-     * @return array<string| string>
-     */
+    /** @return array<string, string> */
     public static function defaultExtraNamespaces(): array
     {
         return [
@@ -55,8 +57,8 @@ class BaseDocumentBuilder
     public function createBaseDocument(string $tagName, string $namespace): DOMDocument
     {
         $document = new DOMDocument('1.0', 'UTF-8');
-        $document->preserveWhiteSpace = false;
-        $document->formatOutput = false;
+        $document->preserveWhiteSpace = self::XMLDOC_NO_PRESERVE_WHITESPACE;
+        $document->formatOutput = self::XMLDOC_NO_FORMAT_OUTPUT;
         $cancelacion = $document->createElementNS($namespace, $tagName);
         foreach ($this->extraNamespaces() as $prefix => $uri) {
             $cancelacion->setAttributeNS('http://www.w3.org/2000/xmlns/', 'xmlns:' . $prefix, $uri);

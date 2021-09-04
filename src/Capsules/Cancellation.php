@@ -7,11 +7,15 @@ namespace PhpCfdi\XmlCancelacion\Capsules;
 use Countable;
 use DateTimeImmutable;
 use DOMDocument;
-use DOMElement;
 use PhpCfdi\XmlCancelacion\Definitions\DocumentType;
+use PhpCfdi\XmlCancelacion\Internal\XmlHelperFunctions;
 
 class Cancellation implements Countable, CapsuleInterface
 {
+    use XmlHelperFunctions;
+
+    private const UUID_EXISTS = true;
+
     /** @var string */
     private $rfc;
 
@@ -25,7 +29,7 @@ class Cancellation implements Countable, CapsuleInterface
     private $documentType;
 
     /**
-     * DTO for cancellation request, it support CFDI and Retention
+     * DTO for cancellation request, it supports CFDI and Retention
      *
      * @param string $rfc
      * @param string[] $uuids
@@ -39,7 +43,7 @@ class Cancellation implements Countable, CapsuleInterface
         $this->uuids = [];
         $this->documentType = $type ?? DocumentType::cfdi();
         foreach ($uuids as $uuid) {
-            $this->uuids[strtoupper($uuid)] = true;
+            $this->uuids[strtoupper($uuid)] = self::UUID_EXISTS;
         }
     }
 
@@ -76,8 +80,7 @@ class Cancellation implements Countable, CapsuleInterface
     {
         $document = (new BaseDocumentBuilder())->createBaseDocument('Cancelacion', $this->documentType->value());
 
-        /** @var DOMElement $cancelacion */
-        $cancelacion = $document->documentElement;
+        $cancelacion = $this->xmlDocumentElement($document);
         $cancelacion->setAttribute('RfcEmisor', $this->rfc()); // en el anexo 20 es opcional!
         $cancelacion->setAttribute('Fecha', $this->date()->format('Y-m-d\TH:i:s'));
         $folios = $cancelacion->appendChild($document->createElement('Folios'));

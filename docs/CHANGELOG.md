@@ -1,17 +1,39 @@
 # CHANGELOG
 
-## UNRELEASED 2021-01-12
+## Acerca de SemVer
+
+Usamos [Versionado Semántico 2.0.0](SEMVER.md) por lo que puedes usar esta librería sin temor a romper tu aplicación.
+
+## Cambios no liberados en una versión
+
+Pueden aparecer cambios no liberados que se integran a la rama principal, pero no ameritan una nueva liberación de
+versión, aunque sí su incorporación en la rama principal de trabajo. Generalmente se tratan de cambios en el desarrollo.
+
+## Listado de cambios
+
+### Versión 1.1.2 2020-01-23
+
+- La versión menor de PHP es 7.3.
+- Se actualiza PHPUnit a 9.5.
+- Se migra de Travis-CI a GitHub Workflows. Gracias Travis-CI.
+- Se instalan las herramientas de desarrollo usando `phive` en lugar de `composer`.
+- Se agregan revisiones de `psalm` e `infection`.
+- Se cambia la rama principal a `main`.
+- Se agrega un `trait` interno para obtener el elemento principal de un documento XML.
+- Se usan constantes privadas descriptivas en lugar de números mágicos.
+
+### UNRELEASED 2021-01-12
 
 - La documentación del proyecto cambia a español.
 - Se agrega PHP 8.0 a la integración continua.
 - Se modifican los comandos de construcción para usar composer versión 2.
 - Actualización del año en la licencia, feliz 2021 desde PhpCfdi.
 
-## UNRELEASED 2020-11-12
+### UNRELEASED 2020-11-12
 
 - Fix Travis-CI build: `phpstan: ^0.12.54` detects issues on unit tests control flow.
 
-## Version 1.1.1 2020-08-28
+### Version 1.1.1 2020-08-28
 
 - Refactor `CreateKeyInfoElementTraitTest` explaining what it is for.
     - Add a class to use `CreateKeyInfoElementTrait` changing `createKeyInfoElement` method visibility.
@@ -19,7 +41,7 @@
     - Fixes recently (false positive) issue detected by `phpstan/phpstan:^0.12.40`.
 - Change dependency `robrichards/xmlseclibs` version from `^3.0.8` to `3.1.0`.
 
-## Version 1.1.0 2020-01-23
+### Version 1.1.0 2020-01-23
 
 - Update license year, happy 2020!
 - Include cancellation document for document *"CFDI de retención e información de pagos"*.
@@ -37,19 +59,19 @@
     - Create a testing class `XmlCancelacionHelperSpy` to spy on `XmlCancelacionHelper`.
     - Refactor tests on `XmlCancelacionHelperTest` to test against the spy class.  
 
-## Version 1.0.1 2019-10-02
+### Version 1.0.1 2019-10-02
 
 - Fix documentation to point out version 1.0 instead of 0.5.
 - Fix documentation PHP examples.
 
-## Version 1.0.0 2019-09-28
+### Version 1.0.0 2019-09-28
 
 - This version is a major change, it is not compatible with previous versions
-  Read [UPGRADE-1.0](https://github.com/phpcfdi/xml-cancelacion/blob/master/docs/UPGRADE-1.0.md)
+  Read [UPGRADE-1.0](https://github.com/phpcfdi/xml-cancelacion/blob/main/docs/UPGRADE-1.0.md)
 - New signed documents:
-    - Cancellation: For request to SAT a cancellation of one or many CFDI.
-    - ObtainRelated: For asking to SAT related documents of a CFDI.
-    - CancellationAnswer: For setting the answer to SAT about a cancellation request.
+    - Cancellation: Request SAT for cancellation of one or many CFDI.
+    - ObtainRelated: Request SAT for related documents of a CFDI.
+    - CancellationAnswer: Answer SAT about a cancellation request.
 - New project concepts:
     - Capsule: DTO that contains source data, also implements `CapsuleInterface`
     - Signer: Manipulation object implementing `SignerInterface`, takes a DOMDocument and append signature data
@@ -71,14 +93,14 @@
             - `CertificateIsNotCSD`
 
 
-## Version 0.4.2 2019-09-05
+### Version 0.4.2 2019-09-05
 
 - Include a helper object `XmlCancelacionHelper` that simplify working with this library,
-  see [README](https://github.com/phpcfdi/xml-cancelacion/blob/master/README.md) for usage.
+  see [README](https://github.com/phpcfdi/xml-cancelacion/blob/main/README.md) for usage.
 - Other minimal changes on documentation.
 
 
-## Version 0.4.1 2019-08-13
+### Version 0.4.1 2019-08-13
 
 - Fix X509IssuerName to use certificate issuer as [RFC 4514](https://www.ietf.org/rfc/rfc4514.txt)
   according to [XML Signature Syntax and Processing Version 1.1](https://www.w3.org/TR/xmldsig-core1/)
@@ -89,7 +111,7 @@
   Notice that in the encoding rules mention additional rules that __MAY__ be implemented. We are not. 
 
 
-## Version 0.4.0 2019-08-13
+### Version 0.4.0 2019-08-13
 
 - Drop dependence from `eclipxe/cfdiutils` to `phpcfdi/credentials`
 - `PhpCfdi\XmlCancelacion\Credentials` changed from DTO to encapsulate certificate & private key logic:
@@ -98,7 +120,7 @@
 - Minor improvements in documentation
 
 
-## Version 0.3.0 2019-06-27
+### Version 0.3.0 2019-06-27
 
 - Fix issue when calling `DOMDocument::createElement`/`DOMDocument::createElementNS` and content has an empersand `&`:
     - `KeyInfo/X509Data/X509IssuerSerial/X509IssuerName`
@@ -112,12 +134,12 @@
 - Remove protected method `DOMSigner::createKeyValueFromCertificado` in favor of `DOMSigner::createKeyValueElement`.
 
 
-## Version 0.2.1 2019-05-13
+### Version 0.2.1 2019-05-13
 
 - Release with new tag since v0.2.0 did not include this changes
 
 
-## Version 0.2.0 2019-05-13
+### Version 0.2.0 2019-05-13
 
 - Code quality improvements thanks to phpstan and infection (mutation testing framework)
 - Remove `Capsule::append` method, `Capsule` is now immutable.
@@ -125,6 +147,6 @@
 - `Capsule` now implements `Countable`
 
 
-## Version 0.1.0 2019-04-09
+### Version 0.1.0 2019-04-09
 
 - First public version

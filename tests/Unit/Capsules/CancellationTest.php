@@ -15,14 +15,15 @@ class CancellationTest extends TestCase
     {
         $rfc = 'LAN7008173R5';
         $uuids = [
-            '12345678-1234-1234-1234-123456789001',
-            '12345678-1234-1234-1234-123456789002',
+            '12345678-1234-aaaa-1234-123456789001',
+            '12345678-1234-aaaa-1234-123456789002',
         ];
+        $expectedUuids = array_map('strtoupper', $uuids);
         $date = new DateTimeImmutable('2019-01-13 14:15:16');
         $documentType = DocumentType::cfdi();
         $cancellation = new Cancellation($rfc, $uuids, $date, $documentType);
         $this->assertSame($rfc, $cancellation->rfc());
-        $this->assertSame($uuids, $cancellation->uuids());
+        $this->assertSame($expectedUuids, $cancellation->uuids());
         $this->assertSame($date, $cancellation->date());
         $this->assertSame($documentType, $cancellation->documentType());
 
@@ -61,7 +62,7 @@ class CancellationTest extends TestCase
         $dateTime = new DateTimeImmutable('2019-01-13 14:15:16');
         $cancellation = new Cancellation('LAN7008173R5', $uuids, $dateTime);
         $expectedFile = $this->filePath('cancellation-document.xml');
-        $this->assertXmlStringEqualsXmlFile($expectedFile, $cancellation->exportToDocument());
+        $this->assertXmlStringEqualsXmlFile($expectedFile, (string) $cancellation->exportToDocument()->saveXML());
     }
 
     public function testExportToDocumentWithRetention(): void
@@ -70,7 +71,7 @@ class CancellationTest extends TestCase
         $dateTime = new DateTimeImmutable('2019-01-13 14:15:16');
         $cancellation = new Cancellation('LAN7008173R5', $uuids, $dateTime, DocumentType::retention());
         $expectedFile = $this->filePath('cancellation-retention-document.xml');
-        $this->assertXmlStringEqualsXmlFile($expectedFile, $cancellation->exportToDocument());
+        $this->assertXmlStringEqualsXmlFile($expectedFile, (string) $cancellation->exportToDocument()->saveXML());
     }
 
     public function testCreateDocumentWithAmpersandsOnUuids(): void

@@ -6,12 +6,14 @@ namespace PhpCfdi\XmlCancelacion\Capsules;
 
 use DateTimeImmutable;
 use DOMDocument;
-use DOMElement;
 use PhpCfdi\XmlCancelacion\Definitions\CancelAnswer;
 use PhpCfdi\XmlCancelacion\Definitions\DocumentType;
+use PhpCfdi\XmlCancelacion\Internal\XmlHelperFunctions;
 
 class CancellationAnswer implements CapsuleInterface
 {
+    use XmlHelperFunctions;
+
     /** @var string */
     private $uuid;
 
@@ -71,8 +73,7 @@ class CancellationAnswer implements CapsuleInterface
         $document = (new BaseDocumentBuilder())
             ->createBaseDocument('SolicitudAceptacionRechazo', DocumentType::cfdi()->value());
 
-        /** @var DOMElement $solicitudAceptacionRechazo */
-        $solicitudAceptacionRechazo = $document->documentElement;
+        $solicitudAceptacionRechazo = $this->xmlDocumentElement($document);
         $solicitudAceptacionRechazo->setAttribute('Fecha', $this->dateTime()->format('Y-m-d\TH:i:s'));
         $solicitudAceptacionRechazo->setAttribute('RfcPacEnviaSolicitud', $this->pacRfc());
         $solicitudAceptacionRechazo->setAttribute('RfcReceptor', $this->rfc());

@@ -3,8 +3,9 @@
 A partir de la versión `1.0.0` se incluye un objeto `XmlSecLibsSigner` que implementa `SignerInterface`.
 
 Se puede utilizar [`robrichards/xmlseclibs`](https://github.com/robrichards/xmlseclibs) para hacer el firmado,
-sin embargo al 2019-04-09 aun no se han implementado los mecanismos para incluir el elemento `KeyValue`,
-a pesar de tener un [PR #75](https://github.com/robrichards/xmlseclibs/pull/75) desde 2015-09-03.
+sin embargo al 2019-04-09 aún no se han implementado los mecanismos para incluir el elemento `KeyValue`,
+a pesar de tener un [PR #75](https://github.com/robrichards/xmlseclibs/pull/75) desde 2015-09-03
+y un [ISSUE #217](https://github.com/robrichards/xmlseclibs/issues/217).
 
 Las otras dos desventajas están en la forma en que escribe los valores de `X509IssuerSerial`,
 tanto `X509IssuerName` como `X509SerialNumber`.

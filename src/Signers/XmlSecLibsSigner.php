@@ -9,22 +9,21 @@ use DOMElement;
 use Exception;
 use LogicException;
 use PhpCfdi\XmlCancelacion\Credentials;
-use PhpCfdi\XmlCancelacion\Exceptions\DocumentWithoutRootElement;
+use PhpCfdi\XmlCancelacion\Internal\XmlHelperFunctions;
 use RobRichards\XMLSecLibs\XMLSecurityDSig;
 use RobRichards\XMLSecLibs\XMLSecurityKey;
 
 class XmlSecLibsSigner implements SignerInterface
 {
+    use XmlHelperFunctions;
+
     use CreateKeyInfoElementTrait;
+
     use SignCapsuleMethodTrait;
 
     public function signDocument(DOMDocument $document, Credentials $credentials): void
     {
-        /** @var DOMElement|null $rootElement help static analyzers to detect that documentElement can be null */
-        $rootElement = $document->documentElement;
-        if (! $rootElement instanceof DOMElement) {
-            throw new DocumentWithoutRootElement();
-        }
+        $this->xmlDocumentElement($document);
 
         try {
             // move XmlSecLibs signature to internal method
@@ -54,11 +53,11 @@ class XmlSecLibsSigner implements SignerInterface
      */
     protected function signDocumentInternal(DOMDocument $document, Credentials $credentials): DOMElement
     {
-        // use a mofidied version of XMLSecurityDSig that does not contains xml white-spaces
-        $objDSig = new class('') extends XMLSecurityDSig {
-            public function __construct(string $prefix)
+        // use a modified version of XMLSecurityDSig that does not contain xml white-spaces
+        $objDSig = new class () extends XMLSecurityDSig {
+            /** @noinspection PhpMissingParentConstructorInspection */
+            public function __construct()
             {
-                parent::__construct($prefix);
                 // set sigNode property with a signature node without inner spaces
                 $document = new DOMDocument();
                 $document->appendChild($signature = $document->createElementNS(parent::XMLDSIGNS, 'Signature'))
@@ -83,17 +82,16 @@ class XmlSecLibsSigner implements SignerInterface
         $objKey->passphrase = $credentials->passPhrase();
         $objKey->loadKey($credentials->privateKey(), true);
 
-        /** @var DOMElement $rootElement */
-        $rootElement = $document->documentElement;
+        $rootElement = $this->xmlDocumentElement($document);
         // Sign the XML file, set the second parameter to document element,
         // if second parameter is empty it will remove extra namespaces
         $objDSig->sign($objKey, $rootElement);
 
+        /**
+         * @noinspection PhpUnnecessaryLocalVariableInspection
+         * @var DOMElement $sigNode
+         */
         $sigNode = $objDSig->sigNode;
-        if (! $sigNode instanceof DOMElement) {
-            /** @codeCoverageIgnore */
-            throw new Exception('Signature node does not exists after sign');
-        }
 
         return $sigNode;
     }

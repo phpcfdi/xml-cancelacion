@@ -49,6 +49,6 @@ class BaseDocumentBuilderTest extends TestCase
             . '<fake xmlns="http://tempuri.org/fake"'
             . ' xmlns:xsd="http://www.w3.org/2001/XMLSchema"'
             . ' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"/>';
-        $this->assertXmlStringEqualsXmlString($expectedXml, $document);
+        $this->assertXmlStringEqualsXmlString($expectedXml, (string) $document->saveXML());
     }
 }

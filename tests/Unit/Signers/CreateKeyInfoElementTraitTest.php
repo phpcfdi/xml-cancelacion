@@ -6,13 +6,14 @@ namespace PhpCfdi\XmlCancelacion\Tests\Unit\Signers;
 
 use DOMDocument;
 use DOMElement;
+use PhpCfdi\XmlCancelacion\Signers\CreateKeyInfoElementTrait;
 use PhpCfdi\XmlCancelacion\Tests\TestCase;
 
 /**
  * This test case is specifically created to test ampersands contents when building the XML using
  * \DOMDocument::createElement on CreateKeyInfoElementTrait::createKeyInfoElement.
  *
- * The text contents must be parsed previously as valid XML and it produces malformed contents when they are not.
+ * The text contents must be parsed previously as valid XML, and it produces malformed contents when they are not.
  *
  * It is using the local class CreateKeyInfoElementTraitImplementor to be able to expose the createKeyInfoElement
  * method, it is originally created as protected and the implementor class make it public.

@@ -31,6 +31,6 @@ class CancellationAnswerTest extends TestCase
         $this->assertFalse($capsule->belongsToRfc($pacRfc));
 
         $expectedFile = $this->filePath('cancellation-answer-document.xml');
-        $this->assertXmlStringEqualsXmlFile($expectedFile, $capsule->exportToDocument());
+        $this->assertXmlStringEqualsXmlFile($expectedFile, (string) $capsule->exportToDocument()->saveXML());
     }
 }
