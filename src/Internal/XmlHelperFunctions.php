@@ -20,10 +20,6 @@ trait XmlHelperFunctions
      */
     private function xmlDocumentElement(DOMDocument $document): DOMElement
     {
-        /**
-         * Static analysis tools (PHPStan and PhpStorm) does not recognize the correct type
-         * @var DOMElement|null $documentElement
-         */
         $documentElement = $document->documentElement;
         if (null === $documentElement) {
             throw new DocumentWithoutRootElement();
