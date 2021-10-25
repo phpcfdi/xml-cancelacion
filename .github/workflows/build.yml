@@ -67,7 +67,7 @@ jobs:
       - name: Upload code coverage to scrutinizer
         uses: sudo-bot/action-scrutinizer@latest
         with:
-          cli-args: "--format=php-clover build/coverage-clover.xml"
+          cli-args: "-vvv --format=php-clover build/coverage-clover.xml"
         continue-on-error: true
 
   build: # this job runs tests on all php supported versions
