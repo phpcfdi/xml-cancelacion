@@ -172,9 +172,8 @@ class XmlCancelacionHelper
 
     public function signCapsule(CapsuleInterface $capsule): string
     {
-        $credentials = $this->getCredentials();
-        $signer = $this->getSigner();
-        return $signer->signCapsule($capsule, $credentials);
+        $signerInstance = $this->getSigner();
+        return $signerInstance->signCapsule($capsule, $this->getCredentials());
     }
 
     /**
