@@ -8,6 +8,11 @@
 [![Coverage Status][badge-coverage]][coverage]
 [![Total Downloads][badge-downloads]][downloads]
 
+[![Reliability][badge-sonar-reliability]][sonar-reliability]
+[![Maintainability][badge-sonar-maintainability]][sonar-maintainability]
+[![Code Coverage][badge-sonar-coverage]][sonar-coverage]
+[![Violations][badge-sonar-violations]][sonar-violations]
+
 > Genera documentos de cancelación de CFDI firmados (XMLSEC)
 
 :us: The documentation of this project is in spanish as this is the natural language for intended audience.
@@ -243,6 +248,10 @@ and licensed for use under the MIT License (MIT). Please see [LICENSE][] for mor
 [coverage]: https://scrutinizer-ci.com/g/phpcfdi/xml-cancelacion/code-structure/main/code-coverage
 [downloads]: https://packagist.org/packages/phpcfdi/xml-cancelacion
 
+[sonar-reliability]:https://sonarcloud.io/component_measures?id=phpcfdi_xml-cancelacion&metric=Reliability
+[sonar-maintainability]: https://sonarcloud.io/component_measures?id=phpcfdi_xml-cancelacion&metric=Maintainability
+[sonar-coverage]: https://sonarcloud.io/component_measures?id=phpcfdi_xml-cancelacion&metric=Coverage
+[sonar-violations]: https://sonarcloud.io/project/issues?id=phpcfdi_xml-cancelacion&resolved=false
 [badge-source]: https://img.shields.io/badge/source-phpcfdi/xml--cancelacion-blue?style=flat-square
 [badge-release]: https://img.shields.io/github/release/phpcfdi/xml-cancelacion?style=flat-square
 [badge-license]: https://img.shields.io/github/license/phpcfdi/xml-cancelacion?style=flat-square
@@ -250,3 +259,8 @@ and licensed for use under the MIT License (MIT). Please see [LICENSE][] for mor
 [badge-quality]: https://img.shields.io/scrutinizer/g/phpcfdi/xml-cancelacion/main?style=flat-square
 [badge-coverage]: https://img.shields.io/scrutinizer/coverage/g/phpcfdi/xml-cancelacion/main?style=flat-square
 [badge-downloads]: https://img.shields.io/packagist/dt/phpcfdi/xml-cancelacion?style=flat-square
+
+[badge-sonar-reliability]: https://sonarcloud.io/api/project_badges/measure?project=phpcfdi_xml-cancelacion&metric=reliability_rating
+[badge-sonar-maintainability]: https://sonarcloud.io/api/project_badges/measure?project=phpcfdi_xml-cancelacion&metric=sqale_rating
+[badge-sonar-coverage]: https://img.shields.io/sonar/coverage/phpcfdi_xml-cancelacion/main?logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io
+[badge-sonar-violations]: https://img.shields.io/sonar/violations/phpcfdi_xml-cancelacion/main?format=long&logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io

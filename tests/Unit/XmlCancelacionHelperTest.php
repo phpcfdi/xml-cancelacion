@@ -6,6 +6,7 @@ namespace PhpCfdi\XmlCancelacion\Tests\Unit;
 
 use DateTimeImmutable;
 use PhpCfdi\XmlCancelacion\Capsules\Cancellation;
+use PhpCfdi\XmlCancelacion\Capsules\CapsuleInterface;
 use PhpCfdi\XmlCancelacion\Credentials;
 use PhpCfdi\XmlCancelacion\Exceptions\HelperDoesNotHaveCredentials;
 use PhpCfdi\XmlCancelacion\Signers\DOMSigner;
@@ -18,11 +19,15 @@ use PHPUnit\Framework\MockObject\MockObject;
 class XmlCancelacionHelperTest extends TestCase
 {
     /** @return Credentials&MockObject */
-    private function createFakeCredentials(): Credentials
+    private function createFakeCredentials()
     {
-        /** @var Credentials&MockObject $credentials */
-        $credentials = $this->createMock(Credentials::class);
-        return $credentials;
+        return $this->createMock(Credentials::class);
+    }
+
+    /** @return  SignerInterface&MockObject $fakeSigner */
+    private function createFakeSigner()
+    {
+        return $this->createMock(SignerInterface::class);
     }
 
     private function createRealCredentials(): Credentials
@@ -36,12 +41,26 @@ class XmlCancelacionHelperTest extends TestCase
     public function testConstructWithValues(): void
     {
         $credentials = $this->createFakeCredentials();
-        /** @var SignerInterface $signer */
-        $signer = $this->createMock(SignerInterface::class);
+        $signer = $this->createFakeSigner();
 
         $helper = new XmlCancelacionHelper($credentials, $signer);
         $this->assertSame($credentials, $helper->getCredentials());
         $this->assertSame($signer, $helper->getSigner());
+    }
+
+    public function testSignCapsuleInvokesSignerMethod(): void
+    {
+        $fakeSign = 'fake-sign';
+        $capsule = $this->createMock(CapsuleInterface::class);
+        $credentials = $this->createFakeCredentials();
+
+        $signer = $this->createFakeSigner();
+        $signer->expects($this->once())->method('signCapsule')
+            ->with($capsule, $credentials)
+            ->willReturn($fakeSign);
+
+        $helper = new XmlCancelacionHelper($credentials, $signer);
+        $this->assertSame($fakeSign, $helper->signCapsule($capsule));
     }
 
     public function testCredentialChanges(): void
@@ -64,8 +83,7 @@ class XmlCancelacionHelperTest extends TestCase
 
     public function testSignerChanges(): void
     {
-        /** @var SignerInterface $fakeSigner */
-        $fakeSigner = $this->createMock(SignerInterface::class);
+        $fakeSigner = $this->createFakeSigner();
         $helper = new XmlCancelacionHelper();
         $this->assertInstanceOf(
             DOMSigner::class,
