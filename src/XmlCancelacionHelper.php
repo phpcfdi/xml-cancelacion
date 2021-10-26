@@ -184,6 +184,7 @@ class XmlCancelacionHelper
      * @param DateTimeImmutable|null $dateTime
      * @param DocumentType $type
      * @return Cancellation
+     * @internal
      */
     protected function createCancellationObject(
         array $uuids,
