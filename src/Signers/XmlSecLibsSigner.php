@@ -87,12 +87,10 @@ class XmlSecLibsSigner implements SignerInterface
         // if second parameter is empty it will remove extra namespaces
         $objDSig->sign($objKey, $rootElement);
 
-        /**
-         * @noinspection PhpUnnecessaryLocalVariableInspection
-         * @var DOMElement $sigNode
-         */
-        $sigNode = $objDSig->sigNode;
-
-        return $sigNode;
+        assert(
+            $objDSig->sigNode instanceof DOMElement,
+            new LogicException('XMLSecurityDSig->$sigNode should be a DOMElement')
+        );
+        return $objDSig->sigNode;
     }
 }

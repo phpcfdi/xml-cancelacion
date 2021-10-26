@@ -90,8 +90,7 @@ class Credentials
     protected function makePhpCfdiCredential(): Credential
     {
         try {
-            $credential = Credential::openFiles($this->certificate(), $this->privateKey(), $this->passPhrase());
-            return $credential;
+            return Credential::openFiles($this->certificate(), $this->privateKey(), $this->passPhrase());
         } catch (Throwable $exception) {
             throw new CannotLoadCertificateAndPrivateKey(
                 $this->certificate(),
