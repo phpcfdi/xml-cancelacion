@@ -70,11 +70,16 @@ jobs:
           cli-args: "-vvv --format=php-clover build/coverage-clover.xml"
         continue-on-error: true
 
+      - name: Prepare SonarCloud Code Coverage Files
+        run: |
+          sed 's#'$GITHUB_WORKSPACE'#/github/workspace#g' build/coverage/junit.xml > build/sonar-junit.xml
+          sed 's#'$GITHUB_WORKSPACE'#/github/workspace#g' build/coverage-clover.xml > build/sonar-coverage.xml
+
       - name: SonarCloud Scan
         uses: sonarsource/sonarcloud-github-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONARIO_TOKEN }}        
+          SONAR_TOKEN: ${{ secrets.SONARIO_TOKEN }}
         continue-on-error: true
 
   build: # this job runs tests on all php supported versions
