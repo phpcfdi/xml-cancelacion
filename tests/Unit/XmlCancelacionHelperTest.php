@@ -48,6 +48,21 @@ class XmlCancelacionHelperTest extends TestCase
         $this->assertSame($signer, $helper->getSigner());
     }
 
+    public function testSignCapsuleInvokesSignerMethod(): void
+    {
+        $fakeSign = 'fake-sign';
+        $capsule = $this->createMock(CapsuleInterface::class);
+        $credentials = $this->createFakeCredentials();
+
+        $signer = $this->createFakeSigner();
+        $signer->expects($this->once())->method('signCapsule')
+            ->with($capsule, $credentials)
+            ->willReturn($fakeSign);
+
+        $helper = new XmlCancelacionHelper($credentials, $signer);
+        $this->assertSame($fakeSign, $helper->signCapsule($capsule));
+    }
+
     public function testCredentialChanges(): void
     {
         $fakeCredentials = $this->createFakeCredentials();
