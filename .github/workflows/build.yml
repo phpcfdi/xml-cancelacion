@@ -153,9 +153,6 @@ jobs:
         with:
           name: code-coverage
           path: build/coverage
-      - name: Mutation testing analysis
-        run: infection --skip-initial-tests --coverage=build/coverage --no-progress --no-interaction --logger-github
-        continue-on-error: true
 
   scrutinizer:
     name: Scrutinizer upload code coverage
@@ -174,6 +171,38 @@ jobs:
         with:
           cli-args: "-vvv --format=php-clover build/coverage/clover.xml"
         continue-on-error: true
+
+  infection:
+    name: Mutation testing analysis
+    needs: tests-coverage
+    runs-on: "ubuntu-latest"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.0'
+          coverage: xdebug
+          tools: composer:v2, infection
+      - name: Get composer cache directory
+        id: composer-cache
+        run: echo "::set-output name=dir::$(composer config cache-files-dir)"
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: ${{ runner.os }}-composer-
+      - name: Install project dependencies
+        run: composer upgrade --no-interaction --no-progress --prefer-dist
+      - name: Obtain code coverage
+        uses: actions/download-artifact@v2
+        with:
+          name: code-coverage
+          path: build/coverage
+      - name: infection
+        run: infection --skip-initial-tests --coverage=build/coverage --no-progress --no-interaction --logger-github
 
   sonarcloud:
     name: SonarCloud Scan and Report
