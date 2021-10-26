@@ -91,7 +91,7 @@ jobs:
         run: psalm --no-progress --output-format=github
 
   tests:
-    name: Tests PHP ${{ matrix.php-versions }}
+    name: Tests PHP ${{ matrix.php-versions }} (phpunit)
     runs-on: "ubuntu-latest"
     strategy:
       matrix:
@@ -166,6 +166,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: code-coverage
+          path: build/coverage
       - name: Upload code coverage to scrutinizer
         uses: sudo-bot/action-scrutinizer@latest # see https://github.com/marketplace/actions/action-scrutinizer
         with:
@@ -200,6 +201,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: code-coverage
+          path: build/coverage
       - name: Prepare SonarCloud Code Coverage Files
         run: |
           sed 's#'$GITHUB_WORKSPACE'#/github/workspace#g' build/coverage/junit.xml > build/sonar-junit.xml
