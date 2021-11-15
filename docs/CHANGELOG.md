@@ -9,6 +9,11 @@ Usamos [Versionado Semántico 2.0.0](SEMVER.md) por lo que puedes usar esta libr
 Pueden aparecer cambios no liberados que se integran a la rama principal, pero no ameritan una nueva liberación de
 versión, aunque sí su incorporación en la rama principal de trabajo. Generalmente se tratan de cambios en el desarrollo.
 
+### UNRELEASED 2021-11-15
+
+- Se actualizan las dependencias de las librerías de desarrollo.
+- Se hacen correcciones de problemas menores a las pruebas encontradas por la nueva versión de PHPStan.
+
 ### UNRELEASED 2021-10-25
 
 - Se corrige el archivo de configuración de `phpstan` en `.gitattributes`.

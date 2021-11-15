@@ -15,15 +15,6 @@ class XmlSignedUsingDOMSignerTest extends TestCase
     /** @var DOMSigner */
     private $domSigner;
 
-    /** @var string */
-    private $signature;
-
-    /** @var Cancellation */
-    private $capsule;
-
-    /** @var Credentials */
-    private $signObjects;
-
     public function setUp(): void
     {
         parent::setUp();
@@ -45,10 +36,7 @@ class XmlSignedUsingDOMSignerTest extends TestCase
         $signer = new DOMSigner();
         $signer->signDocument($document, $credentials);
 
-        $this->capsule = $capsule;
-        $this->signObjects = $credentials;
         $this->domSigner = $signer;
-        $this->signature = $document->saveXML() ?: '';
     }
 
     public function testCreatedValues(): void

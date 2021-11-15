@@ -17,8 +17,6 @@
 
 :us: The documentation of this project is in spanish as this is the natural language for intended audience.
 
-:mexico: La documentación del proyecto está en español porque ese es el lenguaje principal de los usuarios.
-
 Esta librería contiene el código necesario para crear una solicitud de cancelación acorde al SAT.
 Esta solicitud está descrita en el Anexo 20, y solo es accesible por medio de un PAC.
 
