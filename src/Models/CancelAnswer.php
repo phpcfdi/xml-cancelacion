@@ -16,6 +16,7 @@ use Eclipxe\Enum\Enum;
  */
 class CancelAnswer extends Enum
 {
+    /** @noinspection PhpMissingParentCallCommonInspection */
     protected static function overrideValues(): array
     {
         return [
