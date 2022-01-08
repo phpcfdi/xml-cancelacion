@@ -35,7 +35,7 @@ final class CancelDocuments implements IteratorAggregate, Countable
     public function uuids(): array
     {
         return array_map(
-            function (CancelDocument $document): string {
+            static function (CancelDocument $document): string {
                 return $document->uuid()->getValue();
             },
             $this->documents

@@ -20,6 +20,7 @@ use Eclipxe\Enum\Enum;
  */
 final class CancelReason extends Enum
 {
+    /** @noinspection PhpMissingParentCallCommonInspection */
     protected static function overrideValues(): array
     {
         return [
@@ -30,6 +31,7 @@ final class CancelReason extends Enum
         ];
     }
 
+    /** @noinspection PhpMissingParentCallCommonInspection */
     protected static function overrideIndices(): array
     {
         return [

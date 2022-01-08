@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace PhpCfdi\XmlCancelacion\Models;
 
+use InvalidArgumentException;
+
 /**
  * Value object of a CFDI UUID
  */
@@ -15,7 +17,7 @@ final class Uuid
     public function __construct(string $value)
     {
         if (! self::isValid($value)) {
-            throw new \InvalidArgumentException('Value is not a valid UUID');
+            throw new InvalidArgumentException('Value is not a valid UUID');
         }
         $this->value = strtoupper($value);
     }
@@ -23,7 +25,7 @@ final class Uuid
     public static function isValid(string $value): bool
     {
         return boolval(
-            preg_match('/^[a-f0-9A-F]{8}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{4}-[a-f0-9A-F]{12}$/', $value)
+            preg_match('/^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$/i', $value)
         );
     }
 

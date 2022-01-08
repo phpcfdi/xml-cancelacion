@@ -67,15 +67,6 @@ class Cancellation implements Countable, CapsuleInterface
         return $this->documents;
     }
 
-    /**
-     * The list of UUIDS
-     * @return string[]
-     */
-    public function uuids(): array
-    {
-        return $this->documents->uuids();
-    }
-
     public function count(): int
     {
         return $this->documents->count();

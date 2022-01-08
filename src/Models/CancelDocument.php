@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace PhpCfdi\XmlCancelacion\Models;
 
+use LogicException;
+
 /**
  * Document to cancel
  */
@@ -18,7 +20,7 @@ final class CancelDocument
     /** @var Uuid|null */
     private $substituteOf;
 
-    public function __construct(Uuid $uuid, CancelReason $reason, ?Uuid $substituteOf = null)
+    public function __construct(Uuid $uuid, CancelReason $reason, ?Uuid $substituteOf)
     {
         $this->uuid = $uuid;
         $this->reason = $reason;
@@ -32,17 +34,17 @@ final class CancelDocument
 
     public static function newWithErrorsUnrelated(string $uuid): self
     {
-        return new self(new Uuid($uuid), CancelReason::withErrorsUnrelated());
+        return new self(new Uuid($uuid), CancelReason::withErrorsUnrelated(), null);
     }
 
     public static function newNotExecuted(string $uuid): self
     {
-        return new self(new Uuid($uuid), CancelReason::notExecuted());
+        return new self(new Uuid($uuid), CancelReason::notExecuted(), null);
     }
 
     public static function newNormativeToGlobal(string $uuid): self
     {
-        return new self(new Uuid($uuid), CancelReason::normativeToGlobal());
+        return new self(new Uuid($uuid), CancelReason::normativeToGlobal(), null);
     }
 
     public function uuid(): Uuid
@@ -63,7 +65,7 @@ final class CancelDocument
     public function substituteOf(): Uuid
     {
         if (null === $this->substituteOf) {
-            throw new \LogicException('The property substituteOf is not defined');
+            throw new LogicException('The property substituteOf is not defined');
         }
 
         return $this->substituteOf;

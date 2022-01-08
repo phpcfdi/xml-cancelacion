@@ -17,15 +17,16 @@ class CancellationTest extends TestCase
     {
         $rfc = 'LAN7008173R5';
         $documents = new CancelDocuments(
-            CancelDocument::newWithErrorsUnrelated($firstUuid = '12345678-1234-aaaa-1234-123456789001'),
-            CancelDocument::newWithErrorsUnrelated($secondUuid = '12345678-1234-aaaa-1234-123456789002'),
+            CancelDocument::newWithErrorsUnrelated('12345678-1234-aaaa-1234-123456789001'),
+            CancelDocument::newWithErrorsUnrelated('12345678-1234-aaaa-1234-123456789002'),
         );
-        $expectedUuids = array_map('strtoupper', [$firstUuid, $secondUuid]);
         $date = new DateTimeImmutable('2022-01-13 14:15:16');
         $documentType = DocumentType::cfdi();
+
         $cancellation = new Cancellation($rfc, $documents, $date, $documentType);
+
         $this->assertSame($rfc, $cancellation->rfc());
-        $this->assertSame($expectedUuids, $cancellation->uuids());
+        $this->assertSame($documents, $cancellation->documents());
         $this->assertSame($date, $cancellation->date());
         $this->assertSame($documentType, $cancellation->documentType());
 
