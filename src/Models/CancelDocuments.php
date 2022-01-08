@@ -10,6 +10,8 @@ use IteratorAggregate;
 use Traversable;
 
 /**
+ * Collection of documents to cancel
+ *
  * @implements IteratorAggregate<int, CancelDocument>
  */
 final class CancelDocuments implements IteratorAggregate, Countable

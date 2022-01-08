@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace PhpCfdi\XmlCancelacion\Models;
 
+/**
+ * Value object of a CFDI UUID
+ */
 final class Uuid
 {
     /** @var string */

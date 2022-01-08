@@ -7,7 +7,7 @@ namespace PhpCfdi\XmlCancelacion\Models;
 use Eclipxe\Enum\Enum;
 
 /**
- * Define the answer to the cancellation request (accept/reject)
+ * Define the answer to the cancellation request (to accept or reject)
  *
  * @method static self accept()
  * @method static self reject()

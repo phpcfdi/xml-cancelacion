@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace PhpCfdi\XmlCancelacion\Models;
 
+/**
+ * Document to cancel
+ */
 final class CancelDocument
 {
     /** @var Uuid */
