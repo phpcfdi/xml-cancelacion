@@ -6,8 +6,8 @@ namespace PhpCfdi\XmlCancelacion\Capsules;
 
 use DateTimeImmutable;
 use DOMDocument;
-use PhpCfdi\XmlCancelacion\Definitions\CancelAnswer;
-use PhpCfdi\XmlCancelacion\Definitions\DocumentType;
+use PhpCfdi\XmlCancelacion\Models\CancelAnswer;
+use PhpCfdi\XmlCancelacion\Models\DocumentType;
 use PhpCfdi\XmlCancelacion\Internal\XmlHelperFunctions;
 
 class CancellationAnswer implements CapsuleInterface

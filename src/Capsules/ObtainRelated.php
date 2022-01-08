@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace PhpCfdi\XmlCancelacion\Capsules;
 
 use DOMDocument;
-use PhpCfdi\XmlCancelacion\Definitions;
-use PhpCfdi\XmlCancelacion\Definitions\DocumentType;
-use PhpCfdi\XmlCancelacion\Definitions\RfcRole;
+use PhpCfdi\XmlCancelacion\Models;
+use PhpCfdi\XmlCancelacion\Models\DocumentType;
+use PhpCfdi\XmlCancelacion\Models\RfcRole;
 use PhpCfdi\XmlCancelacion\Internal\XmlHelperFunctions;
 
 class ObtainRelated implements CapsuleInterface
@@ -20,7 +20,7 @@ class ObtainRelated implements CapsuleInterface
     /** @var string */
     private $rfc;
 
-    /** @var Definitions\RfcRole */
+    /** @var Models\RfcRole */
     private $role;
 
     /** @var string */
@@ -44,7 +44,7 @@ class ObtainRelated implements CapsuleInterface
         return $this->rfc;
     }
 
-    public function role(): Definitions\RfcRole
+    public function role(): Models\RfcRole
     {
         return $this->role;
     }

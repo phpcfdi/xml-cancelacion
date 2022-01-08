@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace PhpCfdi\XmlCancelacion\Tests\System;
 
 use DateTimeImmutable;
+use PhpCfdi\XmlCancelacion\Models\CancelDocument;
+use PhpCfdi\XmlCancelacion\Models\CancelDocuments;
 use PhpCfdi\XmlCancelacion\Capsules\Cancellation;
 use PhpCfdi\XmlCancelacion\Credentials;
 use PhpCfdi\XmlCancelacion\Signers\DOMSigner;
@@ -20,15 +22,15 @@ class XmlSignedUsingDOMSignerTest extends TestCase
         parent::setUp();
 
         $credentials = new Credentials(
-            $this->filePath('LAN7008173R5.cer.pem'),
-            $this->filePath('LAN7008173R5.key.pem'),
-            trim($this->fileContents('LAN7008173R5.password'))
+            $this->filePath('EKU9003173C9.cer.pem'),
+            $this->filePath('EKU9003173C9.key.pem'),
+            trim($this->fileContents('EKU9003173C9.password'))
         );
 
         $capsule = new Cancellation(
-            'LAN7008173R5',
-            ['E174F807-BEFA-4CF6-9B11-2A013B12F398'],
-            new DateTimeImmutable('2019-04-05T16:29:17')
+            'EKU9003173C9',
+            new CancelDocuments(CancelDocument::newWithErrorsUnrelated('62B00C5E-4187-4336-B569-44E0030DC729')),
+            new DateTimeImmutable('2022-01-06 17:49:12')
         );
 
         $document = $capsule->exportToDocument();
@@ -46,11 +48,13 @@ class XmlSignedUsingDOMSignerTest extends TestCase
         $expectedDigestSource = '<Cancelacion xmlns="http://cancelacfd.sat.gob.mx"'
             . ' xmlns:xsd="http://www.w3.org/2001/XMLSchema"'
             . ' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"'
-            . ' Fecha="2019-04-05T16:29:17" RfcEmisor="LAN7008173R5">'
-            . '<Folios><UUID>E174F807-BEFA-4CF6-9B11-2A013B12F398</UUID></Folios>'
+            . ' Fecha="2022-01-06T17:49:12" RfcEmisor="EKU9003173C9">'
+            . '<Folios>'
+            . '<Folio FolioSustitucion="" Motivo="02" UUID="62B00C5E-4187-4336-B569-44E0030DC729"></Folio>'
+            . '</Folios>'
             . '</Cancelacion>';
 
-        $expectedDigestValue = 'j2x4spEq57R1mQD9lwXh2mmOyK8=';
+        $expectedDigestValue = 'C5CrlWmW2k+LRbwIz2JTydPW2+g=';
 
         // signed info text for preset capsule *must* be the following, see not used xmlns declarations and C14N
         /** @noinspection XmlUnusedNamespaceDeclaration */
@@ -65,14 +69,17 @@ class XmlSignedUsingDOMSignerTest extends TestCase
             . '<Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"></Transform>'
             . '</Transforms>'
             . '<DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"></DigestMethod>'
-            . '<DigestValue>j2x4spEq57R1mQD9lwXh2mmOyK8=</DigestValue>'
+            . '<DigestValue>C5CrlWmW2k+LRbwIz2JTydPW2+g=</DigestValue>'
             . '</Reference>'
             . '</SignedInfo>';
 
-        $expectedSignedValue = 'e0Cyi/rXOTFwW8ckNnwQEQ1oC6m73PDvExunnniCsZWQrDRV2SiaH9NoAhJhb5W9p5vJgB+PWu4J6uchG7Ei'
-            . 'kDPbDPw19K3B7uZKTH7tZLffV/bZx6rozzreInvP+S1HhrnOqLPwebBm3Q3yRQk3pbaW2sHFPPuRPLqP+1h3Fegv4GEnwy+0G7LRg'
-            . '3H05v6fDXvONgikCrC2sdzA0kM6qvrOpGfbgBd4au7eFFRjCA4oX9zcQUG9E4m+uVovj0ebp4EqDn9SC+Az3fi5AHom6adju8wx4u'
-            . 'Jvi8isVg8ZP9KcuqEfXhIkyFutJrD61l00+XyZe4n5T1Aya+Ta0Q6NrA==';
+        $expectedSignedValue = implode('', [
+            'Kxm+BjKx10C/G3c8W8IItAXgdxKP1hmBf2F4DnVcPLTKNfvRu/E29NG2PXDcXGUauAOLi13+7BT2',
+            'ovURHQKNsjErmAD5Ya09gkUHNstg8ja6K3O5haTNWSIGGf1ZGi1fY8pZ/VSL32L1BnJsu3d81tnx',
+            'npriSWkqSQHG2xcll9L2qxdjxlhPfllL1D9nF1TrCv6QCGzgmnRXs6sgUz7Zb2nZaJzPPnausykt',
+            'Es56LnQr+dpgGs12G8X4NyqFVo8byNA5/fSwF6WLl7RN4p9fKI1WGZg93yHLG6R1fZ+80N0vebNm',
+            'RDJCHnTrO2aLOn1dkneCqBExOzj8hJMWljzWGQ==',
+        ]);
 
         $this->assertSame($expectedDigestSource, $this->domSigner->getDigestSource());
         $this->assertSame($expectedDigestValue, $this->domSigner->getDigestValue());

@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace PhpCfdi\XmlCancelacion\Definitions;
+namespace PhpCfdi\XmlCancelacion\Models;
 
 use Eclipxe\Enum\Enum;
 
 /**
- * Define the answer to the cancellation request (accept/reject)
+ * Define the document type (cfdi or retention)
  *
  * @method static self cfdi()
  * @method static self retention()
@@ -16,10 +16,7 @@ use Eclipxe\Enum\Enum;
  */
 final class DocumentType extends Enum
 {
-    /**
-     * @inheritDoc
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
+    /** @noinspection PhpMissingParentCallCommonInspection */
     protected static function overrideValues(): array
     {
         return [

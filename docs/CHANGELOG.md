@@ -9,6 +9,15 @@ Usamos [Versionado Semántico 2.0.0](SEMVER.md) por lo que puedes usar esta libr
 Pueden aparecer cambios no liberados que se integran a la rama principal, pero no ameritan una nueva liberación de
 versión, aunque sí su incorporación en la rama principal de trabajo. Generalmente se tratan de cambios en el desarrollo.
 
+## Listado de cambios
+
+### Versión 2.0.0 2022-01-08
+
+- Se actualiza al nuevo esquema de datos de cancelación del SAT, ahora no se pide un arreglo de UUID,
+  se pide un objeto `CancelDocuments`. Se crean diferentes objetos de valor relacionados a los nuevos campos.
+- Se cambia el namespace `PhpCfdi\XmlCancelacion\Definitions` a `PhpCfdi\XmlCancelacion\Models`.
+- Actualización de licencia, feliz 2022.
+
 ### UNRELEASED 2021-11-15
 
 - Se actualizan las dependencias de las librerías de desarrollo.
@@ -19,8 +28,6 @@ versión, aunque sí su incorporación en la rama principal de trabajo. Generalm
 - Se corrige el archivo de configuración de `phpstan` en `.gitattributes`.
 - Se remueve la anotación del tipo de variable para `DOMElement::documentElement`, `psalm` ya lo detecta correctamente.
 - Se actualizan las versiones de dependencias en `.phive/phars.xml`.
-
-## Listado de cambios
 
 ### Versión 1.1.2 2021-09-03
 

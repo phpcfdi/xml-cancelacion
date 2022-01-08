@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace PhpCfdi\XmlCancelacion\Definitions;
+namespace PhpCfdi\XmlCancelacion\Models;
 
 use Eclipxe\Enum\Enum;
 
 /**
- * Define the answer to the cancellation request (accept/reject)
+ * Define the answer to the cancellation request (to accept or reject)
  *
  * @method static self accept()
  * @method static self reject()
@@ -16,10 +16,7 @@ use Eclipxe\Enum\Enum;
  */
 class CancelAnswer extends Enum
 {
-    /**
-     * @inheritDoc
-     * @noinspection PhpMissingParentCallCommonInspection
-     */
+    /** @noinspection PhpMissingParentCallCommonInspection */
     protected static function overrideValues(): array
     {
         return [

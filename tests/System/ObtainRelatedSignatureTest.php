@@ -6,7 +6,7 @@ namespace PhpCfdi\XmlCancelacion\Tests\System;
 
 use PhpCfdi\XmlCancelacion\Capsules\ObtainRelated;
 use PhpCfdi\XmlCancelacion\Credentials;
-use PhpCfdi\XmlCancelacion\Definitions\RfcRole;
+use PhpCfdi\XmlCancelacion\Models\RfcRole;
 use PhpCfdi\XmlCancelacion\Signers\DOMSigner;
 use PhpCfdi\XmlCancelacion\Tests\TestCase;
 
