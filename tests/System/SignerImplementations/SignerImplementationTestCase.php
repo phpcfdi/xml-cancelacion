@@ -8,11 +8,11 @@ namespace PhpCfdi\XmlCancelacion\Tests\System\SignerImplementations;
 
 use DateTimeImmutable;
 use DOMDocument;
-use PhpCfdi\XmlCancelacion\Capsules\CancelDocument;
+use PhpCfdi\XmlCancelacion\Models\CancelDocument;
 use PhpCfdi\XmlCancelacion\Capsules\CapsuleInterface;
 use PhpCfdi\XmlCancelacion\Credentials;
-use PhpCfdi\XmlCancelacion\Definitions\CancelAnswer;
-use PhpCfdi\XmlCancelacion\Definitions\RfcRole;
+use PhpCfdi\XmlCancelacion\Models\CancelAnswer;
+use PhpCfdi\XmlCancelacion\Models\RfcRole;
 use PhpCfdi\XmlCancelacion\Exceptions\CapsuleRfcDoesnotBelongToCertificateRfc;
 use PhpCfdi\XmlCancelacion\Exceptions\DocumentWithoutRootElement;
 use PhpCfdi\XmlCancelacion\Signers\SignerInterface;

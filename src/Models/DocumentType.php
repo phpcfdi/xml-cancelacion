@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpCfdi\XmlCancelacion\Definitions;
+namespace PhpCfdi\XmlCancelacion\Models;
 
 use Eclipxe\Enum\Enum;
 

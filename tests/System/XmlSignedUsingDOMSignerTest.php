@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace PhpCfdi\XmlCancelacion\Tests\System;
 
 use DateTimeImmutable;
-use PhpCfdi\XmlCancelacion\Capsules\CancelDocument;
-use PhpCfdi\XmlCancelacion\Capsules\CancelDocuments;
+use PhpCfdi\XmlCancelacion\Models\CancelDocument;
+use PhpCfdi\XmlCancelacion\Models\CancelDocuments;
 use PhpCfdi\XmlCancelacion\Capsules\Cancellation;
 use PhpCfdi\XmlCancelacion\Credentials;
 use PhpCfdi\XmlCancelacion\Signers\DOMSigner;

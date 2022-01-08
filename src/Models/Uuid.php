@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpCfdi\XmlCancelacion\Capsules;
+namespace PhpCfdi\XmlCancelacion\Models;
 
 final class Uuid
 {

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace PhpCfdi\XmlCancelacion\Tests\Unit\Capsules;
 
 use PhpCfdi\XmlCancelacion\Capsules\ObtainRelated;
-use PhpCfdi\XmlCancelacion\Definitions\RfcRole;
+use PhpCfdi\XmlCancelacion\Models\RfcRole;
 use PhpCfdi\XmlCancelacion\Tests\TestCase;
 
 class ObtainRelatedTest extends TestCase

@@ -2,9 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpCfdi\XmlCancelacion\Capsules;
-
-use PhpCfdi\XmlCancelacion\Definitions\CancelReason;
+namespace PhpCfdi\XmlCancelacion\Models;
 
 final class CancelDocument
 {

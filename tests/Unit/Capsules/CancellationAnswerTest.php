@@ -6,7 +6,7 @@ namespace PhpCfdi\XmlCancelacion\Tests\Unit\Capsules;
 
 use DateTimeImmutable;
 use PhpCfdi\XmlCancelacion\Capsules\CancellationAnswer;
-use PhpCfdi\XmlCancelacion\Definitions\CancelAnswer;
+use PhpCfdi\XmlCancelacion\Models\CancelAnswer;
 use PhpCfdi\XmlCancelacion\Tests\TestCase;
 
 class CancellationAnswerTest extends TestCase
