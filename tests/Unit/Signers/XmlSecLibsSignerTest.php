@@ -7,6 +7,8 @@ namespace PhpCfdi\XmlCancelacion\Tests\Unit\Signers;
 use DateTimeImmutable;
 use Exception;
 use LogicException;
+use PhpCfdi\XmlCancelacion\Capsules\CancelDocument;
+use PhpCfdi\XmlCancelacion\Capsules\CancelDocuments;
 use PhpCfdi\XmlCancelacion\Capsules\Cancellation;
 use PhpCfdi\XmlCancelacion\Credentials;
 use PhpCfdi\XmlCancelacion\Signers\DOMSigner;
@@ -25,8 +27,8 @@ class XmlSecLibsSignerTest extends TestCase
         $credentials = new Credentials($cerContent, $keyContent, $passPhrase);
         $capsule = new Cancellation(
             'LAN7008173R5',
-            ['11111111-2222-3333-4444-000000000001'],
-            new DateTimeImmutable('2019-01-13T14:15:16-06:00')
+            new CancelDocuments(CancelDocument::newWithErrorsUnrelated('11111111-2222-3333-4444-000000000001')),
+            new DateTimeImmutable('2022-01-13T14:15:16-06:00')
         );
 
         // create expected using DOMSigner
@@ -52,8 +54,8 @@ class XmlSecLibsSignerTest extends TestCase
         $signer->method('signDocumentInternal')->willThrowException(new Exception('dummy'));
         $capsule = new Cancellation(
             'LAN7008173R5',
-            ['11111111-2222-3333-4444-000000000001'],
-            new DateTimeImmutable('2019-01-13T14:15:16-06:00')
+            new CancelDocuments(CancelDocument::newWithErrorsUnrelated('11111111-2222-3333-4444-000000000001')),
+            new DateTimeImmutable('2022-01-13T14:15:16-06:00')
         );
         $this->expectException(LogicException::class);
         $this->expectExceptionMessage('Cannot create signature using XmlSecLibs');

@@ -14,16 +14,14 @@ class Cancellation implements Countable, CapsuleInterface
 {
     use XmlHelperFunctions;
 
-    private const UUID_EXISTS = true;
-
     /** @var string */
     private $rfc;
 
     /** @var DateTimeImmutable */
     private $date;
 
-    /** @var array<string, bool> This is a B-Tree array, values are stored in keys */
-    private $uuids;
+    /** @var CancelDocuments */
+    private $documents;
 
     /** @var DocumentType */
     private $documentType;
@@ -32,19 +30,20 @@ class Cancellation implements Countable, CapsuleInterface
      * DTO for cancellation request, it supports CFDI and Retention
      *
      * @param string $rfc
-     * @param string[] $uuids
+     * @param CancelDocuments $documents
      * @param DateTimeImmutable $date
      * @param DocumentType|null $type Uses CFDI if non provided
      */
-    public function __construct(string $rfc, array $uuids, DateTimeImmutable $date, DocumentType $type = null)
-    {
+    public function __construct(
+        string $rfc,
+        CancelDocuments $documents,
+        DateTimeImmutable $date,
+        DocumentType $type = null
+    ) {
         $this->rfc = $rfc;
         $this->date = $date;
-        $this->uuids = [];
+        $this->documents = $documents;
         $this->documentType = $type ?? DocumentType::cfdi();
-        foreach ($uuids as $uuid) {
-            $this->uuids[strtoupper($uuid)] = self::UUID_EXISTS;
-        }
     }
 
     public function rfc(): string
@@ -62,20 +61,26 @@ class Cancellation implements Countable, CapsuleInterface
         return $this->documentType;
     }
 
+    public function documents(): CancelDocuments
+    {
+        return $this->documents;
+    }
+
     /**
      * The list of UUIDS
      * @return string[]
      */
     public function uuids(): array
     {
-        return array_keys($this->uuids);
+        return $this->documents->uuids();
     }
 
     public function count(): int
     {
-        return count($this->uuids);
+        return $this->documents->count();
     }
 
+    /** @noinspection PhpUnhandledExceptionInspection */
     public function exportToDocument(): DOMDocument
     {
         $document = (new BaseDocumentBuilder())->createBaseDocument('Cancelacion', $this->documentType->value());
@@ -83,9 +88,16 @@ class Cancellation implements Countable, CapsuleInterface
         $cancelacion = $this->xmlDocumentElement($document);
         $cancelacion->setAttribute('RfcEmisor', $this->rfc()); // en el anexo 20 es opcional!
         $cancelacion->setAttribute('Fecha', $this->date()->format('Y-m-d\TH:i:s'));
-        $folios = $cancelacion->appendChild($document->createElement('Folios'));
-        foreach ($this->uuids() as $uuid) {
-            $folios->appendChild($document->createElement('UUID', htmlspecialchars($uuid, ENT_XML1)));
+
+        $folios = $document->createElement('Folios');
+        $cancelacion->appendChild($folios);
+        foreach ($this->documents as $cancelDocument) {
+            $folio = $document->createElement('Folio');
+            $folios->appendChild($folio);
+            $subsituteOf = $cancelDocument->hasSubstituteOf() ? (string) $cancelDocument->substituteOf() : '';
+            $folio->setAttribute('UUID', (string) $cancelDocument->uuid());
+            $folio->setAttribute('Motivo', (string) $cancelDocument->reason());
+            $folio->setAttribute('FolioSustitucion', $subsituteOf);
         }
 
         return $document;

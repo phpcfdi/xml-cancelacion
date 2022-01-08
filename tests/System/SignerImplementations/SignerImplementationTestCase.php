@@ -8,6 +8,7 @@ namespace PhpCfdi\XmlCancelacion\Tests\System\SignerImplementations;
 
 use DateTimeImmutable;
 use DOMDocument;
+use PhpCfdi\XmlCancelacion\Capsules\CancelDocument;
 use PhpCfdi\XmlCancelacion\Capsules\CapsuleInterface;
 use PhpCfdi\XmlCancelacion\Credentials;
 use PhpCfdi\XmlCancelacion\Definitions\CancelAnswer;
@@ -49,12 +50,12 @@ abstract class SignerImplementationTestCase extends TestCase
         $signer->signCapsule($capsule, $credentials);
     }
 
-    public function createHelper(): XmlCancelacionHelper
+    public function createHelper(string $rfc = 'LAN7008173R5'): XmlCancelacionHelper
     {
         $credentials = new Credentials(
-            $this->filePath('LAN7008173R5.cer.pem'),
-            $this->filePath('LAN7008173R5.key.pem'),
-            trim($this->fileContents('LAN7008173R5.password'))
+            $this->filePath("$rfc.cer.pem"),
+            $this->filePath("$rfc.key.pem"),
+            trim($this->fileContents("$rfc.password"))
         );
         $helper = new XmlCancelacionHelper($credentials);
         $helper->setSigner($this->createSigner());
@@ -63,10 +64,10 @@ abstract class SignerImplementationTestCase extends TestCase
 
     public function testCancellation(): void
     {
-        $helper = $this->createHelper();
+        $helper = $this->createHelper('EKU9003173C9');
         $signature = $helper->signCancellation(
-            'E174F807-BEFA-4CF6-9B11-2A013B12F398',
-            new DateTimeImmutable('2019-04-05 16:29:17')
+            CancelDocument::newWithErrorsUnrelated('62B00C5E-4187-4336-B569-44E0030DC729'),
+            new DateTimeImmutable('2022-01-06 17:49:12')
         );
         $expectedXml = $this->xmlWithoutWhitespace($this->fileContents('cancellation-signed.xml'));
         $this->assertXmlStringEqualsXmlString($expectedXml, $signature);
