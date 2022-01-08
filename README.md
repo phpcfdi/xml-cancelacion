@@ -42,15 +42,16 @@ composer require phpcfdi/xml-cancelacion
 ```php
 <?php
 declare(strict_types=1);
+use PhpCfdi\XmlCancelacion\Models\CancelAnswer;
+use PhpCfdi\XmlCancelacion\Models\CancelDocument;
+use PhpCfdi\XmlCancelacion\Models\RfcRole;
 use PhpCfdi\XmlCancelacion\XmlCancelacionHelper;
-use PhpCfdi\XmlCancelacion\Definitions\RfcRole;
-use PhpCfdi\XmlCancelacion\Definitions\CancelAnswer;
 
 $xmlCancelacion = new XmlCancelacionHelper();
 
 $solicitudCancelacion = $xmlCancelacion
     ->setNewCredentials('certificado.cer', 'llaveprivada.key', 'contraseña')
-    ->signCancellation('11111111-2222-3333-4444-000000000001');
+    ->signCancellation(CancelDocument::newNotExecuted('11111111-2222-3333-4444-000000000001'));
 
 $consultaRelacionados = $xmlCancelacion->signObtainRelated(
     '11111111-2222-3333-4444-000000000002', // uuid a consultar
@@ -71,14 +72,20 @@ $consultaRelacionados = $xmlCancelacion->signCancellationAnswer(
 <?php
 declare(strict_types=1);
 use PhpCfdi\XmlCancelacion\Capsules\Cancellation;
-use PhpCfdi\XmlCancelacion\Signers\DOMSigner;
 use PhpCfdi\XmlCancelacion\Credentials;
+use PhpCfdi\XmlCancelacion\Models\CancelDocument;
+use PhpCfdi\XmlCancelacion\Models\CancelDocuments;
+use PhpCfdi\XmlCancelacion\Signers\DOMSigner;
 
 // certificado, llave privada y clave de llave
 $credentials = new Credentials('certificado.cer.pem', 'privatekey.key.pem', '12345678a');
 
 // datos de cancelación
-$data = new Cancellation('LAN7008173R5', ['12345678-1234-1234-1234-123456789012'], new DateTimeImmutable());
+$data = new Cancellation(
+    'EKU9003173C9',
+    new CancelDocuments(CancelDocument::newWithErrorsUnrelated('62B00C5E-4187-4336-B569-44E0030DC729')),
+    new DateTimeImmutable()
+);
 
 // generación del xml
 $xml = (new DOMSigner())->signCapsule($data, $credentials);
@@ -89,41 +96,41 @@ La salida esperada es algo como lo siguiente (sin los espacios en blanco, que ag
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <Cancelacion xmlns="http://cancelacfd.sat.gob.mx"
-    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    RfcEmisor="LAN7008173R5" Fecha="2019-04-05T16:29:17">
-  <Folios>
-    <UUID>12345678-1234-1234-1234-123456789012</UUID>
-  </Folios>
-  <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
-    <SignedInfo>
-      <CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
-      <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
-      <Reference URI="">
-        <Transforms>
-          <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
-        </Transforms>
-        <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
-        <DigestValue>j2x4spEq57R1mQD9lwXh2mmOyK8=</DigestValue>
-      </Reference>
-    </SignedInfo>
-    <SignatureValue>e0Cyi/rXOTFwW8ckNnwQEQ1oC6m73PDvExunnniCsZWQrDRV2SiaH9NoAhJhb5W9p5vJgB+PWu4J6uchG7EikDPbDPw19K3B7uZKTH7tZLffV/bZx6rozzreInvP+S1HhrnOqLPwebBm3Q3yRQk3pbaW2sHFPPuRPLqP+1h3Fegv4GEnwy+0G7LRg3H05v6fDXvONgikCrC2sdzA0kM6qvrOpGfbgBd4au7eFFRjCA4oX9zcQUG9E4m+uVovj0ebp4EqDn9SC+Az3fi5AHom6adju8wx4uJvi8isVg8ZP9KcuqEfXhIkyFutJrD61l00+XyZe4n5T1Aya+Ta0Q6NrA==</SignatureValue>
-    <KeyInfo>
-      <X509Data>
-        <X509IssuerSerial>
-          <X509IssuerName>/CN=CINDEMEX SA DE CV/name=CINDEMEX SA DE CV/O=CINDEMEX SA DE CV/x500UniqueIdentifier=LAN7008173R5 / FUAB770117BXA/serialNumber= / FUAB770117MDFRNN09/OU=Prueba_CFDI</X509IssuerName>
-          <X509SerialNumber>20001000000300022815</X509SerialNumber>
-        </X509IssuerSerial>
-        <X509Certificate>MIIFxTCCA62gAwIBAgIUMjAwMDEwMDAwMDAzMDAwMjI4MTUwDQYJKoZIhvcNAQELBQAwggFmMSAwHgYDVQQDDBdBLkMuIDIgZGUgcHJ1ZWJhcyg0MDk2KTEvMC0GA1UECgwmU2VydmljaW8gZGUgQWRtaW5pc3RyYWNpw7NuIFRyaWJ1dGFyaWExODA2BgNVBAsML0FkbWluaXN0cmFjacOzbiBkZSBTZWd1cmlkYWQgZGUgbGEgSW5mb3JtYWNpw7NuMSkwJwYJKoZIhvcNAQkBFhphc2lzbmV0QHBydWViYXMuc2F0LmdvYi5teDEmMCQGA1UECQwdQXYuIEhpZGFsZ28gNzcsIENvbC4gR3VlcnJlcm8xDjAMBgNVBBEMBTA2MzAwMQswCQYDVQQGEwJNWDEZMBcGA1UECAwQRGlzdHJpdG8gRmVkZXJhbDESMBAGA1UEBwwJQ295b2Fjw6FuMRUwEwYDVQQtEwxTQVQ5NzA3MDFOTjMxITAfBgkqhkiG9w0BCQIMElJlc3BvbnNhYmxlOiBBQ0RNQTAeFw0xNjEwMjUyMTUyMTFaFw0yMDEwMjUyMTUyMTFaMIGxMRowGAYDVQQDExFDSU5ERU1FWCBTQSBERSBDVjEaMBgGA1UEKRMRQ0lOREVNRVggU0EgREUgQ1YxGjAYBgNVBAoTEUNJTkRFTUVYIFNBIERFIENWMSUwIwYDVQQtExxMQU43MDA4MTczUjUgLyBGVUFCNzcwMTE3QlhBMR4wHAYDVQQFExUgLyBGVUFCNzcwMTE3TURGUk5OMDkxFDASBgNVBAsUC1BydWViYV9DRkRJMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAgvvCiCFDFVaYX7xdVRhp/38ULWto/LKDSZy1yrXKpaqFXqERJWF78YHKf3N5GBoXgzwFPuDX+5kvY5wtYNxx/Owu2shNZqFFh6EKsysQMeP5rz6kE1gFYenaPEUP9zj+h0bL3xR5aqoTsqGF24mKBLoiaK44pXBzGzgsxZishVJVM6XbzNJVonEUNbI25DhgWAd86f2aU3BmOH2K1RZx41dtTT56UsszJls4tPFODr/caWuZEuUvLp1M3nj7Dyu88mhD2f+1fA/g7kzcU/1tcpFXF/rIy93APvkU72jwvkrnprzs+SnG81+/F16ahuGsb2EZ88dKHwqxEkwzhMyTbQIDAQABox0wGzAMBgNVHRMBAf8EAjAAMAsGA1UdDwQEAwIGwDANBgkqhkiG9w0BAQsFAAOCAgEAJ/xkL8I+fpilZP+9aO8n93+20XxVomLJjeSL+Ng2ErL2GgatpLuN5JknFBkZAhxVIgMaTS23zzk1RLtRaYvH83lBH5E+M+kEjFGp14Fne1iV2Pm3vL4jeLmzHgY1Kf5HmeVrrp4PU7WQg16VpyHaJ/eonPNiEBUjcyQ1iFfkzJmnSJvDGtfQK2TiEolDJApYv0OWdm4is9Bsfi9j6lI9/T6MNZ+/LM2L/t72Vau4r7m94JDEzaO3A0wHAtQ97fjBfBiO5M8AEISAV7eZidIl3iaJJHkQbBYiiW2gikreUZKPUX0HmlnIqqQcBJhWKRu6Nqk6aZBTETLLpGrvF9OArV1JSsbdw/ZH+P88RAt5em5/gjwwtFlNHyiKG5w+UFpaZOK3gZP0su0sa6dlPeQ9EL4JlFkGqQCgSQ+NOsXqaOavgoP5VLykLwuGnwIUnuhBTVeDbzpgrg9LuF5dYp/zs+Y9ScJqe5VMAagLSYTShNtN8luV7LvxF9pgWwZdcM7lUwqJmUddCiZqdngg3vzTactMToG16gZA4CWnMgbU4E+r541+FNMpgAZNvs2CiW/eApfaaQojsZEAHDsDv4L5n3M1CC7fYjE/d61aSng1LaO6T1mh+dEfPvLzp7zyzz+UgWMhi5Cs4pcXx1eic5r7uxPoBwcCTt3YI1jKVVnV7/w=</X509Certificate>
-      </X509Data>
-      <KeyValue>
-        <RSAKeyValue>
-          <Modulus>gvvCiCFDFVaYX7xdVRhp/38ULWto/LKDSZy1yrXKpaqFXqERJWF78YHKf3N5GBoXgzwFPuDX+5kvY5wtYNxx/Owu2shNZqFFh6EKsysQMeP5rz6kE1gFYenaPEUP9zj+h0bL3xR5aqoTsqGF24mKBLoiaK44pXBzGzgsxZishVJVM6XbzNJVonEUNbI25DhgWAd86f2aU3BmOH2K1RZx41dtTT56UsszJls4tPFODr/caWuZEuUvLp1M3nj7Dyu88mhD2f+1fA/g7kzcU/1tcpFXF/rIy93APvkU72jwvkrnprzs+SnG81+/F16ahuGsb2EZ88dKHwqxEkwzhMyTbQ==</Modulus>
-          <Exponent>AQAB</Exponent>
-        </RSAKeyValue>
-      </KeyValue>
-    </KeyInfo>
-  </Signature>
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             RfcEmisor="EKU9003173C9" Fecha="2022-01-06T17:49:12">
+    <Folios>
+        <Folio UUID="62B00C5E-4187-4336-B569-44E0030DC729" Motivo="02" FolioSustitucion=""></Folio>
+    </Folios>
+    <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+        <SignedInfo>
+            <CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315"/>
+            <SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
+            <Reference URI="">
+                <Transforms>
+                    <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+                </Transforms>
+                <DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+                <DigestValue>C5CrlWmW2k+LRbwIz2JTydPW2+g=</DigestValue>
+            </Reference>
+        </SignedInfo>
+        <SignatureValue>Kxm+BjKx10C/G3c8W8IItAXgdxKP1hmBf2F4DnVcPLTKNfvRu/E29NG2PXDcXGUauAOLi13+7BT2ovURHQKNsjErmAD5Ya09gkUHNstg8ja6K3O5haTNWSIGGf1ZGi1fY8pZ/VSL32L1BnJsu3d81tnxnpriSWkqSQHG2xcll9L2qxdjxlhPfllL1D9nF1TrCv6QCGzgmnRXs6sgUz7Zb2nZaJzPPnausyktEs56LnQr+dpgGs12G8X4NyqFVo8byNA5/fSwF6WLl7RN4p9fKI1WGZg93yHLG6R1fZ+80N0vebNmRDJCHnTrO2aLOn1dkneCqBExOzj8hJMWljzWGQ==</SignatureValue>
+        <KeyInfo>
+            <X509Data>
+                <X509IssuerSerial>
+                    <X509IssuerName>CN=AC UAT,O=SERVICIO DE ADMINISTRACION TRIBUTARIA,OU=SAT-IES Authority,emailAddress=oscar.martinez@sat.gob.mx,street=3ra cerrada de cadiz,postalCode=06370,C=MX,ST=CIUDAD DE MEXICO,L=COYOACAN,x500UniqueIdentifier=2.5.4.45,unstructuredName=responsable: ACDMA-SAT</X509IssuerName>
+                    <X509SerialNumber>30001000000400002434</X509SerialNumber>
+                </X509IssuerSerial>
+                <X509Certificate>MIIFuzCCA6OgAwIBAgIUMzAwMDEwMDAwMDA0MDAwMDI0MzQwDQYJKoZIhvcNAQELBQAwggErMQ8wDQYDVQQDDAZBQyBVQVQxLjAsBgNVBAoMJVNFUlZJQ0lPIERFIEFETUlOSVNUUkFDSU9OIFRSSUJVVEFSSUExGjAYBgNVBAsMEVNBVC1JRVMgQXV0aG9yaXR5MSgwJgYJKoZIhvcNAQkBFhlvc2Nhci5tYXJ0aW5lekBzYXQuZ29iLm14MR0wGwYDVQQJDBQzcmEgY2VycmFkYSBkZSBjYWRpejEOMAwGA1UEEQwFMDYzNzAxCzAJBgNVBAYTAk1YMRkwFwYDVQQIDBBDSVVEQUQgREUgTUVYSUNPMREwDwYDVQQHDAhDT1lPQUNBTjERMA8GA1UELRMIMi41LjQuNDUxJTAjBgkqhkiG9w0BCQITFnJlc3BvbnNhYmxlOiBBQ0RNQS1TQVQwHhcNMTkwNjE3MTk0NDE0WhcNMjMwNjE3MTk0NDE0WjCB4jEnMCUGA1UEAxMeRVNDVUVMQSBLRU1QRVIgVVJHQVRFIFNBIERFIENWMScwJQYDVQQpEx5FU0NVRUxBIEtFTVBFUiBVUkdBVEUgU0EgREUgQ1YxJzAlBgNVBAoTHkVTQ1VFTEEgS0VNUEVSIFVSR0FURSBTQSBERSBDVjElMCMGA1UELRMcRUtVOTAwMzE3M0M5IC8gWElRQjg5MTExNlFFNDEeMBwGA1UEBRMVIC8gWElRQjg5MTExNk1HUk1aUjA1MR4wHAYDVQQLExVFc2N1ZWxhIEtlbXBlciBVcmdhdGUwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCN0peKpgfOL75iYRv1fqq+oVYsLPVUR/GibYmGKc9InHFy5lYF6OTYjnIIvmkOdRobbGlCUxORX/tLsl8Ya9gm6Yo7hHnODRBIDup3GISFzB/96R9K/MzYQOcscMIoBDARaycnLvy7FlMvO7/rlVnsSARxZRO8Kz8Zkksj2zpeYpjZIya/369+oGqQk1cTRkHo59JvJ4Tfbk/3iIyf4H/Ini9nBe9cYWo0MnKob7DDt/vsdi5tA8mMtA953LapNyCZIDCRQQlUGNgDqY9/8F5mUvVgkcczsIgGdvf9vMQPSf3jjCiKj7j6ucxl1+FwJWmbvgNmiaUR/0q4m2rm78lFAgMBAAGjHTAbMAwGA1UdEwEB/wQCMAAwCwYDVR0PBAQDAgbAMA0GCSqGSIb3DQEBCwUAA4ICAQBcpj1TjT4jiinIujIdAlFzE6kRwYJCnDG08zSp4kSnShjxADGEXH2chehKMV0FY7c4njA5eDGdA/G2OCTPvF5rpeCZP5Dw504RZkYDl2suRz+wa1sNBVpbnBJEK0fQcN3IftBwsgNFdFhUtCyw3lus1SSJbPxjLHS6FcZZ51YSeIfcNXOAuTqdimusaXq15GrSrCOkM6n2jfj2sMJYM2HXaXJ6rGTEgYmhYdwxWtil6RfZB+fGQ/H9I9WLnl4KTZUS6C9+NLHh4FPDhSk19fpS2S/56aqgFoGAkXAYt9Fy5ECaPcULIfJ1DEbsXKyRdCv3JY89+0MNkOdaDnsemS2o5Gl08zI4iYtt3L40gAZ60NPh31kVLnYNsmvfNxYyKp+AeJtDHyW9w7ftM0Hoi+BuRmcAQSKFV3pk8j51la+jrRBrAUv8blbRcQ5BiZUwJzHFEKIwTsRGoRyEx96sNnB03n6GTwjIGz92SmLdNl95r9rkvp+2m4S6q1lPuXaFg7DGBrXWC8iyqeWE2iobdwIIuXPTMVqQb12m1dAkJVRO5NdHnP/MpqOvOgLqoZBNHGyBg4Gqm4sCJHCxA1c8Elfa2RQTCk0tAzllL4vOnI1GHkGJn65xokGsaU4B4D36xh7eWrfj4/pgWHmtoDAYa8wzSwo2GVCZOs+mtEgOQB91/g==</X509Certificate>
+            </X509Data>
+            <KeyValue>
+                <RSAKeyValue>
+                    <Modulus>jdKXiqYHzi++YmEb9X6qvqFWLCz1VEfxom2JhinPSJxxcuZWBejk2I5yCL5pDnUaG2xpQlMTkV/7S7JfGGvYJumKO4R5zg0QSA7qdxiEhcwf/ekfSvzM2EDnLHDCKAQwEWsnJy78uxZTLzu/65VZ7EgEcWUTvCs/GZJLI9s6XmKY2SMmv9+vfqBqkJNXE0ZB6OfSbyeE325P94iMn+B/yJ4vZwXvXGFqNDJyqG+ww7f77HYubQPJjLQPedy2qTcgmSAwkUEJVBjYA6mPf/BeZlL1YJHHM7CIBnb3/bzED0n944woio+4+rnMZdfhcCVpm74DZomlEf9KuJtq5u/JRQ==</Modulus>
+                    <Exponent>AQAB</Exponent>
+                </RSAKeyValue>
+            </KeyValue>
+        </KeyInfo>
+    </Signature>
 </Cancelacion>
 ```
 
@@ -172,6 +179,19 @@ o `signRetentionCancellationUuids` para varios UUID. Como primer parámetro reci
 TIP: Por la experiencia en el uso de los servicios de SAT es recomendado usar siempre cancelaciones individuales.
 
 ## Objetos de trabajo
+
+## Documentos a cancelar
+
+**`CancelDocuments`** es una colección de objetos a cancelar. A pesar de que es posible solicitar
+la cancelación de múltiples documentos se recomienda enviar uno por uno.
+
+**`CancelDocument`** es la especificación de objeto a cancelar. El objeto se puede crear utilizando el constructor,
+o bien, utilizando los métodos de ayuda que incluyen el motivo de la cancelación:
+
+- `CancelDocuments::newWithErrorsRelated(string $uuid, string $substituteOf)`.
+- `CancelDocuments::newWithErrorsUnrelated(string $uuid)`.
+- `CancelDocuments::newNotExecuted(string $uuid)`.
+- `CancelDocuments::newNormativeToGlobal(string $uuid)`.
 
 **`CapsuleInterface`** son los objetos que contienen toda la información relacionada con los datos a firmar,
 este tipo de objetos tiene la facultad de poder revisar si el RFC es el mismo usado en la firma así como
@@ -226,7 +246,7 @@ usar esta librería sin temor a romper tu aplicación.
 
 ## Contribuciones
 
-Las contribuciones con bienvenidas. Por favor lee [CONTRIBUTING][] para más detalles
+Las contribuciones con bienvenidas. Por favor, revisa [CONTRIBUTING][] para más detalles
 y recuerda revisar el archivo de tareas pendientes [TODO][] y el archivo [CHANGELOG][].
 
 ## Copyright and License
