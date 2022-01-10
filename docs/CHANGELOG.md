@@ -11,10 +11,17 @@ versión, aunque sí su incorporación en la rama principal de trabajo. Generalm
 
 ## Listado de cambios
 
+### Versión 2.0.1 2022-01-10
+
+Se corrige el XML namespace de cancelación de retenciones. Quedan de la siguiente forma:
+
+- CFDI Regulares: `http://cancelacfd.sat.gob.mx`.
+- CFDI Retenciones: `http://www.sat.gob.mx/esquemas/retencionpago/1`.
+
 ### Versión 2.0.0 2022-01-08
 
 - Se actualiza al nuevo esquema de datos de cancelación del SAT, ahora no se pide un arreglo de UUID,
-  se pide un objeto `CancelDocuments`. Se crean diferentes objetos de valor relacionados a los nuevos campos.
+  se pide un objeto `CancelDocuments`. Se crean diferentes objetos de valor relacionados con los nuevos campos.
 - Se cambia el namespace `PhpCfdi\XmlCancelacion\Definitions` a `PhpCfdi\XmlCancelacion\Models`.
 - Actualización de licencia, feliz 2022.
 
