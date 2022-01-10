@@ -9,6 +9,7 @@ use PhpCfdi\XmlCancelacion\Tests\TestCase;
 
 final class DocumentTypeTest extends TestCase
 {
+    /** @return array<string, array{DocumentType, string}> */
     public function providerXmlNamespaceCancellation(): array
     {
         return [
