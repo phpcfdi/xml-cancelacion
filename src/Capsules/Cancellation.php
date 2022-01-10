@@ -75,8 +75,8 @@ class Cancellation implements Countable, CapsuleInterface
     /** @noinspection PhpUnhandledExceptionInspection */
     public function exportToDocument(): DOMDocument
     {
-        $document = (new BaseDocumentBuilder())->createBaseDocument('Cancelacion', $this->documentType->value());
-
+        $builder = new BaseDocumentBuilder();
+        $document = $builder->createBaseDocument('Cancelacion', $this->documentType->xmlNamespaceCancellation());
         $cancelacion = $this->xmlDocumentElement($document);
         $cancelacion->setAttribute('RfcEmisor', $this->rfc()); // en el anexo 20 es opcional!
         $cancelacion->setAttribute('Fecha', $this->date()->format('Y-m-d\TH:i:s'));
