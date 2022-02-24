@@ -11,7 +11,7 @@ use PhpCfdi\XmlCancelacion\Exceptions\XmlCancelacionRuntimeException;
 use PhpCfdi\XmlCancelacion\Tests\TestCase;
 use RuntimeException;
 
-class HierarchyTest extends TestCase
+final class HierarchyTest extends TestCase
 {
     public function testXmlCancelationRuntimeExceptionImplementsXmlCancelationException(): void
     {

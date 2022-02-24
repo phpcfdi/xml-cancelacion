@@ -9,7 +9,7 @@ use PhpCfdi\XmlCancelacion\Exceptions\XmlCancelacionRuntimeException;
 use PhpCfdi\XmlCancelacion\Tests\TestCase;
 use PhpCfdi\XmlCancelacion\Tests\Unit\Capsules\FakeCapsule;
 
-class CapsuleRfcDoesnotBelongToCertificateRfcTest extends TestCase
+final class CapsuleRfcDoesnotBelongToCertificateRfcTest extends TestCase
 {
     public function testCreateAndValues(): void
     {

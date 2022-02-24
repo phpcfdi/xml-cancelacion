@@ -10,7 +10,7 @@ use PhpCfdi\XmlCancelacion\Models\RfcRole;
 use PhpCfdi\XmlCancelacion\Signers\DOMSigner;
 use PhpCfdi\XmlCancelacion\Tests\TestCase;
 
-class ObtainRelatedSignatureTest extends TestCase
+final class ObtainRelatedSignatureTest extends TestCase
 {
     public function testMakeSignatureAgainstKnownFile(): void
     {

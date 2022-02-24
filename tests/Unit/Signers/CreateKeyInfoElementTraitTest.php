@@ -21,7 +21,7 @@ use PhpCfdi\XmlCancelacion\Tests\TestCase;
  * @see CreateKeyInfoElementTrait::createKeyInfoElement()
  * @see CreateKeyInfoElementTraitImplementor
  */
-class CreateKeyInfoElementTraitTest extends TestCase
+final class CreateKeyInfoElementTraitTest extends TestCase
 {
     private function createKeyInfoElement(string $issuerName, string $serial, string $pemContents): DOMElement
     {

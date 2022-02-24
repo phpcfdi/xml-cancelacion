@@ -12,7 +12,7 @@ use PhpCfdi\XmlCancelacion\Capsules\CapsuleInterface;
 use PhpCfdi\XmlCancelacion\Models\DocumentType;
 use PhpCfdi\XmlCancelacion\XmlCancelacionHelper;
 
-class XmlCancelacionHelperSpy extends XmlCancelacionHelper
+final class XmlCancelacionHelperSpy extends XmlCancelacionHelper
 {
     /** @var Cancellation */
     private $lastCancellation;

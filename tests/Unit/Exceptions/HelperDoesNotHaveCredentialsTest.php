@@ -8,7 +8,7 @@ use PhpCfdi\XmlCancelacion\Exceptions\HelperDoesNotHaveCredentials;
 use PhpCfdi\XmlCancelacion\Exceptions\XmlCancelacionLogicException;
 use PhpCfdi\XmlCancelacion\Tests\TestCase;
 
-class HelperDoesNotHaveCredentialsTest extends TestCase
+final class HelperDoesNotHaveCredentialsTest extends TestCase
 {
     public function testCreateAndValues(): void
     {

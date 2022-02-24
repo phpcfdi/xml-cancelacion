@@ -8,7 +8,7 @@ use PhpCfdi\XmlCancelacion\Capsules\BaseDocumentBuilder;
 use PhpCfdi\XmlCancelacion\Tests\TestCase;
 
 /** @covers \PhpCfdi\XmlCancelacion\Capsules\BaseDocumentBuilder */
-class BaseDocumentBuilderTest extends TestCase
+final class BaseDocumentBuilderTest extends TestCase
 {
     public function testDefaultNameSpacesExactContentAndOrder(): void
     {

@@ -9,6 +9,16 @@ Usamos [Versionado Semántico 2.0.0](SEMVER.md) por lo que puedes usar esta libr
 Pueden aparecer cambios no liberados que se integran a la rama principal, pero no ameritan una nueva liberación de
 versión, aunque sí su incorporación en la rama principal de trabajo. Generalmente se tratan de cambios en el desarrollo.
 
+### Mantenimiento 2022-02-23
+
+- Se actualiza el año en el archivo de licencia. Feliz 2022.
+- Se corrige el grupo de mantenedores de phpCfdi.
+- Se actualizan las dependencias de desarrollo.
+- Se corrige el archivo de configuración de Psalm porque el atributo `totallyTyped` está deprecado.
+- Se deja de utilizar Scrutinizer CI. Gracias Scrutinizer CI.
+- El flujo de integración continua se cambia para separar los procesos que dependen de la cobertura de código.
+- Se agregan los modificadores `abstract`o `final` a las clases de pruebas. 
+
 ## Listado de cambios
 
 ### Versión 2.0.1 2022-01-10

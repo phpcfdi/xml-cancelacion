@@ -12,7 +12,7 @@ use PhpCfdi\XmlCancelacion\Credentials;
 use PhpCfdi\XmlCancelacion\Signers\DOMSigner;
 use PhpCfdi\XmlCancelacion\Tests\TestCase;
 
-class XmlSignedUsingDOMSignerTest extends TestCase
+final class XmlSignedUsingDOMSignerTest extends TestCase
 {
     /** @var DOMSigner */
     private $domSigner;

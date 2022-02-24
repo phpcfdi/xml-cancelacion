@@ -13,7 +13,7 @@ use PhpCfdi\XmlCancelacion\Tests\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /** @covers \PhpCfdi\XmlCancelacion\Credentials */
-class CredentialsTest extends TestCase
+final class CredentialsTest extends TestCase
 {
     public function testValidCredentialsProperties(): void
     {

@@ -8,7 +8,7 @@ use PhpCfdi\XmlCancelacion\Capsules\ObtainRelated;
 use PhpCfdi\XmlCancelacion\Models\RfcRole;
 use PhpCfdi\XmlCancelacion\Tests\TestCase;
 
-class ObtainRelatedTest extends TestCase
+final class ObtainRelatedTest extends TestCase
 {
     public function testConstructAndExportToDocument(): void
     {

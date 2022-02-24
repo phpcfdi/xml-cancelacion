@@ -7,7 +7,7 @@ namespace PhpCfdi\XmlCancelacion\Tests\System\SignerImplementations;
 use PhpCfdi\XmlCancelacion\Signers\DOMSigner;
 use PhpCfdi\XmlCancelacion\Signers\SignerInterface;
 
-class ImplementationDOMSignerTest extends SignerImplementationTestCase
+final class ImplementationDOMSignerTest extends SignerImplementationTestCase
 {
     public function createSigner(): SignerInterface
     {
