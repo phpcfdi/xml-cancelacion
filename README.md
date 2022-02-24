@@ -1,17 +1,16 @@
 # phpcfdi/xml-cancelacion
 
 [![Source Code][badge-source]][source]
+[![Packagist PHP Version Support][badge-php-version]][php-version]
+[![Discord][badge-discord]][discord]
 [![Latest Version][badge-release]][release]
 [![Software License][badge-license]][license]
 [![Build Status][badge-build]][build]
-[![Scrutinizer][badge-quality]][quality]
-[![Coverage Status][badge-coverage]][coverage]
+[![Reliability][badge-reliability]][reliability]
+[![Maintainability][badge-maintainability]][maintainability]
+[![Code Coverage][badge-coverage]][coverage]
+[![Violations][badge-violations]][violations]
 [![Total Downloads][badge-downloads]][downloads]
-
-[![Reliability][badge-sonar-reliability]][sonar-reliability]
-[![Maintainability][badge-sonar-maintainability]][sonar-maintainability]
-[![Code Coverage][badge-sonar-coverage]][sonar-coverage]
-[![Violations][badge-sonar-violations]][sonar-violations]
 
 > Genera documentos de cancelación de CFDI firmados (XMLSEC)
 
@@ -259,26 +258,25 @@ and licensed for use under the MIT License (MIT). Please see [LICENSE][] for mor
 [todo]: https://github.com/phpcfdi/xml-cancelacion/blob/main/docs/TODO.md
 
 [source]: https://github.com/phpcfdi/xml-cancelacion
+[php-version]: https://packagist.org/packages/phpcfdi/xml-cancelacion
+[discord]: https://discord.gg/aFGYXvX
 [release]: https://github.com/phpcfdi/xml-cancelacion/releases
 [license]: https://github.com/phpcfdi/xml-cancelacion/blob/main/LICENSE
 [build]: https://github.com/phpcfdi/xml-cancelacion/actions/workflows/build.yml?query=branch:main
-[quality]: https://scrutinizer-ci.com/g/phpcfdi/xml-cancelacion/
-[coverage]: https://scrutinizer-ci.com/g/phpcfdi/xml-cancelacion/code-structure/main/code-coverage
+[reliability]:https://sonarcloud.io/component_measures?id=phpcfdi_xml-cancelacion&metric=Reliability
+[maintainability]: https://sonarcloud.io/component_measures?id=phpcfdi_xml-cancelacion&metric=Maintainability
+[coverage]: https://sonarcloud.io/component_measures?id=phpcfdi_xml-cancelacion&metric=Coverage
+[violations]: https://sonarcloud.io/project/issues?id=phpcfdi_xml-cancelacion&resolved=false
 [downloads]: https://packagist.org/packages/phpcfdi/xml-cancelacion
 
-[sonar-reliability]:https://sonarcloud.io/component_measures?id=phpcfdi_xml-cancelacion&metric=Reliability
-[sonar-maintainability]: https://sonarcloud.io/component_measures?id=phpcfdi_xml-cancelacion&metric=Maintainability
-[sonar-coverage]: https://sonarcloud.io/component_measures?id=phpcfdi_xml-cancelacion&metric=Coverage
-[sonar-violations]: https://sonarcloud.io/project/issues?id=phpcfdi_xml-cancelacion&resolved=false
-[badge-source]: https://img.shields.io/badge/source-phpcfdi/xml--cancelacion-blue?style=flat-square
-[badge-release]: https://img.shields.io/github/release/phpcfdi/xml-cancelacion?style=flat-square
-[badge-license]: https://img.shields.io/github/license/phpcfdi/xml-cancelacion?style=flat-square
-[badge-build]: https://img.shields.io/github/workflow/status/phpcfdi/xml-cancelacion/build/main?style=flat-square
-[badge-quality]: https://img.shields.io/scrutinizer/g/phpcfdi/xml-cancelacion/main?style=flat-square
-[badge-coverage]: https://img.shields.io/scrutinizer/coverage/g/phpcfdi/xml-cancelacion/main?style=flat-square
-[badge-downloads]: https://img.shields.io/packagist/dt/phpcfdi/xml-cancelacion?style=flat-square
-
-[badge-sonar-reliability]: https://sonarcloud.io/api/project_badges/measure?project=phpcfdi_xml-cancelacion&metric=reliability_rating
-[badge-sonar-maintainability]: https://sonarcloud.io/api/project_badges/measure?project=phpcfdi_xml-cancelacion&metric=sqale_rating
-[badge-sonar-coverage]: https://img.shields.io/sonar/coverage/phpcfdi_xml-cancelacion/main?logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io
-[badge-sonar-violations]: https://img.shields.io/sonar/violations/phpcfdi_xml-cancelacion/main?format=long&logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io
+[badge-source]: https://img.shields.io/badge/source-phpcfdi/xml--cancelacion-blue?logo=github
+[badge-discord]: https://img.shields.io/discord/459860554090283019?logo=discord
+[badge-php-version]: https://img.shields.io/packagist/php-v/phpcfdi/xml-cancelacion?logo=php
+[badge-release]: https://img.shields.io/github/release/phpcfdi/xml-cancelacion?logo=git
+[badge-license]: https://img.shields.io/github/license/phpcfdi/xml-cancelacion?logo=open-source-initiative
+[badge-build]: https://img.shields.io/github/workflow/status/phpcfdi/xml-cancelacion/build/main?logo=github-actions
+[badge-reliability]: https://sonarcloud.io/api/project_badges/measure?project=phpcfdi_xml-cancelacion&metric=reliability_rating
+[badge-maintainability]: https://sonarcloud.io/api/project_badges/measure?project=phpcfdi_xml-cancelacion&metric=sqale_rating
+[badge-coverage]: https://img.shields.io/sonar/coverage/phpcfdi_xml-cancelacion/main?logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io
+[badge-violations]: https://img.shields.io/sonar/violations/phpcfdi_xml-cancelacion/main?format=long&logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io
+[badge-downloads]: https://img.shields.io/packagist/dt/phpcfdi/xml-cancelacion?logo=packagist
