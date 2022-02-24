@@ -6,7 +6,7 @@ namespace PhpCfdi\XmlCancelacion\Tests;
 
 use DOMDocument;
 
-class TestCase extends \PHPUnit\Framework\TestCase
+abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
     public static function filePath(string $filename): string
     {

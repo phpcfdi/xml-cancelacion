@@ -9,7 +9,7 @@ use PhpCfdi\XmlCancelacion\Capsules\CancellationAnswer;
 use PhpCfdi\XmlCancelacion\Models\CancelAnswer;
 use PhpCfdi\XmlCancelacion\Tests\TestCase;
 
-class CancellationAnswerTest extends TestCase
+final class CancellationAnswerTest extends TestCase
 {
     public function testConstructAndExportToDocument(): void
     {

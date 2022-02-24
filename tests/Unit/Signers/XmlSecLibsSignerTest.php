@@ -17,7 +17,7 @@ use PhpCfdi\XmlCancelacion\Tests\TestCase;
 use PHPUnit\Framework\MockObject\MockObject;
 
 /** @covers \PhpCfdi\XmlCancelacion\Signers\XmlSecLibsSigner */
-class XmlSecLibsSignerTest extends TestCase
+final class XmlSecLibsSignerTest extends TestCase
 {
     public function testsignIsEqualToDomSigner(): void
     {

@@ -8,7 +8,7 @@ use PhpCfdi\XmlCancelacion\Exceptions\CertificateIsNotCSD;
 use PhpCfdi\XmlCancelacion\Exceptions\XmlCancelacionRuntimeException;
 use PhpCfdi\XmlCancelacion\Tests\TestCase;
 
-class CertificateIsNotCSDTest extends TestCase
+final class CertificateIsNotCSDTest extends TestCase
 {
     public function testCreateAndValues(): void
     {

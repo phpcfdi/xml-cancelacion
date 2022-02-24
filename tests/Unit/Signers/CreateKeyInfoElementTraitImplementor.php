@@ -6,7 +6,7 @@ namespace PhpCfdi\XmlCancelacion\Tests\Unit\Signers;
 
 use PhpCfdi\XmlCancelacion\Signers\CreateKeyInfoElementTrait;
 
-class CreateKeyInfoElementTraitImplementor
+final class CreateKeyInfoElementTraitImplementor
 {
     use CreateKeyInfoElementTrait {
         createKeyInfoElement as public;

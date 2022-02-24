@@ -17,6 +17,7 @@ versión, aunque sí su incorporación en la rama principal de trabajo. Generalm
 - Se corrige el archivo de configuración de Psalm porque el atributo `totallyTyped` está deprecado.
 - Se deja de utilizar Scrutinizer CI. Gracias Scrutinizer CI.
 - El flujo de integración continua se cambia para separar los procesos que dependen de la cobertura de código.
+- Se agregan los modificadores `abstract`o `final` a las clases de pruebas. 
 
 ## Listado de cambios
 

@@ -8,7 +8,7 @@ use DOMDocument;
 use PhpCfdi\XmlCancelacion\Capsules\BaseDocumentBuilder;
 use PhpCfdi\XmlCancelacion\Capsules\CapsuleInterface;
 
-class FakeCapsule implements CapsuleInterface
+final class FakeCapsule implements CapsuleInterface
 {
     /** @var string */
     private $rfc;

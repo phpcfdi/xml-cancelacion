@@ -11,7 +11,7 @@ use PhpCfdi\XmlCancelacion\Capsules\Cancellation;
 use PhpCfdi\XmlCancelacion\Models\DocumentType;
 use PhpCfdi\XmlCancelacion\Tests\TestCase;
 
-class CancellationTest extends TestCase
+final class CancellationTest extends TestCase
 {
     public function testConstructAndGetParameters(): void
     {

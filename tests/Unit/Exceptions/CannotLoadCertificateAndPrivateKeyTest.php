@@ -9,7 +9,7 @@ use PhpCfdi\XmlCancelacion\Exceptions\XmlCancelacionRuntimeException;
 use PhpCfdi\XmlCancelacion\Tests\TestCase;
 use RuntimeException;
 
-class CannotLoadCertificateAndPrivateKeyTest extends TestCase
+final class CannotLoadCertificateAndPrivateKeyTest extends TestCase
 {
     public function testCreateAndValues(): void
     {

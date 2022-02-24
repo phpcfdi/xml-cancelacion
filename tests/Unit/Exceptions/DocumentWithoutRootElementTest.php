@@ -8,7 +8,7 @@ use PhpCfdi\XmlCancelacion\Exceptions\DocumentWithoutRootElement;
 use PhpCfdi\XmlCancelacion\Exceptions\XmlCancelacionLogicException;
 use PhpCfdi\XmlCancelacion\Tests\TestCase;
 
-class DocumentWithoutRootElementTest extends TestCase
+final class DocumentWithoutRootElementTest extends TestCase
 {
     public function testCreateAndValues(): void
     {
