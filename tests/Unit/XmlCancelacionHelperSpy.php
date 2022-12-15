@@ -6,9 +6,9 @@ namespace PhpCfdi\XmlCancelacion\Tests\Unit;
 
 use DateTimeImmutable;
 use LogicException;
-use PhpCfdi\XmlCancelacion\Models\CancelDocuments;
 use PhpCfdi\XmlCancelacion\Capsules\Cancellation;
 use PhpCfdi\XmlCancelacion\Capsules\CapsuleInterface;
+use PhpCfdi\XmlCancelacion\Models\CancelDocuments;
 use PhpCfdi\XmlCancelacion\Models\DocumentType;
 use PhpCfdi\XmlCancelacion\XmlCancelacionHelper;
 

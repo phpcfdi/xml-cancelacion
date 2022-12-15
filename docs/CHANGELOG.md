@@ -12,6 +12,7 @@ versión, aunque sí su incorporación en la rama principal de trabajo. Generalm
 ### Mantenimiento 2022-12-15
 
 - Se actualizan las herramientas de desarrollo.
+- Se actualiza el estándar de código al más reciente de PhpCfdi.
 
 ### Mantenimiento 2022-02-23
 

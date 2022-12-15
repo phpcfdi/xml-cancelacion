@@ -7,9 +7,9 @@ namespace PhpCfdi\XmlCancelacion\Capsules;
 use Countable;
 use DateTimeImmutable;
 use DOMDocument;
-use PhpCfdi\XmlCancelacion\Models\DocumentType;
 use PhpCfdi\XmlCancelacion\Internal\XmlHelperFunctions;
 use PhpCfdi\XmlCancelacion\Models\CancelDocuments;
+use PhpCfdi\XmlCancelacion\Models\DocumentType;
 
 class Cancellation implements Countable, CapsuleInterface
 {

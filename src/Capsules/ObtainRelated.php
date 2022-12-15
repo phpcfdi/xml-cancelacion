@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace PhpCfdi\XmlCancelacion\Capsules;
 
 use DOMDocument;
+use PhpCfdi\XmlCancelacion\Internal\XmlHelperFunctions;
 use PhpCfdi\XmlCancelacion\Models;
 use PhpCfdi\XmlCancelacion\Models\DocumentType;
 use PhpCfdi\XmlCancelacion\Models\RfcRole;
-use PhpCfdi\XmlCancelacion\Internal\XmlHelperFunctions;
 
 class ObtainRelated implements CapsuleInterface
 {

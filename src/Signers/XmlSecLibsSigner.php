@@ -16,9 +16,7 @@ use RobRichards\XMLSecLibs\XMLSecurityKey;
 class XmlSecLibsSigner implements SignerInterface
 {
     use XmlHelperFunctions;
-
     use CreateKeyInfoElementTrait;
-
     use SignCapsuleMethodTrait;
 
     public function signDocument(DOMDocument $document, Credentials $credentials): void
