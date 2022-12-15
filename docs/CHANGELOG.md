@@ -9,6 +9,10 @@ Usamos [Versionado Semántico 2.0.0](SEMVER.md) por lo que puedes usar esta libr
 Pueden aparecer cambios no liberados que se integran a la rama principal, pero no ameritan una nueva liberación de
 versión, aunque sí su incorporación en la rama principal de trabajo. Generalmente se tratan de cambios en el desarrollo.
 
+### Mantenimiento 2022-12-15
+
+- Se actualizan las herramientas de desarrollo.
+
 ### Mantenimiento 2022-02-23
 
 - Se actualiza el año en el archivo de licencia. Feliz 2022.
