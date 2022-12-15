@@ -2,6 +2,6 @@
 <Cancelacion xmlns="http://cancelacfd.sat.gob.mx" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" RfcEmisor="LAN7008173R5" Fecha="2022-01-13T14:15:16">
   <Folios>
     <Folio UUID="11111111-2222-3333-4444-000000000001" Motivo="01" FolioSustitucion="00000000-0000-0000-0000-000000000001"/>
-    <Folio UUID="11111111-2222-3333-4444-000000000002" Motivo="02" FolioSustitucion=""/>
+    <Folio UUID="11111111-2222-3333-4444-000000000002" Motivo="02"/>
   </Folios>
 </Cancelacion>

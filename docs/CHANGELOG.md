@@ -7,9 +7,23 @@ Usamos [Versionado Semántico 2.0.0](SEMVER.md) por lo que puedes usar esta libr
 ## Cambios no liberados en una versión
 
 Pueden aparecer cambios no liberados que se integran a la rama principal, pero no ameritan una nueva liberación de
-versión, aunque sí su incorporación en la rama principal de trabajo. Generalmente se tratan de cambios en el desarrollo.
+versión, aunque sí su incorporación en la rama principal de trabajo. Generalmente, se tratan de cambios en el desarrollo.
 
-### Mantenimiento 2022-12-15
+## Listado de cambios
+
+### Versión 2.0.2 2022-12-15
+
+Se corrige el archivo XML generado para cancelaciones.
+Anteriormente, cuando el atributo `FolioSustitucion` estaba vacío se incluía vacío, ahora se omite.
+
+Este cambio va de acuerdo a la documentación del Anexo 20:
+
+> *Atributo condicional que representa al UUID que sustituye al folio fiscal cancelado.*
+> *Es requerido cuando la clave del motivo de cancelación es 01.*
+
+Gracias `@juliazo` por reportar este problema: <https://github.com/phpcfdi/xml-cancelacion/issues/30>.
+
+#### Mantenimiento 2022-12-15
 
 - Se actualizan las herramientas de desarrollo.
 - Se actualiza el estándar de código al más reciente de PhpCfdi.
@@ -19,9 +33,8 @@ versión, aunque sí su incorporación en la rama principal de trabajo. Generalm
   - Se actualizan las acciones estándar de GitHub de la versión 2 a la versión 3.
   - Se quita la instalación de la herramienta `composer` donde no es necesaria.
   - Se cambia la directiva deprecada `::set-output` por `$GITHUB_OUTPUT`.
-  - 
 
-### Mantenimiento 2022-02-23
+#### Mantenimiento 2022-02-23
 
 - Se actualiza el año en el archivo de licencia. Feliz 2022.
 - Se corrige el grupo de mantenedores de phpCfdi.
@@ -29,9 +42,7 @@ versión, aunque sí su incorporación en la rama principal de trabajo. Generalm
 - Se corrige el archivo de configuración de Psalm porque el atributo `totallyTyped` está deprecado.
 - Se deja de utilizar Scrutinizer CI. Gracias Scrutinizer CI.
 - El flujo de integración continua se cambia para separar los procesos que dependen de la cobertura de código.
-- Se agregan los modificadores `abstract`o `final` a las clases de pruebas. 
-
-## Listado de cambios
+- Se agregan los modificadores `abstract`o `final` a las clases de pruebas.
 
 ### Versión 2.0.1 2022-01-10
 

@@ -99,7 +99,7 @@ La salida esperada es algo como lo siguiente (sin los espacios en blanco, que ag
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              RfcEmisor="EKU9003173C9" Fecha="2022-01-06T17:49:12">
     <Folios>
-        <Folio UUID="62B00C5E-4187-4336-B569-44E0030DC729" Motivo="02" FolioSustitucion=""></Folio>
+        <Folio UUID="62B00C5E-4187-4336-B569-44E0030DC729" Motivo="02"></Folio>
     </Folios>
     <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
         <SignedInfo>
@@ -197,7 +197,7 @@ este tipo de objetos tiene la facultad de poder revisar si el RFC es el mismo us
 poder generar el documento XML a firmar.
 
 **`Credentials`** Es un objeto que encapsula el trabajo con los certificados y llave privada.
-Internamente utiliza [`phpcfdi/credentials`](https://github.com/phpcfdi/credentials) y la clase interna es solo
+Internamente, utiliza [`phpcfdi/credentials`](https://github.com/phpcfdi/credentials) y la clase interna es solo
 una indirección de `PhpCfdi\Credentials\Credential`. Incluso puedes crear una credencial de `phpcfd/xml-cancelacion`
 a partir de un objeto directo de `phpcfdi/credentials` usando `Credentials::createWithPhpCfdiCredential`, por ejemplo:
 

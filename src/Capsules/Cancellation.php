@@ -86,10 +86,11 @@ class Cancellation implements Countable, CapsuleInterface
         foreach ($this->documents as $cancelDocument) {
             $folio = $document->createElement('Folio');
             $folios->appendChild($folio);
-            $subsituteOf = $cancelDocument->hasSubstituteOf() ? (string) $cancelDocument->substituteOf() : '';
             $folio->setAttribute('UUID', (string) $cancelDocument->uuid());
             $folio->setAttribute('Motivo', (string) $cancelDocument->reason());
-            $folio->setAttribute('FolioSustitucion', $subsituteOf);
+            if ($cancelDocument->hasSubstituteOf()) {
+                $folio->setAttribute('FolioSustitucion', (string) $cancelDocument->substituteOf());
+            }
         }
 
         return $document;
