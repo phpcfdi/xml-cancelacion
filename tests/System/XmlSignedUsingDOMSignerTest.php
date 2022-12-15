@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace PhpCfdi\XmlCancelacion\Tests\System;
 
 use DateTimeImmutable;
-use PhpCfdi\XmlCancelacion\Models\CancelDocument;
-use PhpCfdi\XmlCancelacion\Models\CancelDocuments;
 use PhpCfdi\XmlCancelacion\Capsules\Cancellation;
 use PhpCfdi\XmlCancelacion\Credentials;
+use PhpCfdi\XmlCancelacion\Models\CancelDocument;
+use PhpCfdi\XmlCancelacion\Models\CancelDocuments;
 use PhpCfdi\XmlCancelacion\Signers\DOMSigner;
 use PhpCfdi\XmlCancelacion\Tests\TestCase;
 
@@ -50,11 +50,11 @@ final class XmlSignedUsingDOMSignerTest extends TestCase
             . ' xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"'
             . ' Fecha="2022-01-06T17:49:12" RfcEmisor="EKU9003173C9">'
             . '<Folios>'
-            . '<Folio FolioSustitucion="" Motivo="02" UUID="62B00C5E-4187-4336-B569-44E0030DC729"></Folio>'
+            . '<Folio Motivo="02" UUID="62B00C5E-4187-4336-B569-44E0030DC729"></Folio>'
             . '</Folios>'
             . '</Cancelacion>';
 
-        $expectedDigestValue = 'C5CrlWmW2k+LRbwIz2JTydPW2+g=';
+        $expectedDigestValue = '28wlg0suJ57t4P4P+LshbcH5PYE=';
 
         // signed info text for preset capsule *must* be the following, see not used xmlns declarations and C14N
         /** @noinspection XmlUnusedNamespaceDeclaration */
@@ -69,16 +69,16 @@ final class XmlSignedUsingDOMSignerTest extends TestCase
             . '<Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"></Transform>'
             . '</Transforms>'
             . '<DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"></DigestMethod>'
-            . '<DigestValue>C5CrlWmW2k+LRbwIz2JTydPW2+g=</DigestValue>'
+            . '<DigestValue>' . $expectedDigestValue . '</DigestValue>'
             . '</Reference>'
             . '</SignedInfo>';
 
         $expectedSignedValue = implode('', [
-            'Kxm+BjKx10C/G3c8W8IItAXgdxKP1hmBf2F4DnVcPLTKNfvRu/E29NG2PXDcXGUauAOLi13+7BT2',
-            'ovURHQKNsjErmAD5Ya09gkUHNstg8ja6K3O5haTNWSIGGf1ZGi1fY8pZ/VSL32L1BnJsu3d81tnx',
-            'npriSWkqSQHG2xcll9L2qxdjxlhPfllL1D9nF1TrCv6QCGzgmnRXs6sgUz7Zb2nZaJzPPnausykt',
-            'Es56LnQr+dpgGs12G8X4NyqFVo8byNA5/fSwF6WLl7RN4p9fKI1WGZg93yHLG6R1fZ+80N0vebNm',
-            'RDJCHnTrO2aLOn1dkneCqBExOzj8hJMWljzWGQ==',
+            'h1USGSs4ziIxiWowgp4KItvI/4HlneSyAP+4wSK59NK2ym4Qlyxmtj9O7YCb6Sr6iNhPWBX4pYcN',
+            'EOpS2rSmpADdhUlxHxxed5XUdfxGViBtSF8y8hahuTiImdE+d41BiXdu2ml/GUbXhDjbWImDYgAe',
+            'vg5tQILJ02PuMNZYWE2WNUGbvwiT9239+vmKmxYtrZYTBaNfI5ESd3Bf6mOeu8qEGCfV0V8O8iBz',
+            'rkxCuKbfkowe6a/CROcybPJ/WiwXNHP2pPS7FCvQScdObtC89UOCvafgIDEziWREU4SFMydApyhG',
+            '9Hk/hB9MbsrDdAS/3OjZTNjfRCPV5bo2zAngHg==',
         ]);
 
         $this->assertSame($expectedDigestSource, $this->domSigner->getDigestSource());

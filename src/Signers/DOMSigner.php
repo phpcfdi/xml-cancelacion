@@ -12,9 +12,7 @@ use PhpCfdi\XmlCancelacion\Internal\XmlHelperFunctions;
 class DOMSigner implements SignerInterface
 {
     use CreateKeyInfoElementTrait;
-
     use SignCapsuleMethodTrait;
-
     use XmlHelperFunctions;
 
     private const C14N_INCLUSIVE = false;
