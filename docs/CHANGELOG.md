@@ -13,6 +13,13 @@ versión, aunque sí su incorporación en la rama principal de trabajo. Generalm
 
 - Se actualizan las herramientas de desarrollo.
 - Se actualiza el estándar de código al más reciente de PhpCfdi.
+- Se actualizan los flujos de trabajo de GitHub:
+  - Se agrega PHP 8.2 a la matriz de prebas en el trabajo `tests`.
+  - Actualizar a PHP 8.2 (excepto el trabajo `php-cs-fixer`).
+  - Se actualizan las acciones estándar de GitHub de la versión 2 a la versión 3.
+  - Se quita la instalación de la herramienta `composer` donde no es necesaria.
+  - Se cambia la directiva deprecada `::set-output` por `$GITHUB_OUTPUT`.
+  - 
 
 ### Mantenimiento 2022-02-23
 
