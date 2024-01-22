@@ -13,7 +13,7 @@ versión, aunque sí su incorporación en la rama principal de trabajo. Generalm
 
 - Se actualiza el año de la licencia.
 - Se corrige el archivo de configuración de `php-cs-fixer`.
-- Se corrige el código para solventar los problemas de `php-cs-fixer` y `psalm`.
+- Se corrige el código para solventar los problemas de `php-cs-fixer`, `psalm` y SonarCloud.
   No produjo cambios que requieran liberar una nueva versión.
 - Se corrige el ancla del proyecto en el archivo `CONTRIBUTING.md`.
 - Se corrige la insignia de construcción del proyecto en el archivo `README.md`.
