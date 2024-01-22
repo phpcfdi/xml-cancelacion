@@ -21,10 +21,10 @@ final class CancelReasonTest extends TestCase
     }
 
     /** @dataProvider providerEntries */
-    public function testEntries(CancelReason $entry, int $index, string $value): void
+    public function testEntries(CancelReason $entry, int $expectedIndex, string $expectedValue): void
     {
-        $this->assertSame($entry->index(), $index);
-        $this->assertSame($entry->value(), $value);
+        $this->assertSame($expectedIndex, $entry->index());
+        $this->assertSame($expectedValue, $entry->value());
     }
 
     /** @dataProvider providerEntries */

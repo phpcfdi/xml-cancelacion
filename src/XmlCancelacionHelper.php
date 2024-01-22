@@ -40,7 +40,7 @@ class XmlCancelacionHelper
 
     public function hasCredentials(): bool
     {
-        return (null !== $this->credentials);
+        return null !== $this->credentials;
     }
 
     public function getCredentials(): Credentials

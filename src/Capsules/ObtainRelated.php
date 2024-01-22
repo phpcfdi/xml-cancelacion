@@ -69,6 +69,6 @@ class ObtainRelated implements CapsuleInterface
 
     public function belongsToRfc(string $rfc): bool
     {
-        return ($rfc === $this->rfc());
+        return $rfc === $this->rfc();
     }
 }
