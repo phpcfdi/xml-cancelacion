@@ -9,6 +9,21 @@ Usamos [Versionado Semántico 2.0.0](SEMVER.md) por lo que puedes usar esta libr
 Pueden aparecer cambios no liberados que se integran a la rama principal, pero no ameritan una nueva liberación de
 versión, aunque sí su incorporación en la rama principal de trabajo. Generalmente, se tratan de cambios en el desarrollo.
 
+### Mantenimiento 2024-01-22
+
+- Se actualiza el año de la licencia.
+- Se corrige el archivo de configuración de `php-cs-fixer`.
+- Se corrige el código para solventar los problemas de `php-cs-fixer` y `psalm`.
+  No produjo cambios que requieran liberar una nueva versión.
+- Se corrige el ancla del proyecto en el archivo `CONTRIBUTING.md`.
+- Se corrige la insignia de construcción del proyecto en el archivo `README.md`.
+- Se configura GitHub para ignorar la detección de lenguaje en la ruta `tests/_files/`.
+- Se actualizan los flujos de trabajo de GitHub:
+  - Se agrega PHP 8.3 a la matriz de prebas en el trabajo `tests`.
+  - Los trabajos se ejecutan en PHP 8.3.
+  - Se permite ejecutar los trabajos manualmente.
+- Se actualizan las herramientas de desarrollo.
+
 ## Listado de cambios
 
 ### Versión 2.0.2 2022-12-15
