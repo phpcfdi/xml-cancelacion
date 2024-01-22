@@ -274,7 +274,7 @@ and licensed for use under the MIT License (MIT). Please see [LICENSE][] for mor
 [badge-php-version]: https://img.shields.io/packagist/php-v/phpcfdi/xml-cancelacion?logo=php
 [badge-release]: https://img.shields.io/github/release/phpcfdi/xml-cancelacion?logo=git
 [badge-license]: https://img.shields.io/github/license/phpcfdi/xml-cancelacion?logo=open-source-initiative
-[badge-build]: https://img.shields.io/github/workflow/status/phpcfdi/xml-cancelacion/build/main?logo=github-actions
+[badge-build]: https://img.shields.io/github/actions/workflow/status/phpcfdi/xml-cancelacion/build.yml?branch=main&logo=github-actions
 [badge-reliability]: https://sonarcloud.io/api/project_badges/measure?project=phpcfdi_xml-cancelacion&metric=reliability_rating
 [badge-maintainability]: https://sonarcloud.io/api/project_badges/measure?project=phpcfdi_xml-cancelacion&metric=sqale_rating
 [badge-coverage]: https://img.shields.io/sonar/coverage/phpcfdi_xml-cancelacion/main?logo=sonarcloud&server=https%3A%2F%2Fsonarcloud.io
