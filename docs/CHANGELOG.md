@@ -9,6 +9,12 @@ Usamos [Versionado Semántico 2.0.0](SEMVER.md) por lo que puedes usar esta libr
 Pueden aparecer cambios no liberados que se integran a la rama principal, pero no ameritan una nueva liberación de
 versión, aunque sí su incorporación en la rama principal de trabajo. Generalmente, se tratan de cambios en el desarrollo.
 
+### Mantenimiento 2024-09-09
+
+- En los flujos de trabajo de GitHub:
+  - Se actualizan las acciones a versión 4.
+  - Se usa la varible `matrix.php-version` en lugar de `matrix.php-versions`.
+
 ### Mantenimiento 2024-01-22
 
 - Se actualiza el año de la licencia.
