@@ -19,7 +19,7 @@ final class CancelDocuments implements IteratorAggregate, Countable
     /** @var CancelDocument[] */
     private $documents;
 
-    /** @var int */
+    /** @var int<0, max> */
     private $count;
 
     public function __construct(CancelDocument ...$documents)
