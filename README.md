@@ -243,12 +243,13 @@ Esta librería se mantendrá compatible con al menos la versión con
 También utilizamos [Versionado Semántico 2.0.0](docs/SEMVER.md) por lo que puedes
 usar esta librería sin temor a romper tu aplicación.
 
-| xml-cancelacion | Supported PHP Versions            | Release date |
-|-----------------|-----------------------------------|--------------|
-| 1.0.0           | 7.2, 7.3, 7.4                     | 2029-10-02   |
-| 1.1.2           | 7.3, 7.4, 8.0                     | 2021-09-03   |
-| 2.0.2           | 7.3, 7.4, 8.0, 8.1, 8.2, 8.3      | 2022-12-15   |
-| 2.0.3           | 7.3, 7.4, 8.0, 8.1, 8.2, 8.3, 8.4 | 2025-06-01   |
+| xml-cancelacion | Versiones de PHP Soportadas       | Desde      |
+|-----------------|-----------------------------------|------------|
+| 1.0.0           | 7.2, 7.3, 7.4                     | 2029-10-02 |
+| 1.1.2           | 7.3, 7.4, 8.0                     | 2021-09-03 |
+| 2.0.2           | 7.3, 7.4, 8.0, 8.1, 8.2, 8.3      | 2022-12-15 |
+| 2.0.3           | 7.3, 7.4, 8.0, 8.1, 8.2, 8.3, 8.4 | 2025-06-01 |
+| 2.0.4           | 8.1, 8.2, 8.3, 8.4                | 2025-06-01 |
 
 ## Contribuciones
 

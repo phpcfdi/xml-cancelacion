@@ -9,6 +9,11 @@ Usamos [Versionado Semántico 2.0.0](SEMVER.md) por lo que puedes usar esta libr
 Pueden aparecer cambios no liberados que se integran a la rama principal, pero no ameritan una nueva liberación de versión,
 aunque sí su incorporación en la rama principal de trabajo. Generalmente, se tratan de cambios en el desarrollo.
 
+### Versión 2.0.4 2025-06-01
+
+- Se elimina la compatibilidad con versiones menores a PHP 8.1.
+- Se actualiza PHPUnit a la rama 10.
+
 ### Versión 2.0.3 2025-06-01
 
 - Se hacen las modificaciones para la compatibilidad con PHP 8.4.
