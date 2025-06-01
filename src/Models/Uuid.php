@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace PhpCfdi\XmlCancelacion\Models;
 
 use InvalidArgumentException;
+use Stringable;
 
 /**
  * Value object of a CFDI UUID
  */
-final class Uuid
+final class Uuid implements Stringable
 {
-    /** @var string */
-    private $value;
+    private string $value;
 
     public function __construct(string $value)
     {

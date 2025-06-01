@@ -8,21 +8,13 @@ use Throwable;
 
 class CannotLoadCertificateAndPrivateKey extends XmlCancelacionRuntimeException
 {
-    /** @var string */
-    private $certificateFile;
-
-    /** @var string */
-    private $privateKeyFile;
-
-    /** @var string */
-    private $passPhrase;
-
-    public function __construct(string $certificate, string $privateKey, string $passPhrase, Throwable $previous)
-    {
-        parent::__construct('Cannot load certificate and private key', 0, $previous);
-        $this->certificateFile = $certificate;
-        $this->privateKeyFile = $privateKey;
-        $this->passPhrase = $passPhrase;
+    public function __construct(
+        private readonly string $certificateFile,
+        private readonly string $privateKeyFile,
+        private readonly string $passPhrase,
+        Throwable $previous
+    ) {
+        parent::__construct('Cannot load certificate and private key', previous: $previous);
     }
 
     public function getCertificateFile(): string

@@ -14,33 +14,13 @@ class CancellationAnswer implements CapsuleInterface
 {
     use XmlHelperFunctions;
 
-    /** @var string */
-    private $uuid;
-
-    /** @var CancelAnswer */
-    private $answer;
-
-    /** @var string */
-    private $rfc;
-
-    /** @var DateTimeImmutable */
-    private $dateTime;
-
-    /** @var string */
-    private $pacRfc;
-
     public function __construct(
-        string $rfc,
-        string $uuid,
-        CancelAnswer $answer,
-        string $pacRfc,
-        DateTimeImmutable $dateTime
+        private readonly string $rfc,
+        private readonly string $uuid,
+        private readonly CancelAnswer $answer,
+        private readonly string $pacRfc,
+        private readonly DateTimeImmutable $dateTime
     ) {
-        $this->rfc = $rfc;
-        $this->uuid = $uuid;
-        $this->answer = $answer;
-        $this->dateTime = $dateTime;
-        $this->pacRfc = $pacRfc;
     }
 
     public function rfc(): string

@@ -21,13 +21,13 @@ use PHPUnit\Framework\MockObject\MockObject;
 final class XmlCancelacionHelperTest extends TestCase
 {
     /** @return Credentials&MockObject */
-    private function createFakeCredentials()
+    private function createFakeCredentials(): Credentials
     {
         return $this->createMock(Credentials::class);
     }
 
     /** @return  SignerInterface&MockObject $fakeSigner */
-    private function createFakeSigner()
+    private function createFakeSigner(): SignerInterface
     {
         return $this->createMock(SignerInterface::class);
     }

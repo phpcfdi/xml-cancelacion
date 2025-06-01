@@ -13,24 +13,12 @@ class ObtainRelated implements CapsuleInterface
 {
     use XmlHelperFunctions;
 
-    /** @var string */
-    private $uuid;
-
-    /** @var string */
-    private $rfc;
-
-    /** @var RfcRole */
-    private $role;
-
-    /** @var string */
-    private $pacRfc;
-
-    public function __construct(string $uuid, string $rfc, RfcRole $role, string $pacRfc)
-    {
-        $this->uuid = $uuid;
-        $this->rfc = $rfc;
-        $this->role = $role;
-        $this->pacRfc = $pacRfc;
+    public function __construct(
+        private readonly string $uuid,
+        private readonly string $rfc,
+        private readonly RfcRole $role,
+        private readonly string $pacRfc
+    ) {
     }
 
     public function uuid(): string

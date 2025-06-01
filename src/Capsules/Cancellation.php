@@ -15,35 +15,19 @@ class Cancellation implements Countable, CapsuleInterface
 {
     use XmlHelperFunctions;
 
-    /** @var string */
-    private $rfc;
-
-    /** @var DateTimeImmutable */
-    private $date;
-
-    /** @var CancelDocuments */
-    private $documents;
-
-    /** @var DocumentType */
-    private $documentType;
+    private DocumentType $documentType;
 
     /**
      * DTO for cancellation request, it supports CFDI and Retention
      *
-     * @param string $rfc
-     * @param CancelDocuments $documents
-     * @param DateTimeImmutable $date
      * @param DocumentType|null $type Uses CFDI if non provided
      */
     public function __construct(
-        string $rfc,
-        CancelDocuments $documents,
-        DateTimeImmutable $date,
+        private readonly string $rfc,
+        private readonly CancelDocuments $documents,
+        private readonly DateTimeImmutable $date,
         ?DocumentType $type = null
     ) {
-        $this->rfc = $rfc;
-        $this->date = $date;
-        $this->documents = $documents;
         $this->documentType = $type ?? DocumentType::cfdi();
     }
 

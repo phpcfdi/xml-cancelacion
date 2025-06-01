@@ -11,23 +11,13 @@ use Throwable;
 
 class Credentials
 {
-    /** @var string */
-    private $certificate;
+    private ?Credential $csd = null;
 
-    /** @var string */
-    private $privateKey;
-
-    /** @var string */
-    private $passPhrase;
-
-    /** @var Credential|null */
-    private $csd;
-
-    public function __construct(string $certificate, string $privateKey, string $passPhrase)
-    {
-        $this->certificate = $certificate;
-        $this->privateKey = $privateKey;
-        $this->passPhrase = $passPhrase;
+    public function __construct(
+        private readonly string $certificate,
+        private readonly string $privateKey,
+        private readonly string $passPhrase
+    ) {
     }
 
     public static function createWithPhpCfdiCredential(Credential $credential): self
@@ -83,10 +73,7 @@ class Credentials
         return $this->getCsd()->rfc();
     }
 
-    /**
-     * @return Credential
-     * @throws CannotLoadCertificateAndPrivateKey
-     */
+    /** @throws CannotLoadCertificateAndPrivateKey */
     protected function makePhpCfdiCredential(): Credential
     {
         try {
@@ -111,10 +98,7 @@ class Credentials
         return $this->csd;
     }
 
-    /**
-     * @param Credential $credential
-     * @throws CertificateIsNotCSD
-     */
+    /** @throws CertificateIsNotCSD */
     protected function setCsd(Credential $credential): void
     {
         if (! $credential->isCsd()) {

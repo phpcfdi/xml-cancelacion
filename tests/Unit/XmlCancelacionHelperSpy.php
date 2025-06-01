@@ -14,11 +14,9 @@ use PhpCfdi\XmlCancelacion\XmlCancelacionHelper;
 
 final class XmlCancelacionHelperSpy extends XmlCancelacionHelper
 {
-    /** @var Cancellation */
-    private $lastCancellation;
+    private ?Cancellation $lastCancellation = null;
 
-    /** @var CapsuleInterface */
-    private $lastSignedCapsule;
+    private ?CapsuleInterface $lastSignedCapsule = null;
 
     protected function createCancellationObject(
         CancelDocuments $documents,
@@ -49,6 +47,9 @@ final class XmlCancelacionHelperSpy extends XmlCancelacionHelper
 
     public function getLastSignedCapsule(): CapsuleInterface
     {
+        if (null === $this->lastSignedCapsule) {
+            throw new LogicException('Must call a method that set a last signed capsule first');
+        }
         return $this->lastSignedCapsule;
     }
 }

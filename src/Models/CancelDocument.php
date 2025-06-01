@@ -11,20 +11,11 @@ use LogicException;
  */
 final class CancelDocument
 {
-    /** @var Uuid */
-    private $uuid;
-
-    /** @var CancelReason */
-    private $reason;
-
-    /** @var Uuid|null */
-    private $substituteOf;
-
-    public function __construct(Uuid $uuid, CancelReason $reason, ?Uuid $substituteOf)
-    {
-        $this->uuid = $uuid;
-        $this->reason = $reason;
-        $this->substituteOf = $substituteOf;
+    public function __construct(
+        private readonly Uuid $uuid,
+        private readonly CancelReason $reason,
+        private readonly ?Uuid $substituteOf
+    ) {
     }
 
     public static function newWithErrorsRelated(string $uuid, string $substituteOf): self

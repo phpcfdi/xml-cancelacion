@@ -8,17 +8,11 @@ use PhpCfdi\XmlCancelacion\Capsules\CapsuleInterface;
 
 class CapsuleRfcDoesnotBelongToCertificateRfc extends XmlCancelacionRuntimeException
 {
-    /** @var CapsuleInterface */
-    private $capsule;
-
-    /** @var string */
-    private $certificateRfc;
-
-    public function __construct(CapsuleInterface $capsule, string $certificateRfc)
-    {
+    public function __construct(
+        private readonly CapsuleInterface $capsule,
+        private readonly string $certificateRfc,
+    ) {
         parent::__construct('The capsule RFC does not belong to certificate RFC');
-        $this->capsule = $capsule;
-        $this->certificateRfc = $certificateRfc;
     }
 
     public function getCapsule(): CapsuleInterface
