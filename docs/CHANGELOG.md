@@ -4,10 +4,23 @@
 
 Usamos [Versionado Semántico 2.0.0](SEMVER.md) por lo que puedes usar esta librería sin temor a romper tu aplicación.
 
-## Cambios no liberados en una versión
+## Listado de cambios
 
-Pueden aparecer cambios no liberados que se integran a la rama principal, pero no ameritan una nueva liberación de
-versión, aunque sí su incorporación en la rama principal de trabajo. Generalmente, se tratan de cambios en el desarrollo.
+Pueden aparecer cambios no liberados que se integran a la rama principal, pero no ameritan una nueva liberación de versión,
+aunque sí su incorporación en la rama principal de trabajo. Generalmente, se tratan de cambios en el desarrollo.
+
+### Versión 2.0.3 2025-06-01
+
+- Se hacen las modificaciones para la compatibilidad con PHP 8.4.
+- Se actualiza el año de la licencia.
+- Se actualizan los flujos de trabajo de GitHub:
+  - Se agrega PHP 8.4 a la matriz de prebas en el trabajo `tests`.
+  - Los trabajos se ejecutan en PHP 8.4, excepto `php-cs-fixer`.
+  - Se cambia el trabajo `infection` del flujo `coverage` a `build`.
+  - Se cambia el flujo `coverage` a `sonarcloud`.
+  - Se usa la nueva acción `SonarSource/sonarqube-scan-action@v5` en lugar de `sonarsource/sonarcloud-github-action@master`.
+- Se remueve la herramienta *Psalm*, gracias.
+- Se actualizan las herramientas de desarrollo.
 
 ### Mantenimiento 2024-09-09
 
@@ -29,8 +42,6 @@ versión, aunque sí su incorporación en la rama principal de trabajo. Generalm
   - Los trabajos se ejecutan en PHP 8.3.
   - Se permite ejecutar los trabajos manualmente.
 - Se actualizan las herramientas de desarrollo.
-
-## Listado de cambios
 
 ### Versión 2.0.2 2022-12-15
 

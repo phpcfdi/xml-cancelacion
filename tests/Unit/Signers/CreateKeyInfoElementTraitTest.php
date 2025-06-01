@@ -44,7 +44,7 @@ final class CreateKeyInfoElementTraitTest extends TestCase
 
         $this->assertXmlStringEqualsXmlString(
             sprintf('<X509IssuerName>%s</X509IssuerName>', htmlspecialchars($unparsed, ENT_XML1)),
-            strval($document->saveXML($keyInfo->getElementsByTagName('X509IssuerName')[0])),
+            strval($document->saveXML($keyInfo->getElementsByTagName('X509IssuerName')->item(0))),
             'Ampersand was not correctly parsed on X509IssuerName'
         );
     }
@@ -57,7 +57,7 @@ final class CreateKeyInfoElementTraitTest extends TestCase
 
         $this->assertXmlStringEqualsXmlString(
             sprintf('<X509SerialNumber>%s</X509SerialNumber>', htmlspecialchars($unparsed, ENT_XML1)),
-            strval($document->saveXML($keyInfo->getElementsByTagName('X509SerialNumber')[0])),
+            strval($document->saveXML($keyInfo->getElementsByTagName('X509SerialNumber')->item(0))),
             'Ampersand was not correctly parsed on X509SerialNumber'
         );
     }
@@ -70,7 +70,7 @@ final class CreateKeyInfoElementTraitTest extends TestCase
 
         $this->assertXmlStringEqualsXmlString(
             sprintf('<X509Certificate>%s</X509Certificate>', htmlspecialchars($unparsed, ENT_XML1)),
-            strval($document->saveXML($keyInfo->getElementsByTagName('X509Certificate')[0])),
+            strval($document->saveXML($keyInfo->getElementsByTagName('X509Certificate')->item(0))),
             'Ampersand was not correctly parsed on X509Certificate'
         );
     }

@@ -31,7 +31,7 @@ class BaseDocumentBuilder
      *
      * @param array<string, string>|null $extraNamespaces
      */
-    public function __construct(array $extraNamespaces = null)
+    public function __construct(?array $extraNamespaces = null)
     {
         if (null === $extraNamespaces) {
             $extraNamespaces = static::defaultExtraNamespaces();
