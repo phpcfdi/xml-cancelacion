@@ -19,6 +19,7 @@ aunque sí su incorporación en la rama principal de trabajo. Generalmente, se t
   - Se cambia el trabajo `infection` del flujo `coverage` a `build`.
   - Se cambia el flujo `coverage` a `sonarcloud`.
   - Se usa la nueva acción `SonarSource/sonarqube-scan-action@v5` en lugar de `sonarsource/sonarcloud-github-action@master`.
+- Se remueve la herramienta *Psalm*, gracias.
 - Se actualizan las herramientas de desarrollo.
 
 ### Mantenimiento 2024-09-09
