@@ -27,17 +27,13 @@ class DOMSigner implements SignerInterface
 
     private const SHA1_BINARY = true;
 
-    /** @var string */
-    private $digestSource = '';
+    private string $digestSource = '';
 
-    /** @var string */
-    private $digestValue = '';
+    private string $digestValue = '';
 
-    /** @var string */
-    private $signedInfoSource = '';
+    private string $signedInfoSource = '';
 
-    /** @var string */
-    private $signedInfoValue = '';
+    private string $signedInfoValue = '';
 
     public function getDigestSource(): string
     {

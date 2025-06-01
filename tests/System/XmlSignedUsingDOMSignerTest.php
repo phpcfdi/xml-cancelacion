@@ -14,8 +14,7 @@ use PhpCfdi\XmlCancelacion\Tests\TestCase;
 
 final class XmlSignedUsingDOMSignerTest extends TestCase
 {
-    /** @var DOMSigner */
-    private $domSigner;
+    private DOMSigner $domSigner;
 
     public function setUp(): void
     {

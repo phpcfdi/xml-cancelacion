@@ -20,21 +20,13 @@ use PhpCfdi\XmlCancelacion\Signers\SignerInterface;
 
 class XmlCancelacionHelper
 {
-    /** @var Credentials|null */
-    private $credentials;
-
-    /** @var SignerInterface */
-    private $signer;
+    private SignerInterface $signer;
 
     /**
      * Helper object to create xml signed documents ready to send to PAC/SAT
-     *
-     * @param Credentials|null $credentials
-     * @param SignerInterface|null $signer
      */
-    public function __construct(?Credentials $credentials = null, ?SignerInterface $signer = null)
+    public function __construct(private ?Credentials $credentials = null, ?SignerInterface $signer = null)
     {
-        $this->credentials = $credentials;
         $this->signer = $signer ?? new DOMSigner();
     }
 
@@ -84,10 +76,6 @@ class XmlCancelacionHelper
 
     /**
      * Creates an XML Signed cancellation request for a single CFDI
-     *
-     * @param CancelDocument $document
-     * @param DateTimeImmutable|null $dateTime
-     * @return string
      */
     public function signCancellation(CancelDocument $document, ?DateTimeImmutable $dateTime = null): string
     {
@@ -98,10 +86,6 @@ class XmlCancelacionHelper
     /**
      * Creates an XML Signed cancellation request for one or multiple CFDI
      * Is adviced to always send a request for only 1 UUID
-     *
-     * @param CancelDocuments $documents
-     * @param DateTimeImmutable|null $dateTime
-     * @return string
      */
     public function signCancellationUuids(CancelDocuments $documents, ?DateTimeImmutable $dateTime = null): string
     {
@@ -112,10 +96,6 @@ class XmlCancelacionHelper
     /**
      * Creates an XML Signed cancellation request for a single Retention
      * Is adviced to always send a request for only 1 UUID
-     *
-     * @param CancelDocument $document
-     * @param DateTimeImmutable|null $dateTime
-     * @return string
      */
     public function signRetentionCancellation(CancelDocument $document, ?DateTimeImmutable $dateTime = null): string
     {
@@ -127,14 +107,10 @@ class XmlCancelacionHelper
     /**
      * Creates an XML Signed cancellation request for one or multiple Retention
      * Is adviced to always send a request for only 1 UUID
-     *
-     * @param CancelDocuments $documents
-     * @param DateTimeImmutable|null $dateTime
-     * @return string
      */
     public function signRetentionCancellationUuids(
         CancelDocuments $documents,
-        ?DateTimeImmutable $dateTime = null
+        ?DateTimeImmutable $dateTime = null,
     ): string {
         $capsule = $this->createCancellationObject($documents, $dateTime, DocumentType::retention());
         return $this->signCapsule($capsule);
@@ -142,11 +118,6 @@ class XmlCancelacionHelper
 
     /**
      * Creates an XML Signed request to obtain the related CFDI documents to a single UUID
-     *
-     * @param string $uuid
-     * @param RfcRole $role
-     * @param string $pacRfc
-     * @return string
      */
     public function signObtainRelated(string $uuid, RfcRole $role, string $pacRfc): string
     {
@@ -156,18 +127,12 @@ class XmlCancelacionHelper
 
     /**
      * Creates an XML Signed cancellation answer (to accept or reject a cancellation)
-
-     * @param string $uuid
-     * @param CancelAnswer $answer
-     * @param string $pacRfc
-     * @param DateTimeImmutable|null $dateTime
-     * @return string
      */
     public function signCancellationAnswer(
         string $uuid,
         CancelAnswer $answer,
         string $pacRfc,
-        ?DateTimeImmutable $dateTime = null
+        ?DateTimeImmutable $dateTime = null,
     ): string {
         $rfc = $this->getCredentials()->rfc();
         $dateTime = $this->createDateTime($dateTime);
@@ -185,16 +150,12 @@ class XmlCancelacionHelper
      * This method was isolated to be able to test the calls made by specific methods
      * It is not intended to be replaced or overrided by anything but tests
      *
-     * @param CancelDocuments $documents
-     * @param DateTimeImmutable|null $dateTime
-     * @param DocumentType $type
-     * @return Cancellation
      * @internal
      */
     protected function createCancellationObject(
         CancelDocuments $documents,
         ?DateTimeImmutable $dateTime,
-        DocumentType $type
+        DocumentType $type,
     ): Cancellation {
         return new Cancellation($this->getCredentials()->rfc(), $documents, $this->createDateTime($dateTime), $type);
     }

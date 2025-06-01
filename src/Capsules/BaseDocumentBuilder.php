@@ -21,7 +21,7 @@ class BaseDocumentBuilder
     private const XMLDOC_NO_FORMAT_OUTPUT = false;
 
     /** @var array<string, string> */
-    private $extraNamespaces;
+    private readonly array $extraNamespaces;
 
     /**
      * CapsuleSigner constructor.

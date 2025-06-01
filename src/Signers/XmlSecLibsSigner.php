@@ -27,7 +27,7 @@ class XmlSecLibsSigner implements SignerInterface
             // move XmlSecLibs signature to internal method
             $sigNode = $this->signDocumentInternal($document, $credentials);
         } catch (Exception $xmlSecLibsException) {
-            throw new LogicException('Cannot create signature using XmlSecLibs', 0, $xmlSecLibsException);
+            throw new LogicException('Cannot create signature using XmlSecLibs', previous: $xmlSecLibsException);
         }
 
         // create the KeyInfo element using own procedure
@@ -44,8 +44,6 @@ class XmlSecLibsSigner implements SignerInterface
     }
 
     /**
-     * @param DOMDocument $document
-     * @param Credentials $credentials
      * @return DOMElement Signature node
      * @throws Exception
      */

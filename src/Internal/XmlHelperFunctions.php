@@ -14,8 +14,6 @@ trait XmlHelperFunctions
     /**
      * Get the document's root element. Throw an exception if not exists.
      *
-     * @param DOMDocument $document
-     * @return DOMElement
      * @throws DocumentWithoutRootElement
      */
     private function xmlDocumentElement(DOMDocument $document): DOMElement

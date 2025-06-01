@@ -10,12 +10,8 @@ use PhpCfdi\XmlCancelacion\Capsules\CapsuleInterface;
 
 final class FakeCapsule implements CapsuleInterface
 {
-    /** @var string */
-    private $rfc;
-
-    public function __construct(string $rfc)
+    public function __construct(private readonly string $rfc)
     {
-        $this->rfc = $rfc;
     }
 
     public function rfc(): string

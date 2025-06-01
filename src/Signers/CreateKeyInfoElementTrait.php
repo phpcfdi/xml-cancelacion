@@ -9,20 +9,13 @@ use DOMElement;
 
 trait CreateKeyInfoElementTrait
 {
-    /**
-     * @param DOMDocument $document
-     * @param string $issuerName
-     * @param string $serialNumber
-     * @param string $pemContents
-     * @param array<mixed> $pubKeyData
-     * @return DOMElement
-     */
+    /** @param array<mixed> $pubKeyData */
     protected function createKeyInfoElement(
         DOMDocument $document,
         string $issuerName,
         string $serialNumber,
         string $pemContents,
-        array $pubKeyData
+        array $pubKeyData,
     ): DOMElement {
         $x509Data = $document->createElement('X509Data');
         $x509IssuerSerial = $document->createElement('X509IssuerSerial');
@@ -46,11 +39,7 @@ trait CreateKeyInfoElementTrait
         return $keyInfo;
     }
 
-    /**
-     * @param DOMDocument $document
-     * @param array<mixed> $pubKeyData
-     * @return DOMElement
-     */
+    /** @param array<mixed> $pubKeyData */
     private function createKeyValueElement(DOMDocument $document, array $pubKeyData): DOMElement
     {
         /** @var array{type: int, rsa: array{n: string, e: string}} $pubKeyData */

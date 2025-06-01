@@ -16,15 +16,15 @@ use Traversable;
  */
 final class CancelDocuments implements IteratorAggregate, Countable
 {
-    /** @var CancelDocument[] */
-    private $documents;
+    /** @var list<CancelDocument> */
+    private readonly array $documents;
 
     /** @var int<0, max> */
-    private $count;
+    private readonly int $count;
 
     public function __construct(CancelDocument ...$documents)
     {
-        $this->documents = $documents;
+        $this->documents = array_values($documents);
         $this->count = count($documents);
     }
 
@@ -35,9 +35,7 @@ final class CancelDocuments implements IteratorAggregate, Countable
     public function uuids(): array
     {
         return array_map(
-            static function (CancelDocument $document): string {
-                return $document->uuid()->getValue();
-            },
+            static fn (CancelDocument $document): string => $document->uuid()->getValue(),
             $this->documents
         );
     }

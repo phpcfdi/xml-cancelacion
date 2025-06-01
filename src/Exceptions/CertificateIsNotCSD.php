@@ -6,13 +6,9 @@ namespace PhpCfdi\XmlCancelacion\Exceptions;
 
 class CertificateIsNotCSD extends XmlCancelacionRuntimeException
 {
-    /** @var string */
-    private $serialNumber;
-
-    public function __construct(string $serialNumber)
+    public function __construct(private readonly string $serialNumber)
     {
-        parent::__construct(sprintf('The certificate [%s] is not a CSD', $serialNumber));
-        $this->serialNumber = $serialNumber;
+        parent::__construct(sprintf('The certificate [%s] is not a CSD', $this->serialNumber));
     }
 
     public function getSerialNumber(): string

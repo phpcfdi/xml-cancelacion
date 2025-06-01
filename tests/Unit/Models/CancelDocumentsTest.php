@@ -16,6 +16,22 @@ final class CancelDocumentsTest extends TestCase
         $this->assertCount(0, $documents);
     }
 
+    public function testCreateWithArrayKeys(): void
+    {
+        $documentsArray = [
+            'first' => CancelDocument::newNotExecuted('12345678-2222-3333-4444-1234567890DD'),
+            'second' => CancelDocument::newNormativeToGlobal('12345678-2222-3333-4444-1234567890EE'),
+        ];
+
+        $documents = new CancelDocuments(...$documentsArray);
+
+        $this->assertSame(
+            array_values($documentsArray),
+            iterator_to_array($documents),
+            'Iterator should return an array list'
+        );
+    }
+
     public function testCreateWithMultipleContents(): void
     {
         $documentsArray = [

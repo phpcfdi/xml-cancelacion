@@ -7,11 +7,12 @@ namespace PhpCfdi\XmlCancelacion\Tests\Unit\Models;
 use InvalidArgumentException;
 use PhpCfdi\XmlCancelacion\Models\Uuid;
 use PhpCfdi\XmlCancelacion\Tests\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class UuidTest extends TestCase
 {
     /** @return array<string, array{string}> */
-    public function providerValidateInvalidCases(): array
+    public static function providerValidateInvalidCases(): array
     {
         return [
             'incorrect length +1 start' => ['A12345678-2222-3333-4444-123456789012'],
@@ -23,7 +24,7 @@ final class UuidTest extends TestCase
         ];
     }
 
-    /** @dataProvider providerValidateInvalidCases */
+    #[DataProvider('providerValidateInvalidCases')]
     public function testValidateInvalidCases(string $value): void
     {
         $this->assertFalse(Uuid::isValid($value));
@@ -32,7 +33,7 @@ final class UuidTest extends TestCase
     }
 
     /** @return array<string, array{string}> */
-    public function providerValidateValidCases(): array
+    public static function providerValidateValidCases(): array
     {
         return [
             'numbers' => ['12345678-2222-3333-4444-123456789012'],
@@ -41,7 +42,7 @@ final class UuidTest extends TestCase
         ];
     }
 
-    /** @dataProvider providerValidateValidCases */
+    #[DataProvider('providerValidateValidCases')]
     public function testValidateValidCases(string $value): void
     {
         $this->assertTrue(Uuid::isValid($value));

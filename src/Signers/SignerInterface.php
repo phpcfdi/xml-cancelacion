@@ -18,18 +18,12 @@ interface SignerInterface
     /**
      * Sign de capsule and return the generated XML
      *
-     * @param CapsuleInterface $capsule
-     * @param Credentials $credentials
-     * @return string
      * @throws CapsuleRfcDoesnotBelongToCertificateRfc
      */
     public function signCapsule(CapsuleInterface $capsule, Credentials $credentials): string;
 
     /**
      * Sign the DOMDocument with the specified credentials
-     *
-     * @param DOMDocument $document
-     * @param Credentials $credentials
      */
     public function signDocument(DOMDocument $document, Credentials $credentials): void;
 }

@@ -6,11 +6,12 @@ namespace PhpCfdi\XmlCancelacion\Tests\Unit\Models;
 
 use PhpCfdi\XmlCancelacion\Models\DocumentType;
 use PhpCfdi\XmlCancelacion\Tests\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class DocumentTypeTest extends TestCase
 {
     /** @return array<string, array{DocumentType, string}> */
-    public function providerXmlNamespaceCancellation(): array
+    public static function providerXmlNamespaceCancellation(): array
     {
         return [
             'cfdi' => [DocumentType::cfdi(), 'http://cancelacfd.sat.gob.mx'],
@@ -18,7 +19,7 @@ final class DocumentTypeTest extends TestCase
         ];
     }
 
-    /** @dataProvider providerXmlNamespaceCancellation */
+    #[DataProvider('providerXmlNamespaceCancellation')]
     public function testXmlNamespaceCancellation(DocumentType $documentType, string $expectedXmlNamespace): void
     {
         $this->assertSame($expectedXmlNamespace, $documentType->xmlNamespaceCancellation());
