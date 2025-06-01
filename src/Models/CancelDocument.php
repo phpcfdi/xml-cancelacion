@@ -14,7 +14,7 @@ final class CancelDocument
     public function __construct(
         private readonly Uuid $uuid,
         private readonly CancelReason $reason,
-        private readonly ?Uuid $substituteOf
+        private readonly ?Uuid $substituteOf,
     ) {
     }
 

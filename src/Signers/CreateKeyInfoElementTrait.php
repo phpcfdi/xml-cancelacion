@@ -15,7 +15,7 @@ trait CreateKeyInfoElementTrait
         string $issuerName,
         string $serialNumber,
         string $pemContents,
-        array $pubKeyData
+        array $pubKeyData,
     ): DOMElement {
         $x509Data = $document->createElement('X509Data');
         $x509IssuerSerial = $document->createElement('X509IssuerSerial');

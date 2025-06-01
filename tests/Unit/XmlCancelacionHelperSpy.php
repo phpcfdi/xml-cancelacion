@@ -21,7 +21,7 @@ final class XmlCancelacionHelperSpy extends XmlCancelacionHelper
     protected function createCancellationObject(
         CancelDocuments $documents,
         ?DateTimeImmutable $dateTime,
-        DocumentType $type
+        DocumentType $type,
     ): Cancellation {
         $this->lastCancellation = parent::createCancellationObject(
             $documents,

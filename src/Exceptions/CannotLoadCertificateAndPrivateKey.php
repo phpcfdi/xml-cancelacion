@@ -12,7 +12,7 @@ class CannotLoadCertificateAndPrivateKey extends XmlCancelacionRuntimeException
         private readonly string $certificateFile,
         private readonly string $privateKeyFile,
         private readonly string $passPhrase,
-        Throwable $previous
+        Throwable $previous,
     ) {
         parent::__construct('Cannot load certificate and private key', previous: $previous);
     }

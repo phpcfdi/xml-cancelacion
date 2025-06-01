@@ -16,7 +16,7 @@ class Credentials
     public function __construct(
         private readonly string $certificate,
         private readonly string $privateKey,
-        private readonly string $passPhrase
+        private readonly string $passPhrase,
     ) {
     }
 

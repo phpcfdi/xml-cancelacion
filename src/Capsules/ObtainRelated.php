@@ -17,7 +17,7 @@ class ObtainRelated implements CapsuleInterface
         private readonly string $uuid,
         private readonly string $rfc,
         private readonly RfcRole $role,
-        private readonly string $pacRfc
+        private readonly string $pacRfc,
     ) {
     }
 

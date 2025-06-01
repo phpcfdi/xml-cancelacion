@@ -19,7 +19,7 @@ class CancellationAnswer implements CapsuleInterface
         private readonly string $uuid,
         private readonly CancelAnswer $answer,
         private readonly string $pacRfc,
-        private readonly DateTimeImmutable $dateTime
+        private readonly DateTimeImmutable $dateTime,
     ) {
     }
 

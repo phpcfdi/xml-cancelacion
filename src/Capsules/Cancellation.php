@@ -26,7 +26,7 @@ class Cancellation implements Countable, CapsuleInterface
         private readonly string $rfc,
         private readonly CancelDocuments $documents,
         private readonly DateTimeImmutable $date,
-        ?DocumentType $type = null
+        ?DocumentType $type = null,
     ) {
         $this->documentType = $type ?? DocumentType::cfdi();
     }

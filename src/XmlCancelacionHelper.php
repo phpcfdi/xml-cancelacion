@@ -110,7 +110,7 @@ class XmlCancelacionHelper
      */
     public function signRetentionCancellationUuids(
         CancelDocuments $documents,
-        ?DateTimeImmutable $dateTime = null
+        ?DateTimeImmutable $dateTime = null,
     ): string {
         $capsule = $this->createCancellationObject($documents, $dateTime, DocumentType::retention());
         return $this->signCapsule($capsule);
@@ -132,7 +132,7 @@ class XmlCancelacionHelper
         string $uuid,
         CancelAnswer $answer,
         string $pacRfc,
-        ?DateTimeImmutable $dateTime = null
+        ?DateTimeImmutable $dateTime = null,
     ): string {
         $rfc = $this->getCredentials()->rfc();
         $dateTime = $this->createDateTime($dateTime);
@@ -155,7 +155,7 @@ class XmlCancelacionHelper
     protected function createCancellationObject(
         CancelDocuments $documents,
         ?DateTimeImmutable $dateTime,
-        DocumentType $type
+        DocumentType $type,
     ): Cancellation {
         return new Cancellation($this->getCredentials()->rfc(), $documents, $this->createDateTime($dateTime), $type);
     }
