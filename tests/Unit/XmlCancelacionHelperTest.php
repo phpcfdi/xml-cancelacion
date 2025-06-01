@@ -15,9 +15,10 @@ use PhpCfdi\XmlCancelacion\Signers\DOMSigner;
 use PhpCfdi\XmlCancelacion\Signers\SignerInterface;
 use PhpCfdi\XmlCancelacion\Tests\TestCase;
 use PhpCfdi\XmlCancelacion\XmlCancelacionHelper;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
 
-/** @covers \PhpCfdi\XmlCancelacion\XmlCancelacionHelper */
+#[CoversClass(XmlCancelacionHelper::class)]
 final class XmlCancelacionHelperTest extends TestCase
 {
     /** @return Credentials&MockObject */

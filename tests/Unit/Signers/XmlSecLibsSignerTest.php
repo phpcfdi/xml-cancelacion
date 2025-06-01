@@ -14,9 +14,10 @@ use PhpCfdi\XmlCancelacion\Models\CancelDocuments;
 use PhpCfdi\XmlCancelacion\Signers\DOMSigner;
 use PhpCfdi\XmlCancelacion\Signers\XmlSecLibsSigner;
 use PhpCfdi\XmlCancelacion\Tests\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
 
-/** @covers \PhpCfdi\XmlCancelacion\Signers\XmlSecLibsSigner */
+#[CoversClass(XmlSecLibsSigner::class)]
 final class XmlSecLibsSignerTest extends TestCase
 {
     public function testsignIsEqualToDomSigner(): void

@@ -6,11 +6,12 @@ namespace PhpCfdi\XmlCancelacion\Tests\Unit\Models;
 
 use PhpCfdi\XmlCancelacion\Models\CancelReason;
 use PhpCfdi\XmlCancelacion\Tests\TestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 final class CancelReasonTest extends TestCase
 {
     /** @return array<string, array{CancelReason, int, string}> */
-    public function providerEntries(): array
+    public static function providerEntries(): array
     {
         return [
             'with errors related' => [CancelReason::withErrorsRelated(), 1, '01'],
@@ -20,21 +21,21 @@ final class CancelReasonTest extends TestCase
         ];
     }
 
-    /** @dataProvider providerEntries */
+    #[DataProvider('providerEntries')]
     public function testEntries(CancelReason $entry, int $expectedIndex, string $expectedValue): void
     {
         $this->assertSame($expectedIndex, $entry->index());
         $this->assertSame($expectedValue, $entry->value());
     }
 
-    /** @dataProvider providerEntries */
+    #[DataProvider('providerEntries')]
     public function testCreatedByIndex(CancelReason $entry, int $index, string $value): void
     {
         $created = new CancelReason($index);
         $this->assertEquals($entry, $created);
     }
 
-    /** @dataProvider providerEntries */
+    #[DataProvider('providerEntries')]
     public function testCreatedByValue(CancelReason $entry, int $index, string $value): void
     {
         $created = new CancelReason($value);

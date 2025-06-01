@@ -10,9 +10,10 @@ use PhpCfdi\XmlCancelacion\Credentials;
 use PhpCfdi\XmlCancelacion\Exceptions\CannotLoadCertificateAndPrivateKey;
 use PhpCfdi\XmlCancelacion\Exceptions\CertificateIsNotCSD;
 use PhpCfdi\XmlCancelacion\Tests\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
 
-/** @covers \PhpCfdi\XmlCancelacion\Credentials */
+#[CoversClass(Credentials::class)]
 final class CredentialsTest extends TestCase
 {
     public function testValidCredentialsProperties(): void

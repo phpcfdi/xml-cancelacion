@@ -6,8 +6,9 @@ namespace PhpCfdi\XmlCancelacion\Tests\Unit\Capsules;
 
 use PhpCfdi\XmlCancelacion\Capsules\BaseDocumentBuilder;
 use PhpCfdi\XmlCancelacion\Tests\TestCase;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-/** @covers \PhpCfdi\XmlCancelacion\Capsules\BaseDocumentBuilder */
+#[CoversClass(BaseDocumentBuilder::class)]
 final class BaseDocumentBuilderTest extends TestCase
 {
     public function testDefaultNameSpacesExactContentAndOrder(): void
