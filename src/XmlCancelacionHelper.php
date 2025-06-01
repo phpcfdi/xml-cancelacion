@@ -167,7 +167,7 @@ class XmlCancelacionHelper
         string $uuid,
         CancelAnswer $answer,
         string $pacRfc,
-        DateTimeImmutable $dateTime = null
+        ?DateTimeImmutable $dateTime = null
     ): string {
         $rfc = $this->getCredentials()->rfc();
         $dateTime = $this->createDateTime($dateTime);

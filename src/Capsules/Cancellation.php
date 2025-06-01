@@ -39,7 +39,7 @@ class Cancellation implements Countable, CapsuleInterface
         string $rfc,
         CancelDocuments $documents,
         DateTimeImmutable $date,
-        DocumentType $type = null
+        ?DocumentType $type = null
     ) {
         $this->rfc = $rfc;
         $this->date = $date;
