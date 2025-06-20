@@ -9,6 +9,14 @@ Usamos [Versionado Semántico 2.0.0](SEMVER.md) por lo que puedes usar esta libr
 Pueden aparecer cambios no liberados que se integran a la rama principal, pero no ameritan una nueva liberación de versión,
 aunque sí su incorporación en la rama principal de trabajo. Generalmente, se tratan de cambios en el desarrollo.
 
+### Versión 2.0.5 2025-06-19
+
+Se corrige un error al momento de generar una solicitud con múltiples folios.
+Anteriormente, solo se generaba un nodo `<Folios>` con múltiples `<Folio>` hijos.
+Lo correcto según el estándar del SAT es generar múltiples nodos `<Folios>` con solo un `<Folio>` hijo.
+Esto ha pasado desapercibido debido a que comúnmente solo se envía un folio por solicitud.
+Gracias a `@daniel-monroy` por notar este problema y ayudarme a corregirlo.
+
 ### Versión 2.0.4 2025-06-01
 
 - Se elimina la compatibilidad con versiones menores a PHP 8.1.
