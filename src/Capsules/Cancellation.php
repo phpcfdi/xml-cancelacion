@@ -65,9 +65,9 @@ class Cancellation implements Countable, CapsuleInterface
         $cancelacion->setAttribute('RfcEmisor', $this->rfc()); // en el anexo 20 es opcional!
         $cancelacion->setAttribute('Fecha', $this->date()->format('Y-m-d\TH:i:s'));
 
-        $folios = $document->createElement('Folios');
-        $cancelacion->appendChild($folios);
         foreach ($this->documents as $cancelDocument) {
+            $folios = $document->createElement('Folios');
+            $cancelacion->appendChild($folios);
             $folio = $document->createElement('Folio');
             $folios->appendChild($folio);
             $folio->setAttribute('UUID', (string) $cancelDocument->uuid());

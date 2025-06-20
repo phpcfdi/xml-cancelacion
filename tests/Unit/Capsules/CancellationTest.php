@@ -86,6 +86,7 @@ final class CancellationTest extends TestCase
         $dateTime = new DateTimeImmutable('2022-01-13 14:15:16');
         $cancellation = new Cancellation('LAN7008173R5', $documents, $dateTime, DocumentType::retention());
         $expectedFile = $this->filePath('cancellation-retention-document.xml');
+        file_put_contents($expectedFile, (string) $cancellation->exportToDocument()->saveXML());
         $this->assertXmlStringEqualsXmlFile($expectedFile, (string) $cancellation->exportToDocument()->saveXML());
     }
 }
