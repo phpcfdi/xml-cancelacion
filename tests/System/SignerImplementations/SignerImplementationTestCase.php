@@ -125,7 +125,9 @@ abstract class SignerImplementationTestCase extends TestCase
         }
 
         // must call, otherwise verify will not have the public key to check signature
-        $this->assertNotNull(XMLSecEnc::staticLocateKeyInfo($objKey, $signature), 'Cannot extract RSAKeyValue');
+        // remove silence operator when robrichards/xmlseclibs is compatible with PHP 8.5
+        $expectedRsaKeyValue = @XMLSecEnc::staticLocateKeyInfo($objKey, $signature);
+        $this->assertNotNull($expectedRsaKeyValue, 'Cannot extract RSAKeyValue');
 
         $this->assertSame(1, $dSig->verify($objKey), 'Xml Signature verify fail');
     }
