@@ -2,8 +2,8 @@
 
 A partir de la versión `1.0.0` se incluye un objeto `XmlSecLibsSigner` que implementa `SignerInterface`.
 
-Se puede utilizar [`robrichards/xmlseclibs`](https://github.com/robrichards/xmlseclibs) para hacer el firmado,
-sin embargo al 2019-04-09 aún no se han implementado los mecanismos para incluir el elemento `KeyValue`,
+Se puede utilizar [`robrichards/xmlseclibs`](https://github.com/robrichards/xmlseclibs) para hacer el firmado;
+sin embargo, al 2026-04-01 aún no se han implementado los mecanismos para incluir el elemento `KeyValue`,
 a pesar de tener un [PR #75](https://github.com/robrichards/xmlseclibs/pull/75) desde 2015-09-03
 y un [ISSUE #217](https://github.com/robrichards/xmlseclibs/issues/217).
 
@@ -29,7 +29,7 @@ $cancellation = $xmlhelper->signCancellation('11111111-2222-3333-4444-0000000000
 
 ## Instalación
 
-Recuerda que `robrichards/xmlseclibs` no es una dependencia (es una recomendación) de `phpcfdi/xml-cancelacion`
+Recuerda que `robrichards/xmlseclibs` no es una dependencia (es una recomendación) de `phpcfdi/xml-cancelacion`.
 
 ```shell script
 # instalar esta librería
