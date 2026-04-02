@@ -22,7 +22,7 @@ aunque sí su incorporación en la rama principal de trabajo. Generalmente, se t
   - Se agrega el trabajo `composer-normalize`.
   - Se renombra el trabajo `tests` a `phpunit`.
   - Se agrega PHP 8.5 a la matriz de prebas en el trabajo `phpunit`.
-  - Los trabajos se ejecutan en PHP 8.5.
+  - Los trabajos se ejecutan en PHP 8.5 excepto el trabajo `infection`.
   - Se actualizan las versiones de las acciones de GitHub.
 - Se actualiza `sonarqube-scan-action` a la versión 7.
 - Se actualizan las herramientas de desarrollo.
