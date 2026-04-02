@@ -27,7 +27,9 @@ trait CreateKeyInfoElementTrait
         );
         $x509Data->appendChild($x509IssuerSerial);
 
-        $certificateContents = implode('', preg_grep('/^((?!-).)*$/', explode(PHP_EOL, $pemContents)) ?: []);
+        /** @phpstan-var string[] $certificateContentLines explode returns string[] grep_grep return string[]|false */
+        $certificateContentLines = preg_grep('/^((?!-).)*$/', explode(PHP_EOL, $pemContents)) ?: [];
+        $certificateContents = implode('', $certificateContentLines);
         $x509Data->appendChild(
             $document->createElement('X509Certificate', htmlspecialchars($certificateContents, ENT_XML1))
         );
