@@ -1,25 +1,25 @@
 {
     "name": "phpcfdi/xml-cancelacion",
     "description": "Genera documentos de cancelación de CFDI firmados (XMLSEC)",
-    "keywords": ["phpcfdi", "sat", "cfdi", "Cancelacion", "PeticionConsultaRelacionados", "SolicitudAceptacionRechazo"],
-    "homepage": "https://github.com/phpcfdi/xml-cancelacion",
     "license": "MIT",
+    "keywords": [
+        "phpcfdi",
+        "sat",
+        "cfdi",
+        "Cancelacion",
+        "PeticionConsultaRelacionados",
+        "SolicitudAceptacionRechazo"
+    ],
     "authors": [
         {
             "name": "Carlos C Soto",
             "email": "eclipxe13@gmail.com"
         }
     ],
+    "homepage": "https://github.com/phpcfdi/xml-cancelacion",
     "support": {
-        "source": "https://github.com/phpcfdi/xml-cancelacion",
-        "issues": "https://github.com/phpcfdi/xml-cancelacion/issues"
-    },
-    "prefer-stable": true,
-    "config": {
-        "optimize-autoloader": true,
-        "preferred-install": {
-            "*": "dist"
-        }
+        "issues": "https://github.com/phpcfdi/xml-cancelacion/issues",
+        "source": "https://github.com/phpcfdi/xml-cancelacion"
     },
     "require": {
         "php": "^8.1",
@@ -29,12 +29,13 @@
         "phpcfdi/credentials": "^1.1.1"
     },
     "require-dev": {
-        "robrichards/xmlseclibs": "^3.1.0",
-        "phpunit/phpunit": "^10.5.46"
+        "phpunit/phpunit": "^10.5.46",
+        "robrichards/xmlseclibs": "^3.1.0"
     },
     "suggest": {
         "robrichards/xmlseclibs": "Create document signatures (partially) using xmlseclibs"
     },
+    "prefer-stable": true,
     "autoload": {
         "psr-4": {
             "PhpCfdi\\XmlCancelacion\\": "src/"
@@ -45,12 +46,24 @@
             "PhpCfdi\\XmlCancelacion\\Tests\\": "tests/"
         }
     },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": {
+            "*": "dist"
+        }
+    },
     "scripts": {
-        "dev:build": ["@dev:fix-style", "@dev:test"],
+        "dev:build": [
+            "@dev:fix-style",
+            "@dev:test"
+        ],
         "dev:check-style": [
             "@php tools/composer-normalize normalize --dry-run",
             "@php tools/php-cs-fixer fix --dry-run --verbose",
             "@php tools/phpcs --colors -sp"
+        ],
+        "dev:coverage": [
+            "@php -dzend_extension=xdebug.so -dxdebug.mode=coverage vendor/bin/phpunit --coverage-html build/coverage/html/"
         ],
         "dev:fix-style": [
             "@php tools/composer-normalize normalize",
@@ -62,16 +75,13 @@
             "@php vendor/bin/phpunit --testdox --display-all-issues --stop-on-failure",
             "@php tools/phpstan analyse --no-progress",
             "@php tools/infection --no-progress --no-interaction --show-mutations"
-        ],
-        "dev:coverage": [
-            "@php -dzend_extension=xdebug.so -dxdebug.mode=coverage vendor/bin/phpunit --coverage-html build/coverage/html/"
         ]
     },
     "scripts-descriptions": {
         "dev:build": "DEV: run dev:fix-style and dev:tests, run before pull request",
         "dev:check-style": "DEV: search for code style errors using composer-normalize, php-cs-fixer and phpcs",
+        "dev:coverage": "DEV: run phpunit with xdebug and storage coverage in build/coverage/html/",
         "dev:fix-style": "DEV: fix code style errors using composer-normalize, php-cs-fixer and phpcbf",
-        "dev:test": "DEV: run dev:check-style, phpunit, phpstan and infection",
-        "dev:coverage": "DEV: run phpunit with xdebug and storage coverage in build/coverage/html/"
+        "dev:test": "DEV: run dev:check-style, phpunit, phpstan and infection"
     }
 }
