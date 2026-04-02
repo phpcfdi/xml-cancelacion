@@ -9,6 +9,24 @@ Usamos [Versionado Semántico 2.0.0](SEMVER.md) por lo que puedes usar esta libr
 Pueden aparecer cambios no liberados que se integran a la rama principal, pero no ameritan una nueva liberación de versión,
 aunque sí su incorporación en la rama principal de trabajo. Generalmente, se tratan de cambios en el desarrollo.
 
+### Versión 2.0.6 2026-04-01
+
+- Se corrige la revisión del proyecto dado que *PHPStan* asume que la función `preg_grep` siempre retorna
+  un arreglo sin tipo, cuando debería limitarse solamente a las opciones que recibe.
+- En las pruebas, se silencia la llamada a `XMLSecEnc::staticLocateKeyInfo` dado que tiene un
+  problema de compatibilidad con PHP 8.5.
+- Se normaliza el archivo `composer.json`.
+- Se configura *PHPUnit* para que falle y muestre los detalles en todos los problemas encontrados.
+- Se agrega la herramienta `composer-normalize` a las herramientas de desarrollo.
+- Se actualizan los flujos de trabajo de GitHub:
+  - Se agrega el trabajo `composer-normalize`.
+  - Se renombra el trabajo `tests` a `phpunit`.
+  - Se agrega PHP 8.5 a la matriz de prebas en el trabajo `phpunit`.
+  - Los trabajos se ejecutan en PHP 8.5.
+  - Se actualizan las versiones de las acciones de GitHub.
+- Se actualiza `sonarqube-scan-action` a la versión 7.
+- Se actualizan las herramientas de desarrollo.
+
 ### Mantenimiento 2025-09-27
 
 - Se corrige una prueba donde se estaba escribiendo el archivo esperado antes de su comparación.
